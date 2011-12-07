@@ -1,0 +1,20 @@
+In R CMD check:
+1)  checking if this is a source package ... WARNING
+Subdirectory ‘waveTiling/src’ contains object files.
+
+2) checking foreign function calls ... WARNING
+Foreign function calls without 'PACKAGE' argument:
+.C("MAPMARG", ...)
+.C("MAPMARGIMP", ...)
+
+3) * checking R code for possible problems ... NOTE
+makeNewTranscriptRectangleOverlay: no visible binding for global
+  variable ‘black’
+bgCorrQn,waveTilingFeatureSet: no visible global function definition
+  for ‘normalize.quantiles’
+plotWfm,Wfm: no visible binding for global variable ‘trackcount’
+
+4) WARNING
+LaTeX errors when creating PDF version.
+! LaTeX Error: File `kvoptions.sty' not found.
+

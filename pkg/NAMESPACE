@@ -1,0 +1,62 @@
+useDynLib("waveTiling")
+
+## Importing
+importClassesFrom(methods, ANY, character, data.frame, "function", integer, matrix,                     numeric)
+importMethodsFrom(methods, initialize, show)
+importFrom(methods, "@<-", callNextMethod, new, validObject)
+
+## Classes from oligoClasses
+importClassesFrom(oligoClasses, TilingFeatureSet, FeatureSet)
+
+## Classes from Biobase
+importClassesFrom(Biobase, AnnotatedDataFrame, AssayData, eSet, MIAME,
+                  NChannelSet, Versions, VersionedBiobase, Versioned)
+
+## Classes from GenomeGraphs
+importClassesFrom(GenomeGraphs, DisplayPars, GenericArray, MappedRead, BaseTrack,                       Legend, Title, Gene, Transcript, GenomeAxis, ExonArray,  gdObject,                    Overlay, RectangleOverlay, TextOverlay, AnnotationTrack,                              Segmentation, TrackOverlay)
+
+## Methods from Biobase
+importMethodsFrom(Biobase, annotatedDataFrameFrom, annotation,
+                  "annotation<-", assayData, "assayData<-", combine,
+                  experimentData, "experimentData<-", exprs,
+                  "exprs<-", featureData, "featureData<-",
+                  featureNames, fvarLabels, geneNames, pData,
+                  "pData<-", phenoData, "phenoData<-", sampleNames,
+                  se.exprs, "se.exprs<-", storageMode,
+                  "storageMode<-")
+
+
+## Methods from GenomeGraphs
+## importMethodsFrom(GenomeGraphs, gdPlot, DisplayPars, geneRegionBiomart, geneBiomart,     makeLegend,makeGene, makeGeneRegion, makeTranscript, makeExonArray, makeGeneModel, makeBaseTrack, makeRectangleOverlay, makeTextOverlay, makeSegmentation, makeSmoothing, makeTitle, makeGenericArray, makeIdeogram, makeGenomeAxis, makeAnnotationTrack)
+
+## Methods from Biostrings
+importMethodsFrom(Biostrings, complement)
+
+## Methods from IRanges
+importMethodsFrom(IRanges, subseq)
+
+## Methods from waveslim
+## importMethodsFrom(waveslim, ...) 
+
+## Methods from oligo
+## importMethodsFrom(oligo, ...)
+
+## Exporting
+
+## Classes
+exportClasses(waveTilingFeatureSet, mapFilterProbe, genomeInfo, Wfm)
+
+## exportMethods(show)
+
+## waveTilingFeatureSet methods
+exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet, bgCorrQn, makeDesign, wfm.analysis)
+
+## mapFilterProbe methods
+exportMethods(getFilteredIndices, getChromosome, getPosition, getStrand,                            selectProbesFromFilterOverlap)
+
+## Wfm methods
+exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,                       getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,                  getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,                         getVarEff, plotWfm)
+
+## Other
+export(cel2TilingFeatureSet)
+
