@@ -279,3 +279,4 @@ makeNewTranscriptRectangleOverlay <- function(sigRegions,locations,start,end,reg
 	detectedRegionsSelect[detectedRegionsSelect[,2]>end,2] <- end
 	return(makeRectangleOverlay(start=locations[detectedRegionsSelect[,1]],end =locations[detectedRegionsSelect[,2]],region=region,dp=dp)) 
 }
+

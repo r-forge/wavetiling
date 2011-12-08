@@ -5,7 +5,7 @@ License: GPL-2
 Title: Wavelet-Based Models for Tiling Array Transcriptome Analysis
 Author: Kristof De Beuf <kristof.debeuf@UGent.be>, Peter Pipelers <peter.pipelers@ugent.be> and Lieven Clement <lieven.clement@gmail.com>
 Maintainer: Kristof De Beuf <kristof.debeuf@UGent.be>
-Depends: oligoClasses, oligo, Biobase, affy, GenomeGraphs, IRanges, Biostrings, waveslim, methods, preprocessCore
+Depends: oligoClasses, oligo, Biobase, affy, GenomeGraphs, IRanges, Biostrings, waveslim, methods, preprocessCore, GenomicRanges
 Imports: 
 Suggests: 
 Description: This package is designed to conduct transcriptome analysis for tiling arrays based on fast wavelet-based functional models.

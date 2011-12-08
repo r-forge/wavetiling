@@ -301,8 +301,8 @@ setMethod("plotWfm",signature("Wfm"),function(object,annoFile,minPos,maxPos,trac
 			{
 				stop("Too many tracks specified")
 			}
-			#groupNames <- sapply(1:noGroups,function(x) paste("Gr",x,sep=""))
-			groupNames <- sapply(8:13,function(x) paste("D",x,sep=""))
+			groupNames <- sapply(1:noGroups,function(x) paste("Gr",x,sep=""))
+			#groupNames <- sapply(8:13,function(x) paste("D",x,sep=""))
 			firstId <- rep(2:noGroups,1:(noGroups-1))
 			lastId <- sequence(1:(noGroups-1))
 			effectNames <- sapply(1:(noGroups*(noGroups-1)/2),function(x) paste(groupNames[firstId[x]],"-",groupNames[lastId[x]],sep=""))
@@ -428,5 +428,64 @@ setMethod("plotWfm",signature("Wfm"),function(object,annoFile,minPos,maxPos,trac
 		}
 	}
 })
+
+
+setMethod("getNonAnnotatedRegions",signature("Wfm"),function(object,annoFile)
+{
+	#Gloc <- getProbePosition(object)
+	strand <- getStrand(object)
+	chromosome <- getChromosome(object)
+	regions <- getGenomicRegions(object)
+	if (strand=="forward")
+	{
+		strandAlt <- "+"
+		strandOpp <- "-"
+	} else
+	{
+		strandAlt <- "-"
+		strandOpp <- "+"
+	}
+	cat("get annotated regions...\n")
+	annoExons <- annoFile[(annoFile$strand==strandAlt)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
+	annoExonsOpp <- annoFile[(annoFile$strand==strandOpp)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
+	regGlocNoAnnoSense <- list()
+	regGlocNoAnnoBoth <- list()
+	nList <- length(regions)
+	cat("find overlaps with detected regions...\n")
+	for (j in 1:nList)
+	{
+		regGlocIR <- regions[[j]]
+		annoExonsIR <- IRanges(start=annoExons$start,end=annoExons$end)
+		annoExonsOppIR <- IRanges(start=annoExonsOpp$start,end=annoExonsOpp$end)
+		overSense <- findOverlaps(regGlocIR,annoExonsIR)
+		overOpp <- findOverlaps(regGlocIR,annoExonsOppIR)
+		noAnnoSenseId <- which(!(1:length(regGlocIR) %in% matchMatrix(overSense)[,1]))
+		noAnnoOppId <- which(!(1:length(regGlocIR) %in% matchMatrix(overOpp)[,1]))
+		noAnnoBothId <- which((1:length(regGlocIR) %in% noAnnoSenseId) & (1:length(regGlocIR) %in% noAnnoOppId))
+		regGlocNoAnnoSense[[j]] <- regGlocIR[noAnnoSenseId]
+		regGlocNoAnnoBoth[[j]] <- regGlocIR[noAnnoBothId]
+	}
+	noAnnoSenseIR <- regGlocNoAnnoSense[[1]]
+	noAnnoBothIR <- regGlocNoAnnoBoth[[1]]
+	for (i in 2:nList)
+	{
+		noAnnoSenseIRi <- regGlocNoAnnoSense[[i]]
+		noAnnoSenseIR <- c(noAnnoSenseIR,noAnnoSenseIRi)
+		noAnnoBothIRi <- regGlocNoAnnoBoth[[i]]
+		noAnnoBothIR <- c(noAnnoBothIR,noAnnoBothIRi)
+	}
+	noAnnoSenseIRAll <- reduce(noAnnoSenseIR)
+	noAnnoBothIRAll <- reduce(noAnnoBothIR)
+	## TO DO:  include option to give maximum expression / FC per region
+	out <- NULL
+	out$noAnnoBoth <- GRanges(seqnames=Rle(rep(chromosome,length(noAnnoBothIRAll))),strand=Rle(rep(strandAlt,length(noAnnoBothIRAll))),ranges=noAnnoBothIRAll)
+	out$noAnnoSense <- GRanges(seqnames=Rle(rep(chromosome,length(noAnnoSenseIRAll))),strand=Rle(rep(strandAlt,length(noAnnoSenseIRAll))),ranges=noAnnoSenseIRAll)
+	return(out)
+})
+
+
+
+
+
 
 

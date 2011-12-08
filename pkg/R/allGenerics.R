@@ -37,14 +37,12 @@ setGeneric("makeDesign",function(object, method=c("twoGroup","compareGroupsTime"
 }
 )
 
-####
-
 setGeneric("wfm.analysis",function(object, filter.overlap=NULL, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"), n.levels, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"), alpha=0.05, nsim=1000, delta=NULL, rescale=NULL, two.sided=NULL, minRunPos=90, minRunProbe=1, factor.levels=NULL)
 {
 	standardGeneric("wfm.analysis")
 }
 )
-####
+
 
 #accessors mapFilterProbe
 setGeneric("getFilteredIndices",function(object)
@@ -261,5 +259,10 @@ setGeneric("getVarEff",function(object)
 setGeneric("plotWfm",function(object, annoFile, minPos, maxPos, trackFeature="exon", overlayFeature=c("gene","transposable_element_gene"), two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
 {
 	standardGeneric("plotWfm")
+}
+)
+setGeneric("getNonAnnotatedRegions",function(object, annoFile)
+{
+	standardGeneric("getNonAnnotatedRegions")
 }
 )

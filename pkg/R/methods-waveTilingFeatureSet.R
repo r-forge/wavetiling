@@ -588,6 +588,8 @@ setMethod("wfm.analysis",signature("waveTilingFeatureSet"),function(object,filte
 		regions[[i]] <- matrix(regions[[i]][(Gloc[regions[[i]][,2]]-Gloc[regions[[i]][,1]])>minRunPos,],ncol=2)
 		regions[[i]] <- matrix(regions[[i]][regions[[i]][,2]-regions[[i]][,1]>minRunProbe,],ncol=2)
 		GlocRegions[[i]] <- matrix(cbind(Gloc[regions[[i]][,1]],Gloc[regions[[i]][,2]]),ncol=2)
+		regions[[i]] <- IRanges(start=regions[[i]][,1],end=regions[[i]][,2])
+		GlocRegions[[i]] <- IRanges(start=GlocRegions[[i]][,1],end=GlocRegions[[i]][,2])
 	}
 	if (save.obs=="plot")
 	{

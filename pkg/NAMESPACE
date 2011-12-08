@@ -55,7 +55,7 @@ exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,  
 exportMethods(getFilteredIndices, getChromosome, getPosition, getStrand,                            selectProbesFromFilterOverlap)
 
 ## Wfm methods
-exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,                       getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,                  getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,                         getVarEff, plotWfm)
+exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,                       getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,                  getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,                         getVarEff, plotWfm, getNonAnnotatedRegions)
 
 ## Other
 export(cel2TilingFeatureSet)

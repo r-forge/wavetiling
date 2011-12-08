@@ -1,20 +1,9 @@
-In R CMD check:
-1)  checking if this is a source package ... WARNING
-Subdirectory ‘waveTiling/src’ contains object files.
+KDB:
+1) wfm.analysis,waveTilingFeatureSet-method: check calculation of confidence intervals
+2) wfm.analysis,waveTilingFeatureSet-method: check implementation of "two.sided" (adapt according to SAGMB paper)
+3) plotWfm,Wfm-method: introduce option to give groupnames to put on Y-axis of plot
+4) getNonAnnotatedRegions,Wfm-method: make function more generic wrt how the strands and features in the annotation file are defined
+5) getNonAnnotatedRegions,Wfm-method: include option to give max./mean expression / FC per region
+6) getNonAnnotatedRegions,Wfm-method: add option to set threshold for minimum density of probes within the regions
 
-2) checking foreign function calls ... WARNING
-Foreign function calls without 'PACKAGE' argument:
-.C("MAPMARG", ...)
-.C("MAPMARGIMP", ...)
-
-3) * checking R code for possible problems ... NOTE
-makeNewTranscriptRectangleOverlay: no visible binding for global
-  variable ‘black’
-bgCorrQn,waveTilingFeatureSet: no visible global function definition
-  for ‘normalize.quantiles’
-plotWfm,Wfm: no visible binding for global variable ‘trackcount’
-
-4) WARNING
-LaTeX errors when creating PDF version.
-! LaTeX Error: File `kvoptions.sty' not found.
 
