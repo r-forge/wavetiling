@@ -266,3 +266,8 @@ setGeneric("getNonAnnotatedRegions",function(object, annoFile)
 	standardGeneric("getNonAnnotatedRegions")
 }
 )
+setGeneric("getSigGenes",function(object, annoFile)
+{
+	standardGeneric("getSigGenes")
+}
+)

@@ -5,5 +5,7 @@ KDB:
 4) getNonAnnotatedRegions,Wfm-method: make function more generic wrt how the strands and features in the annotation file are defined
 5) getNonAnnotatedRegions,Wfm-method: include option to give max./mean expression / FC per region
 6) getNonAnnotatedRegions,Wfm-method: add option to set threshold for minimum density of probes within the regions
-
+7) getSigGenes,Wfm-method: add option to include thresholds (density, outliers,...)
+8) getSigGenes,Wfm-method: add option to also detect regions that don't overlap but are in the neighbourhood of annotated regions
+9) getSigGenes,Wfm-method: add option to include mean / max expression / FC for each gene
 
