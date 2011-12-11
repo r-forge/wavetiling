@@ -8,4 +8,6 @@ KDB:
 7) getSigGenes,Wfm-method: add option to include thresholds (density, outliers,...)
 8) getSigGenes,Wfm-method: add option to also detect regions that don't overlap but are in the neighbourhood of annotated regions
 9) getSigGenes,Wfm-method: add option to include mean / max expression / FC for each gene
+10) filterOverlap,waveTilingFeatureSet-method: check if this function makes use of all the TilingFeatureSet functionalities as constructed in the oligo-package (eg. pmChr, pmStrand...) remark: pmStrand does not seem to work properly
 
+PRIORITY: 11) solve trouble with initialize-method waveTilingFeatureSet

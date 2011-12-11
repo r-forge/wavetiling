@@ -40,5 +40,6 @@ options(width=72)
 
 \section{Introduction}
 
+In this \waveTiling{} package vignette the package's main functionalities to conduct a tiling array trancriptome analysis are illustrated. The implemented method is based on a wavelet-based functional model introduced in [REF] Clement et al. (2012).
 
 \end{document}

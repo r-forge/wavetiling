@@ -12,8 +12,7 @@ cel2TilingFeatureSet <- function(dataPath,annotationPackage)
 {
 	expFiles <- paste(dataPath,list.celfiles(dataPath),sep="/")
 	tfs <- read.celfiles(expFiles,pkgname=annotationPackage)
-	wtfs <- new("waveTilingFeatureSet",tfs)
-	return(wtfs)
+	return(tfs)
 }
 
 

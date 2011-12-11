@@ -53,11 +53,78 @@ setMethod("initialize","genomeInfo",function(.Object,chromosome,strand,minPos,ma
 	return(.Object)	
 })
 
+## remark: found this also as constructors for "NChannelSet","FeatureSet" and "TilingFeatureSet" (selectMethod("initialize","TilingFeatureSet"))
 #waveTilingFeatureSet
-setMethod("initialize","waveTilingFeatureSet",function(.Object,tfs)
+setMethod("initialize","waveTilingFeatureSet",function (.Object, ...)
 {
-	.Object <- tfs
-	class(.Object) <- "waveTilingFeatureSet"
-	attr(class(.Object),"package") <- "waveTiling"
-	return(.Object)
-})
+    .local <- function (.Object, assayData, phenoData, ...)
+    {
+        mySlots <- slotNames(.Object)
+        dotArgs <- list(...)
+        isSlot <- names(dotArgs) %in% mySlots
+        if (missing(assayData)) {
+            assayData <- do.call(assayDataNew, dotArgs[!isSlot],
+                envir = parent.frame())
+        }
+        if (missing(phenoData)) {
+            phenoData <- annotatedDataFrameFrom(assayData, byrow = FALSE)
+        }
+        if (is.null(varMetadata(phenoData)[["channel"]])) {
+            varMetadata(phenoData)[["channel"]] <- factor(rep("_ALL_",
+                nrow(varMetadata(phenoData))), levels = c(assayDataElementNames(assayData),
+                "_ALL_"))
+        }
+        appl <- if (storageMode(assayData) == "list")
+            lapply
+        else eapply
+        assaySampleNames <- appl(assayData, function(elt) {
+            cnames <- colnames(elt)
+            if (is.null(cnames))
+                sampleNames(phenoData)
+            else cnames
+        })
+        sampleNames(assayData) <- assaySampleNames
+        sampleNames(phenoData) <- sampleNames(assayData)
+        do.call(callNextMethod, c(.Object, assayData = assayData,
+            phenoData = phenoData, dotArgs[isSlot]))
+    }
+    .local(.Object, ...)
+}
+)
+
+# > structure(function (.Object, ...)
+# > {
+# >     # check if the first argument is an ExpressionSet
+# >     # if so: initialize the object with it and tells .local not to
+# >     # overwrite slots corresponding to missing arguments.
+# >     # otherwise: s
+# >     overwrite.missing<- TRUE
+# >     dotargs<- list(...)   
+# >     if( length(dotargs)>  1&&  is(dotargs[[1]], 'ExpressionSet') ){       
+# >         .Object<- dotargs[[1]]       
+# >         overwrite.missing<- FALSE
+# >         dotargs<- dotargs[-1]
+# >     }       
+# > 
+# >     # .local should initialize (i.e. overwrite) a slot of .Object with
+# > its prototype only if overwrite.missing=TRUE, or in any case with the
+# > corresponding non missing argument for this slot.
+# >      .local<- function (.Object, overwrite.missing=TRUE, assayData,
+# > phenoData, featureData,
+# >          exprs = new("matrix"), ...)
+# >      {                  if (overwrite.missing&&  missing(assayData)) {
+# >     # stuff ...
+# >     }
+# >     # other stuff ...
+# >      }
+# > 
+# >     # call .local with overwrite.missing as its first argument
+# >     do.call(.local, c(list(.Object, overwrite.missing), dotargs))
+# >     
+# > }
+
+# setMethod("initialize","waveTilingFeatureSet",function(.Object, ...)
+# {
+# 	Object <- callNextMethod(.Object, ...)
+# 	return(Object)
+# })

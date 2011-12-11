@@ -66,7 +66,7 @@ setMethod("getReplics",signature("waveTilingFeatureSet"),function(object)
 
 setMethod("filterOverlap",signature("waveTilingFeatureSet"),function(object,remap=TRUE,fastaFile,chrId,strand=c("forward","reverse","both"),MM=FALSE)
 {
-	if (class(object)!="TilingFeatureSet")
+	if (class(object)!="TilingFeatureSet" | class(object)!="waveTilingFeatureSet")
 	{
 		stop("class of object is not TilingFeatureSet.")
 	}
