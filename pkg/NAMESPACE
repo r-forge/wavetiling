@@ -49,7 +49,7 @@ exportClasses(waveTilingFeatureSet, mapFilterProbe, genomeInfo, Wfm)
 ## exportMethods(show)
 
 ## waveTilingFeatureSet methods
-exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet, bgCorrQn, makeDesign, wfm.analysis)
+exportMethods(getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet, bgCorrQn, makeDesign, wfm.analysis)
 
 ## mapFilterProbe methods
 exportMethods(getFilteredIndices, getChromosome, getPosition, getStrand,                            selectProbesFromFilterOverlap)

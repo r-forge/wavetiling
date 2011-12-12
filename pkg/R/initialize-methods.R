@@ -57,38 +57,39 @@ setMethod("initialize","genomeInfo",function(.Object,chromosome,strand,minPos,ma
 #waveTilingFeatureSet
 setMethod("initialize","waveTilingFeatureSet",function (.Object, ...)
 {
-    .local <- function (.Object, assayData, phenoData, ...)
-    {
-        mySlots <- slotNames(.Object)
-        dotArgs <- list(...)
-        isSlot <- names(dotArgs) %in% mySlots
-        if (missing(assayData)) {
-            assayData <- do.call(assayDataNew, dotArgs[!isSlot],
-                envir = parent.frame())
-        }
-        if (missing(phenoData)) {
-            phenoData <- annotatedDataFrameFrom(assayData, byrow = FALSE)
-        }
-        if (is.null(varMetadata(phenoData)[["channel"]])) {
-            varMetadata(phenoData)[["channel"]] <- factor(rep("_ALL_",
-                nrow(varMetadata(phenoData))), levels = c(assayDataElementNames(assayData),
-                "_ALL_"))
-        }
-        appl <- if (storageMode(assayData) == "list")
-            lapply
-        else eapply
-        assaySampleNames <- appl(assayData, function(elt) {
-            cnames <- colnames(elt)
-            if (is.null(cnames))
-                sampleNames(phenoData)
-            else cnames
-        })
-        sampleNames(assayData) <- assaySampleNames
-        sampleNames(phenoData) <- sampleNames(assayData)
-        do.call(callNextMethod, c(.Object, assayData = assayData,
-            phenoData = phenoData, dotArgs[isSlot]))
-    }
-    .local(.Object, ...)
+#    .local <- function (.Object, assayData, phenoData, ...)
+#    {
+#        mySlots <- slotNames(.Object)
+#        dotArgs <- list(...)
+#        isSlot <- names(dotArgs) %in% mySlots
+#        if (missing(assayData)) {
+#            assayData <- do.call(assayDataNew, dotArgs[!isSlot],
+#                envir = parent.frame())
+#        }
+#        if (missing(phenoData)) {
+#            phenoData <- annotatedDataFrameFrom(assayData, byrow = FALSE)
+#        }
+#        if (is.null(varMetadata(phenoData)[["channel"]])) {
+#            varMetadata(phenoData)[["channel"]] <- factor(rep("_ALL_",
+#                nrow(varMetadata(phenoData))), levels = c(assayDataElementNames(assayData),
+#                "_ALL_"))
+#        }
+#        appl <- if (storageMode(assayData) == "list")
+#            lapply
+#        else eapply
+#        assaySampleNames <- appl(assayData, function(elt) {
+#            cnames <- colnames(elt)
+#            if (is.null(cnames))
+#                sampleNames(phenoData)
+#            else cnames
+#        })
+#        sampleNames(assayData) <- assaySampleNames
+#        sampleNames(phenoData) <- sampleNames(assayData)
+#        do.call(callNextMethod, c(.Object, assayData = assayData,
+#            phenoData = phenoData, dotArgs[isSlot]))
+#    }
+#    .local(.Object, ...)
+	callNextMethod(.Object);
 }
 )
 
