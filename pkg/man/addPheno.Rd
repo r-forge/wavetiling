@@ -2,7 +2,7 @@
 \alias{addPheno}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Add phenotypic info to TilingFeatureSet
+Add phenotypic info to WaveTilingFeatureSet
 }
 
 \description{
@@ -16,7 +16,7 @@ addPheno(object, noGroups, groupNames, replics, ...)
 
 \arguments{
   \item{object}{
-object of type waveTilingFeatureSet
+object of type WaveTilingFeatureSet
 }
   \item{noGroups}{
 Number of groups in the tiling array experiment
@@ -37,7 +37,7 @@ Number of replicates
 }
 
 \value{
-object of class TilingFeatureSet annotated with the phenotypic data
+object of class WaveTilingFeatureSet annotated with the phenotypic data
 }
 
 \references{

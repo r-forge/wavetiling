@@ -14,7 +14,7 @@ getGroupNames(object)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-object of class waveTilingFeatureSet
+object of class WaveTilingFeatureSet
 }
 
 }

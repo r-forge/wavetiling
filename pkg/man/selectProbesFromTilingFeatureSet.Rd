@@ -2,7 +2,7 @@
 \alias{selectProbesFromTilingFeatureSet}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-select probes (from TilingFeatureSet)
+select probes (from WaveTilingFeatureSet)
 }
 
 \description{
@@ -15,7 +15,7 @@ selectProbesFromTilingFeatureSet(object, chromosome, strand=c("forward","reverse
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-object of class waveTilingFeatureSet
+object of class WaveTilingFeatureSet
 }
   \item{chromosome}{
 chromosome

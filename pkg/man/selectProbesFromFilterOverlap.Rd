@@ -2,7 +2,7 @@
 \alias{selectProbesFromFilterOverlap}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-select probes (from FIlterOverlap)
+select probes (from FilterOverlap)
 }
 
 \description{

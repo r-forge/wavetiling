@@ -15,7 +15,7 @@ makeDesign(object, method=c("twoGroup","compareGroupsTime","compareGroupsFactor"
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-object of class waveTilingFeatureSet
+object of class WaveTilingFeatureSet
 }
   \item{method}{
 Wfm method to use

@@ -13,7 +13,7 @@ filterOverlap(object, remap = TRUE, fastaFile, chrId, strand = c("forward","reve
 
 \arguments{
   \item{object}{
-object of class waveTilingFeatureSet
+object of class WaveTilingFeatureSet
 }
   \item{remap}{
 determines whether the tiling array probe sequences have to be remapped to a more recent reference DNA sequence

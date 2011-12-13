@@ -13,7 +13,7 @@ bgCorrQn(object, useMapFilter=NULL)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-object of class waveTilingFeatureSet
+object of class WaveTilingFeatureSet
 }
   \item{useMapFilter}{
 NULL or object of class mapFilterProbe indicating the probes to use for background correction and quantile normalization

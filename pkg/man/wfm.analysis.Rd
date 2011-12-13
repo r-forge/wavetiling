@@ -15,7 +15,7 @@ wfm.analysis(object, filter.overlap=NULL, method=c("twoGroup","compareGroupsTime
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{object}{
-object of class waveTilingFeatureSet
+object of class WaveTilingFeatureSet
 }
   \item{filter.overlap}{
 mapFilterProbe object
