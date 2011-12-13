@@ -1,10 +1,3 @@
-## load libraries
-library(oligo)
-library(waveslim)
-library(GenomeGraphs)
-library(preprocessCore)
-library(affy)
-library(Biostrings)
 
 ## functions for data input
 

@@ -32,7 +32,7 @@ setMethod("getNoGroups",signature("WaveTilingFeatureSet"),function(object)
 {
 	if ((names(pData(object))[1]!="group")|((names(pData(object))[2]!="replicate")))
 	{
-		stop("phenoData of TilingFeatureSet object is not correct. Use 'addPheno()' first.")
+		stop("phenoData of WaveTilingFeatureSet object is not correct. Use 'addPheno()' first.")
 	}
 	noGroups <- length(table(pData(object)$group))
 	return(noGroups)
@@ -54,7 +54,7 @@ setMethod("getReplics",signature("WaveTilingFeatureSet"),function(object)
 {
 	if ((names(pData(object))[1]!="group")|((names(pData(object))[2]!="replicate")))
 	{
-		stop("phenoData of TilingFeatureSet object is not correct. Use 'addPheno()' first.")
+		stop("phenoData of WaveTilingFeatureSet object is not correct. Use 'addPheno()' first.")
 	}
 	# keep the order safe
 	orderHlp <- order(unique(pData(object)$group))
@@ -66,9 +66,9 @@ setMethod("getReplics",signature("WaveTilingFeatureSet"),function(object)
 
 setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,remap=TRUE,fastaFile,chrId,strand=c("forward","reverse","both"),MM=FALSE)
 {
-	if (class(object)!="waveTilingFeatureSet")
+	if (class(object)!="WaveTilingFeatureSet")
 	{
-		stop("class of object is not TilingFeatureSet.")
+		stop("class of object is not WaveTilingFeatureSet.")
 	}
 	pmIndex <- oligo::pmindex(object)
 	dataPMSeq <- pmSequence(object)
@@ -351,7 +351,7 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
 # construct filtered data set
 	if ((names(pData(object))[1]!="group")|((names(pData(object))[2]!="replicate")))
 	{
-		stop("phenoData of TilingFeatureSet object is not correct. Use 'addPheno()' first.")
+		stop("phenoData of WaveTilingFeatureSet object is not correct. Use 'addPheno()' first.")
 	}
 	
 	if (!is.null(filter.overlap))
