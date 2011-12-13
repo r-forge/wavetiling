@@ -8,10 +8,6 @@ importFrom(methods, "@<-", callNextMethod, new, validObject)
 ## Classes from oligoClasses
 importClassesFrom(oligoClasses, TilingFeatureSet, FeatureSet)
 
-### oligo
-## importFrom(oligo, list.celfiles)
-
-
 ## Classes from Biobase
 importClassesFrom(Biobase, AnnotatedDataFrame, AssayData, eSet, MIAME,
                   NChannelSet, Versions, VersionedBiobase, Versioned)
