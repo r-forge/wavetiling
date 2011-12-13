@@ -1,12 +1,11 @@
 # method data extraction
 
-#setGeneric("addPheno",function(object, noGroups, groupNames, replics, ...)
-#{
-#	standardGeneric("addPheno")
-#}
-#)
+setGeneric("addPheno",function(object, noGroups, groupNames, replics, ...)
+{
+	standardGeneric("addPheno")
+}
+)
 
-setGeneric("addPheno<-",function(object,noGroups,groupNames,replics,...){standardGeneric ("addPheno<-")})
 
 setGeneric("filterOverlap",function(object, remap=TRUE, fastaFile, chrId,  strand=c("forward","reverse","both"), MM=FALSE, ...)
 {

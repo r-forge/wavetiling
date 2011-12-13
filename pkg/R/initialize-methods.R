@@ -54,7 +54,7 @@ setMethod("initialize","genomeInfo",function(.Object,chromosome,strand,minPos,ma
 })
 
 #waveTilingFeatureSet
-setMethod("initialize","waveTilingFeatureSet",function (.Object, ...)
+setMethod("initialize","WaveTilingFeatureSet",function (.Object, ...)
 {
 	callNextMethod(.Object);
 }

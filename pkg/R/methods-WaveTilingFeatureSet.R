@@ -1,4 +1,4 @@
-setReplaceMethod("addPheno",signature("WaveTilingFeatureSet"),function(object,noGroups,groupNames,replics,...)
+setMethod("addPheno",signature("WaveTilingFeatureSet"),function(object,noGroups,groupNames,replics,...)
 {
 	if (dim(object)[2] != sum(replics))
 	{
