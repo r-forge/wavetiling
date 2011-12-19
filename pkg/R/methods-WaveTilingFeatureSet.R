@@ -1,3 +1,16 @@
+# temporary (?)
+# I can only use this after inserting strand information to the database when parsing the bpmap and Cel file in the (updated) package PDInfoBuilder
+setMethod("pmStrand","WaveTilingFeatureSet",function(object)
+{
+	conn <- db(object)
+	sql <- paste("SELECT fid, strand", "FROM pmfeature", "INNER JOIN chrom_dict", "USING(chrom)")
+	tmp <- dbGetQuery(conn, sql)
+	tmp <- tmp[order(tmp[["fid"]]),]
+        return(tmp[["strand"]])
+}
+)
+
+
 setMethod("addPheno",signature("WaveTilingFeatureSet"),function(object,noGroups,groupNames,replics,...)
 {
 	if (dim(object)[2] != sum(replics))
@@ -74,7 +87,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 	dataPMSeq <- pmSequence(object)
 	if (remap)
 	{
-		setTrustBand <- min(unique(nchar(dataPMSeq)))
+		setTrustBand <- min(unique(width(dataPMSeq)))
 		if (setTrustBand < 15)
 		{
 			warning("There are probes smaller than 15 bp")
@@ -86,11 +99,17 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 			cat("begin remapping forward strand...\n")
 			cat("extract probe sequences\n")
 			pmSeqDict <- PDict(dataPMSeq,tb.start=1,tb.end=trBand)
-			chrSeq <- readFASTA(fastaFile,strip.desc=FALSE)
-			chrDNAString <- lapply(chrSeq,function(x) DNAString(paste(x[[2]],collapse="")))
-			names(chrDNAString) <- paste("chr",chrId,sep="")
+			chrSeqAll <- read.DNAStringSet(fastaFile,format="fasta")
+			chrSeq <- chrSeqAll[chrId]
+			names(chrSeq) <- paste("chr",chrId,sep="")
 			cat("match probe sequences to DNA sequence\n")
-			startPM <- lapply(chrDNAString,function(x) startIndex(matchPDict(pmSeqDict,x)))
+			chrSeqList <- list()
+			for (i in 1:length(chrSeq))
+			{
+				chrSeqList[[i]] <- chrSeq[[i]]
+			}
+			names(chrSeqList) <- names(chrSeq)
+			startPM <- lapply(chrSeqList,function(x) startIndex(matchPDict(pmSeqDict,x)))
 			nposChrPM <- lapply(startPM,function(x) sapply(x,length))
 			pmMatch <- Reduce("+",nposChrPM)==1
 			pmMatchIndex <- (1:length(pmMatch))[pmMatch]
@@ -105,25 +124,30 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 			posInit <- c()
 			posInit[mp[,1]] <- unlist(lapply(startPM,function(x) unlist(x[pmMatch])))
 			strandInit <- rep("forward",length(pmMatchIndex))
-			cat("remapping reverse strand done\n")
+			cat("remapping forward strand done\n")
 		}
 		if ((strand=="reverse") | (strand=="both"))
 		{
 			cat("begin remapping reverse strand...\n")
 			## Fix me: sometimes reverseComplement/sometimes not?
-			#dataPMSeqRevComp <- reverseComplement(pmSequence(object))
-			dataPMSeqRevComp <- pmSequence(object)
+			dataPMSeqRevComp <- reverseComplement(pmSequence(object))
+			#dataPMSeqRevComp <- pmSequence(object)
 			cat("extract probe sequences\n")
 			pmSeqDictRevComp <- PDict(dataPMSeqRevComp,tb.start=1,tb.end=trBand)
 			if (strand=="reverse")
 			{
-				
-				chrSeq <- readFASTA(fastaFile,strip.desc=FALSE)
-				chrDNAString <- lapply(chrSeq,function(x) DNAString(paste(x[[2]],collapse="")))
-				names(chrDNAString) <- paste("chr",chrId,sep="")
+				chrSeqAll <- read.DNAStringSet(fastaFile,format="fasta")
+				chrSeq <- chrSeqAll[chrId]
+				names(chrSeq) <- paste("chr",chrId,sep="")
+				chrSeqList <- list()
+				for (i in 1:length(chrSeq))
+				{
+					chrSeqList[[i]] <- chrSeq[[i]]
+				}
+				names(chrSeqList) <- names(chrSeq)
 			}
 			cat("match probe sequences to DNA sequence\n")
-			startPMRevComp <- lapply(chrDNAString,function(x) startIndex(matchPDict(pmSeqDictRevComp,x)))
+			startPMRevComp <- lapply(chrSeqList,function(x) startIndex(matchPDict(pmSeqDictRevComp,x)))
 			nposChrPMRevComp <- lapply(startPMRevComp,function(x) sapply(x,length))
 			pmMatchRevComp <- Reduce("+",nposChrPMRevComp)==1
 			pmMatchIndexRevComp <- (1:length(pmMatchRevComp))[pmMatchRevComp]
@@ -145,8 +169,9 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 	{
 		if ((strand=="forward") | (strand=="both"))
 		{
-			pmMatch <- pmStrand(object)=="+"
-			pmMatchIndex <- (1:length(pmMatch))[pmMatch]
+			pmMatchIndex <- which(pmStrand(object)==1 & pmChr(object) %in% paste("Chr",chrId,sep=""))
+			## Fix me: does not work yet for special chromosomes like Chr C and Chr M in Arabidopsis
+			# sometimes 0/1, sometimes +/- ?
 			chrInit <- pmChr(object)[pmMatchIndex]
 			posInit <- pmPosition(object)[pmMatchIndex]
 			strandInit <- pmStrand(object)[pmMatchIndex]
@@ -154,8 +179,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 		if ((strand=="reverse") | (strand=="both"))
 		{
 			dataPMSeqRevComp <- reverseComplement(pmSequence(object))
-			pmMatchRevComp <- pmStrand(object)=="-"
-			pmMatchIndexRevComp <- (1:length(pmMatchRevComp))[pmMatchRevComp]
+			pmMatchIndexRevComp <- which(pmStrand(object)==0 & pmChr(object) %in% paste("Chr",chrId,sep=""))
 			chrInitRevComp <- pmChr(object)[pmMatchIndexRevComp]
 			posInitRevComp <- pmPosition(object)[pmMatchIndexRevComp]
 			strandInitRevComp <- pmStrand(object)[pmMatchIndexRevComp]
@@ -167,8 +191,11 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 	if (strand=="both")
 	{
 		cat("filter overlaps forward-reverse strand\n")
-		forwardReverseOverlap <- (1:length(pmMatch))[(dataPMSeq %in% dataPMSeqRevComp)]
-		reverseForwardOverlap <- (1:length(pmMatchRevComp))[(dataPMSeqRevComp %in% dataPMSeq)]
+		## should be done more efficiently with something in Biostrings... ("%in%" does not work)
+		dataPMSeqChar <- as.character(dataPMSeq)
+		dataPMSeqRevCompChar <- as.character(dataPMSeqRevComp)
+		forwardReverseOverlap <- which(dataPMSeqChar %in% dataPMSeqRevCompChar)
+		reverseForwardOverlap <- which(dataPMSeqRevCompChar %in% dataPMSeqChar)
 	}
 	if (MM)
 	{
@@ -176,12 +203,16 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 		if (strand=="forward")
 		{
 			dataMMSeq <- pm2mm(dataPMSeq)
-			pmMmOverlap <- (1:length(pmMatch))[(dataPMSeq %in% dataMMSeq)]
+			dataPMSeqChar <- as.character(dataPMSeq)
+			dataMMSeqChar <- as.character(dataMMSeq)
+			pmMmOverlap <- which(dataPMSeqChar %in% dataMMSeqChar)
 		}
 		if (strand=="reverse")
 		{
 			dataMMSeqRevComp <- pm2mm(dataPMSeqRevComp)
-			pmMmOverlap <- (1:length(pmMatchRevComp))[(dataPMSeqRevComp %in% dataMMSeqRevComp)]
+			dataPMSeqRevCompChar <- as.character(dataPMSeqRevComp)
+			dataMMSeqRevCompChar <- ac.character(dataMMSegRevComp)
+			pmMmOverlap <- which(dataPMSeqRevCompChar %in% dataMMSeqRevCompChar)
 		}
 	}
 	indicesForward <- NULL

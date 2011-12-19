@@ -1,12 +1,16 @@
-KDB:
-1) wfm.analysis,WaveTilingFeatureSet-method: check calculation of confidence intervals
-2) wfm.analysis,WaveTilingFeatureSet-method: check implementation of "two.sided" (adapt according to SAGMB paper)
-3) plotWfm,Wfm-method: introduce option to give groupnames to put on Y-axis of plot
-4) getNonAnnotatedRegions,Wfm-method: make function more generic wrt how the strands and features in the annotation file are defined
-5) getNonAnnotatedRegions,Wfm-method: include option to give max./mean expression / FC per region
-6) getNonAnnotatedRegions,Wfm-method: add option to set threshold for minimum density of probes within the regions
-7) getSigGenes,Wfm-method: add option to include thresholds (density, outliers,...)
-8) getSigGenes,Wfm-method: add option to also detect regions that don't overlap but are in the neighbourhood of annotated regions
-9) getSigGenes,Wfm-method: add option to include mean / max expression / FC for each gene
-10) filterOverlap,WaveTilingFeatureSet-method: check if this function makes use of all the TilingFeatureSet functionalities as constructed in the oligo-package (eg. pmChr, pmStrand...) remark: pmStrand does not seem to work properly
+
+1) filterOverlap,WaveTilingFeatureSet-method: adapting function
+2) mail Benilton Carvalho to make available pmStrand for TilingFeatureSet
+3) wfm.analysis,WaveTilingFeatureSet-method: adapt function to obtain identical smoothing (C-code)
+4) filterOverlap,WaveTilingFeatureSet-method: check if this function makes use of all the TilingFeatureSet functionalities as constructed in the oligo-package (eg. pmChr, pmStrand...) remark: pmStrand does not seem to work properly
+5) wfm.analysis,WaveTilingFeatureSet-method: check calculation of confidence intervals
+6) wfm.analysis,WaveTilingFeatureSet-method: check implementation of "two.sided" (adapt according to SAGMB paper)
+7) plotWfm,Wfm-method: introduce option to give groupnames to put on Y-axis of plot
+8) getNonAnnotatedRegions,Wfm-method: make function more generic wrt how the strands and features in the annotation file are defined
+9) getNonAnnotatedRegions,Wfm-method: include option to give max./mean expression / FC per region
+10) getNonAnnotatedRegions,Wfm-method: add option to set threshold for minimum density of probes within the regions
+11) getSigGenes,Wfm-method: add option to include thresholds (density, outliers,...)
+12) getSigGenes,Wfm-method: add option to also detect regions that don't overlap but are in the neighbourhood of annotated regions
+13) getSigGenes,Wfm-method: add option to include mean / max expression / FC for each gene
+
 
