@@ -39,7 +39,7 @@ importMethodsFrom(Biostrings, complement)
 importMethodsFrom(IRanges, subseq)
 
 ## Methods from waveslim
-## importMethodsFrom(waveslim, ...) 
+## importFrom(waveslim, wave.filter)
 
 ## Methods from oligo
 ## importMethodsFrom(oligo, ...)

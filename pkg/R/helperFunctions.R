@@ -109,7 +109,7 @@ wave.backtransformK <- function(Cum,n.levels,order=1,filt="haar")
 	return(X)
 }
 
-MapMar <- function(D,X,vareps,J=0)
+MapMar <- function(D,X,vareps,J=0,eqsmooth=TRUE)
 {
 	N <- nrow(X)
 	q <- ncol(X)
@@ -124,7 +124,13 @@ MapMar <- function(D,X,vareps,J=0)
 	B <- matrix(0,nrow=q,ncol=K)
 	varB <- B
 	phi <- B
-	out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+	if (eqsmooth)
+	{
+		out <- .C("MAPMARGEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+	} else
+	{
+		out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+	}
 	names(out) <- c("beta_MAP","varbeta_MAP","phi")
 	dim(out[[1]]) <- c(K,q)
 	out[[1]] <- t(out[[1]])
@@ -135,7 +141,7 @@ MapMar <- function(D,X,vareps,J=0)
 	return(out)
 }
 
-MapMarImp <- function(D,X,vareps,J=0)
+MapMarImp <- function(D,X,vareps,J=0,eqsmooth=TRUE)
 {
 	N <- nrow(X)
 	q <- ncol(X)
@@ -150,7 +156,13 @@ MapMarImp <- function(D,X,vareps,J=0)
 	B <- matrix(0,nrow=q,ncol=K)
 	varB <- B
 	phi <- B
-	out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+	if (eqsmooth)
+	{
+		out <- .C("MAPMARGIMPEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+	} else
+	{
+		out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+	}
 	names(out) <- c("beta_MAP","varbeta_MAP","phi")
 	dim(out[[1]]) <- c(K,q)
 	out[[1]] <- t(out[[1]])
@@ -162,7 +174,7 @@ MapMarImp <- function(D,X,vareps,J=0)
 }
 
 
-WaveMarEstVarJ <- function(Y,X,n.levels,wave.filt,prior=c("normal","improper"),saveall=FALSE,D,var.eps,max.it,tol=1e-6,trace=FALSE)
+WaveMarEstVarJ <- function(Y,X,n.levels,wave.filt,prior=c("normal","improper"),eqsmooth=TRUE,saveall=FALSE,D,var.eps,max.it,tol=1e-6,trace=FALSE)
 {
 	N <- nrow(D)
 	K <- ncol(D)		
@@ -187,11 +199,11 @@ WaveMarEstVarJ <- function(Y,X,n.levels,wave.filt,prior=c("normal","improper"),s
 	{
 		if (prior=="normal")
 		{
-			WaveFit <- MapMar(D,X,varEps,n.levels)
+			WaveFit <- MapMar(D,X,varEps,n.levels,eqsmooth)
 		}
 		if (prior=="improper")
 		{
-			WaveFit <- MapMarImp(D,X,varEps,n.levels)
+			WaveFit <- MapMarImp(D,X,varEps,n.levels,eqsmooth)
 		}
 	} else
 	{
@@ -201,11 +213,11 @@ WaveMarEstVarJ <- function(Y,X,n.levels,wave.filt,prior=c("normal","improper"),s
 			crit0 <- crit1
 			if (prior=="normal")
 			{
-				WaveFit <- MapMar(D,X,varEps,n.levels)
+				WaveFit <- MapMar(D,X,varEps,n.levels,eqsmooth)
 			}
 			if (prior=="improper")
 			{
-				WaveFit <- MapMarImp(D,X,varEps,n.levels)
+				WaveFit <- MapMarImp(D,X,varEps,n.levels,eqsmooth)
 			}
 			for (i in 1:(n.levels+1))
 			{

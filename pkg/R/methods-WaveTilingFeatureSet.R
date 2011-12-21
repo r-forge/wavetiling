@@ -377,7 +377,7 @@ setMethod("makeDesign",signature("WaveTilingFeatureSet"),function(object,method=
 })
 
 
-setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filter.overlap=NULL,method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"),n.levels,chromosome,strand,minPos,maxPos,design.matrix=NULL,var.eps=c("margLik","mad"),prior=c("normal","improper"),max.it=20,wave.filt="haar",skiplevels=NULL,trace=FALSE,save.obs=c("plot","regions","all"),alpha=0.05,nsim=1000,delta=NULL,rescale=NULL,two.sided=NULL,minRunPos=90,minRunProbe=1,factor.levels=NULL)
+setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filter.overlap=NULL,method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"),n.levels,chromosome,strand,minPos,maxPos,design.matrix=NULL,var.eps=c("margLik","mad"),prior=c("normal","improper"),eqsmooth=FALSE,max.it=20,wave.filt="haar",skiplevels=NULL,trace=FALSE,save.obs=c("plot","regions","all"),alpha=0.05,nsim=1000,delta=NULL,rescale=NULL,two.sided=NULL,minRunPos=90,minRunProbe=1,factor.levels=NULL)
 {
 # construct filtered data set
 	if ((names(pData(object))[1]!="group")|((names(pData(object))[2]!="replicate")))
@@ -443,7 +443,7 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
 	}
 	N <- nrow(Y)
 	D <- t(apply(Y,1,wave.transform,n.levels,filt=wave.filt))
-	fit <- WaveMarEstVarJ(Y=Y,X=Z,n.levels=n.levels,wave.filt=wave.filt,D=D,var.eps=var.eps,prior=prior,max.it=max.it,tol=1e-6,trace=trace,saveall=TRUE)
+	fit <- WaveMarEstVarJ(Y=Y,X=Z,n.levels=n.levels,wave.filt=wave.filt,D=D,var.eps=var.eps,prior=prior,eqsmooth=eqsmooth,max.it=max.it,tol=1e-6,trace=trace,saveall=TRUE)
 	Xsel <- cumsum(getReplics(object))-getReplics(object)+1
 	Xdes <- X[Xsel,]
 	if (method=="twoGroup" | method=="compareGroupsTime" | method=="compareGroupsFactor")

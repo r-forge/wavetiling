@@ -1,8 +1,8 @@
 
-1) filterOverlap,WaveTilingFeatureSet-method: adapting function
-2) mail Benilton Carvalho to make available pmStrand for TilingFeatureSet
-3) wfm.analysis,WaveTilingFeatureSet-method: adapt function to obtain identical smoothing (C-code)
-4) filterOverlap,WaveTilingFeatureSet-method: check if this function makes use of all the TilingFeatureSet functionalities as constructed in the oligo-package (eg. pmChr, pmStrand...) remark: pmStrand does not seem to work properly
+1) mail Benilton Carvalho to make available pmStrand for TilingFeatureSet
+2) split function wfm.analysis in part for fitting with normalized estimated effect functions and part for inference for specific contrasts
+3) wfm.analysis: merge arguments "method" and "design.matrix" to "design". If character then use preprogrammed code, if matrix use custom design matrix
+4) plot function: create argument contrasts to plot specific contrasts
 5) wfm.analysis,WaveTilingFeatureSet-method: check calculation of confidence intervals
 6) wfm.analysis,WaveTilingFeatureSet-method: check implementation of "two.sided" (adapt according to SAGMB paper)
 7) plotWfm,Wfm-method: introduce option to give groupnames to put on Y-axis of plot

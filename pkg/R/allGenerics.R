@@ -38,7 +38,7 @@ setGeneric("makeDesign",function(object, method=c("twoGroup","compareGroupsTime"
 }
 )
 
-setGeneric("wfm.analysis",function(object, filter.overlap=NULL, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"), n.levels, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"), alpha=0.05, nsim=1000, delta=NULL, rescale=NULL, two.sided=NULL, minRunPos=90, minRunProbe=1, factor.levels=NULL)
+setGeneric("wfm.analysis",function(object, filter.overlap=NULL, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"), n.levels, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), eqsmooth=TRUE, max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"), alpha=0.05, nsim=1000, delta=NULL, rescale=NULL, two.sided=NULL, minRunPos=90, minRunProbe=1, factor.levels=NULL)
 {
 	standardGeneric("wfm.analysis")
 }

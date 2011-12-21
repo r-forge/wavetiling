@@ -10,7 +10,7 @@ Perform Wfm analysis
 }
 
 \usage{
-wfm.analysis(object, filter.overlap=NULL, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"), n.levels, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"), alpha=0.05, nsim=1000, delta=NULL, rescale=NULL, two.sided=NULL, minRunPos=90, minRunProbe=1, factor.levels=NULL)
+wfm.analysis(object, filter.overlap=NULL, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"), n.levels, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), eqsmooth=FALSE, max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"), alpha=0.05, nsim=1000, delta=NULL, rescale=NULL, two.sided=NULL, minRunPos=90, minRunProbe=1, factor.levels=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,6 +46,9 @@ how to estimate residual variance
 }
   \item{prior}{
 prior distribution on effect functions
+}
+ \item{eqsmooth}{
+force equal amount of smooth for different effect functions
 }
   \item{max.it}{
 maximum number of iteration for estimation
