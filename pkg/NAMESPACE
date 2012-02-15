@@ -44,13 +44,19 @@ importMethodsFrom(IRanges, subseq)
 ## Methods from oligo
 ## importMethodsFrom(oligo, ...)
 
+## Plot
+importFrom(graphics, plot)
 
 ## Exporting
 
 ## Classes
-exportClasses(WaveTilingFeatureSet, mapFilterProbe, genomeInfo, Wfm)
+exportClasses(WaveTilingFeatureSet, mapFilterProbe, genomeInfo, WfmFit, WfmInf, WfmFitTime, WfmFitFactor, WfmFitCircadian, WfmFitCustom, WfmInfCompare, WfmInfEffects )
 
 ## exportMethods(show)
+exportMethods(show)
+
+## exportMethods(plot)
+exportMethods(plot)
 
 ## waveTilingFeatureSet methods
 exportMethods( addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet, bgCorrQn, makeDesign, wfm.analysis)
@@ -58,9 +64,9 @@ exportMethods( addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap, 
 ## mapFilterProbe methods
 exportMethods(getFilteredIndices, getChromosome, getPosition, getStrand,                            selectProbesFromFilterOverlap)
 
-## Wfm methods
-exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,                       getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,                  getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,                         getVarEff, plotWfm, getNonAnnotatedRegions, getSigGenes)
+## WfmFit methods
+exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,                       getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,                  getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,                         getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions)
 
 ## Other
-export(cel2TilingFeatureSet)
+export(cel2TilingFeatureSet, makeContrasts, makeDesign)
 

@@ -79,7 +79,7 @@ setMethod("getReplics",signature("WaveTilingFeatureSet"),function(object)
 
 setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,remap=TRUE,fastaFile,chrId,strand=c("forward","reverse","both"),MM=FALSE)
 {
-	if (class(object)!="WaveTilingFeatureSet")
+	if (!inherits(object,"WaveTilingFeatureSet")) #class(object)!="WaveTilingFeatureSet")
 	{
 		stop("class of object is not WaveTilingFeatureSet.")
 	}
@@ -254,7 +254,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 
 setMethod("selectProbesFromTilingFeatureSet",signature("WaveTilingFeatureSet"),function(object,chromosome,strand=c("forward","reverse"),minPos,maxPos)
 {
-	if (class(object)!="TilingFeatureSet")
+	if (!inherits(object,"TilingFeatureSet")) #class(object)!="TilingFeatureSet")
 		{
 			stop("class of object is not TilingFeatureSet.")
 		}
@@ -308,86 +308,17 @@ setMethod("bgCorrQn",signature("WaveTilingFeatureSet"),function(object,useMapFil
 })
 
 
-setMethod("makeDesign",signature("WaveTilingFeatureSet"),function(object,method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","twoFactors","meansByGroupTime","meansByGroupFactor","effectsTime"),factor.levels=NULL)
-{
-	replics <- getReplics(object)
-	noGroups <- getNoGroups(object)
-	if (method=="twoGroup")
-	{
-		Xorig <- matrix(0,nrow=dim(pData(object))[1],ncol=2)
-		Xorig[,1] <- 1
-		Xorig[,2] <- rep(c(1,-1),replics)
-	}
-	if (method=="compareGroupsTime" | method=="meansByGroupTime" | method=="effectsTime")
-	{
-		Xorig <- matrix(0,nrow=dim(pData(object))[1],ncol=noGroups)
-		orderedFactor <- factor(1:noGroups,ordered=TRUE)
-		desPoly <- lm(rnorm(noGroups)~orderedFactor,x=TRUE)$x
-		Xorig[,1] <- 1
-		Xorig[,2:noGroups] <- apply(desPoly[,2:noGroups],2,rep,replics)
-		
-	}
-	if (method=="circadian")
-	{
-		Xorig <- matrix(0,nrow=dim(pData(object))[1],ncol=3)
-		Xorig[,1] <- 1
-		Xorig[,2] <- rep(sin(seq(0,2*pi-(pi/noGroups),2*pi/noGroups)),replics)
-		Xorig[,3] <- rep(cos(seq(0,2*pi-(pi/noGroups),2*pi/noGroups)),replics)
-	}
-	if (method=="compareGroupsFactor" | method=="meansByGroupFactor")
-	{
-		Xorig <- matrix(0,nrow=dim(pData(object))[1],ncol=noGroups)
-		desHelmert <- contr.helmert(noGroups)
-		Xorig[,1] <- 1
-		Xorig[,2:noGroups] <- apply(desHelmert[,1:(noGroups-1)],2,rep,replics)
-	}
-	if (method=="twoFactors")
-	{
-		if (is.null(factor.levels))
-		{
-			stop("No proper factor levels given.")
-		}
-		Xorig <- matrix(0,nrow=sum(replics),ncol=prod(factor.levels))
-		Xorig[,1] <- 1
-		desTrt1 <- contr.treatment(factor.levels[1])
-		desTrt2 <- contr.treatment(factor.levels[2])
-		#desHelmert1 <- contr.helmert(factor.levels[1])
-		#desHelmert2 <- contr.helmert(factor.levels[2])
-		replicsMat <- matrix(replics,nrow=factor.levels[1],ncol=factor.levels[2],byrow=TRUE)
-		desFac1 <- apply(desTrt1,2,function(x) unlist(sapply(1:nrow(replicsMat),function(y) rep(x[y],sum(replicsMat[y,])))))
-		Xorig[,2:(factor.levels[1])] <- desFac1
-		desFac2 <- apply(desTrt2,2,function(x) unlist(sapply(1:nrow(replicsMat),function(y) rep(x,replicsMat[y,]))))
-		Xorig[,(factor.levels[1]+1):(factor.levels[1]+factor.levels[2]-1)] <- desFac2
-		# include interactions
-		colno <- sum(factor.levels)
-		for (i in 1:ncol(desFac1))
-		{
-			for (j in 1:ncol(desFac2))
-			{
-				Xorig[,colno] <- desFac1[,i]*desFac2[,j]
-				colno <- colno + 1
-			}
-		}
-	}
-	out <- list()
-	X.qr <- qr(Xorig)
-	out$Xorthnorm <- qr.Q(X.qr)
-	out$Xorig <- Xorig
-	return(out)
-})
 
-
-setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filter.overlap=NULL,method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"),n.levels,chromosome,strand,minPos,maxPos,design.matrix=NULL,var.eps=c("margLik","mad"),prior=c("normal","improper"),eqsmooth=FALSE,max.it=20,wave.filt="haar",skiplevels=NULL,trace=FALSE,save.obs=c("plot","regions","all"),alpha=0.05,nsim=1000,delta=NULL,rescale=NULL,two.sided=NULL,minRunPos=90,minRunProbe=1,factor.levels=NULL)
+setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filter.overlap=NULL,design=c("time","circadian","group","factorial","custom"),n.levels,factor.levels=NULL,chromosome,strand,minPos,maxPos,design.matrix=NULL,var.eps=c("margLik","mad"),prior=c("normal","improper"),eqsmooth=FALSE,max.it=20,wave.filt="haar",skiplevels=NULL,trace=FALSE,save.obs=c("plot","regions","all"))
 {
 # construct filtered data set
 	if ((names(pData(object))[1]!="group")|((names(pData(object))[2]!="replicate")))
 	{
 		stop("phenoData of WaveTilingFeatureSet object is not correct. Use 'addPheno()' first.")
 	}
-	
 	if (!is.null(filter.overlap))
 	{
-		if (class(filter.overlap)!="mapFilterProbe")
+		if (!inherits(filter.overlap,"mapFilterProbe"))
 		{
 			stop("class of filter.overlap is not mapFilterProbe. Use 'filterOverlap()' to create such an object.")
 		}
@@ -430,77 +361,48 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
 	Y <- t(dataInit2[,1:(dim(dataInit2)[2]-1)])
 	Gloc <- dataInit2[,"pos"]
 	noGroups <- getNoGroups(object)
+
 	# construct design matrix
 	if (is.null(design.matrix))
 	{
-		desgn <- makeDesign(object=object,method=method,factor.levels=factor.levels)
+		if (design=="custom") {
+		    stop("Missing design.matrix!")
+		}
+		## here we make use of makeDesign and method
+		desgn <- makeDesign(design=design,replics=getReplics(object),noGroups=noGroups,factor.levels=factor.levels)
 		Z <- desgn$Xorthnorm
 		X <- desgn$Xorig
 	} else
 	{
+		if(mode(design.matrix) != "numeric") stop("design.matrix must be a numeric matrix")
+		## must matrix be full rank?
 		X <- design.matrix
 		Z <- qr.Q(qr(X))
 	}
+
 	N <- nrow(Y)
 	D <- t(apply(Y,1,wave.transform,n.levels,filt=wave.filt))
-	fit <- WaveMarEstVarJ(Y=Y,X=Z,n.levels=n.levels,wave.filt=wave.filt,D=D,var.eps=var.eps,prior=prior,eqsmooth=eqsmooth,max.it=max.it,tol=1e-6,trace=trace,saveall=TRUE)
-	Xsel <- cumsum(getReplics(object))-getReplics(object)+1
-	Xdes <- X[Xsel,]
-	if (method=="twoGroup" | method=="compareGroupsTime" | method=="compareGroupsFactor")
-	{
-		q <- noGroups*(noGroups-1)/2
-		noBetas <- noGroups
-		contr <- matrix(0,nrow=q,ncol=noGroups)
-		hlp1 <- rep(2:noGroups,1:(noGroups-1))
-		hlp2 <- unlist(sapply(1:(noGroups-1),function(x) seq(1:x)))
-		for (i in 1:nrow(contr))
-		{
-			contr[i,hlp1[i]] <- 1
-			contr[i,hlp2[i]] <- -1
-		}
-		if (is.null(rescale))
-		{
-			rescale <- contr%*%Xdes
-			rescale <- rbind(c(mean(Xdes[,1]),rep(0,noGroups-1)),rescale)
-		}
-	} else
-	if (method=="effectsTime" | method=="twoFactors")
-	{
-		q <- noGroups-1
-		noBetas <- noGroups
-		rescale <- diag(noBetas)
+	fit <- WaveMarEstVarJ(Y=Y,X=Z,n.levels=n.levels,wave.filt=wave.filt,D=D,var.eps=var.eps,prior=prior,eqsmooth=eqsmooth,max.it=max.it,tol=1e-6,trace=trace,saveall=TRUE)	
+
+	if (design=="circadian") {
+	      noBetas<-3	
 	}
-	if (method=="circadian")
-	{
-		noBetas <- 3
-		q <- 1 # check
-		rescale <- diag(noBetas)
-	} else
-	if (method=="meansByGroupTime" | method=="meansByGroupFactor")
-	{
-		q <- noGroups-1
-		noBetas <- noGroups
-		rescale <- Xdes
+	else {
+	      noBetas <- noGroups
 	}
-	if (length(alpha)==1)
-	{
-		alpha <- rep(alpha,q+1)
-	}
-	F <- matrix(0,nrow=noBetas,ncol=P)
-	varF <- matrix(0,nrow=noBetas,ncol=P)
-	FDR <- matrix(0,nrow=q+1,ncol=P)
-	CI <- rep(0,P*(q+1)*2)
-	dim(CI) <- c(q+1,2,P)
+
 	if (is.null(skiplevels))
 	{
 		skiplevels <- rep(0,noBetas)
-	} else
-	if (length(skiplevels)==1)
+	} else if (length(skiplevels)==1)
 	{
 		skiplevels <- rep(skiplevels,noBetas)
 	}
+	F <- matrix(0,nrow=noBetas,ncol=P)
+ 	varF <- matrix(0,nrow=noBetas,ncol=P)
+
 	for (i in 1:noBetas)
-	{
+	{	
 		if (skiplevels[i]>0)
 		{
 			F[i,] <- wave.backtransform(c(rep(0,sum(fit$Kj[1:skiplevels[i]])),fit$beta_MAP[i,-(1:(sum(fit$Kj[1:skiplevels[i]])))]),fit$n.levels ,filt=fit$wave.filt)
@@ -511,123 +413,31 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
   			varF[i,] <- wave.backtransformK(fit$varbeta_MAP[i,],order=2,n.levels=fit$n.levels,filt=fit$wave.filt)
   		}
 	}
-	eff <- rescale%*%solve(t(Z)%*%X)%*%F
-	varEff <- (rescale%*%solve(t(Z)%*%X))^2%*%varF
-	sigProbes <- list()
-	regions <- list()
-	GlocRegions <- list()
-	givenDelta <- delta
-	if (is.null(givenDelta))
-	{
-		if (method=="meansByGroupTime" | method=="meansByGroupFactor")
-		{
-			delta <- rep(median(Y),q+1)
-		} else
-		{
-			delta <- c(median(Y),rep(log(1.1,2),q))
-		}
-	} else
-	if (length(givenDelta)==1)
-	{
-		delta <- rep(delta,q+1)
-	} else
-	if ((length(givenDelta)==2) & givenDelta[1]=="median")
-	{
-		delta <- rep(0,q+1)
-		delta[1] <- median(Y)
-		delta[2:(q+1)] <- rep(as.numeric(givenDelta[2]),q)
-	} else
-	if ((length(givenDelta)==q+1) & givenDelta[1]=="median")
-	{
-		delta <- rep(0,q+1)
-		delta[1] <- median(Y)
-		delta[2:(q+1)] <- as.numeric(givenDelta[2:(q+1)])
-	}
-	if (method=="twoGroup" | method=="compareGroupsTime" | method=="compareGroupsFactor" | method=="effectsTime" | method=="twoFactors")
-	{
-		if (is.null(two.sided))
-		{
-			two.sided <- c(0,rep(1,q))
-		}
-		for (i in 1:(q+1))
-		{
-			if (two.sided[i]==1)
-			{
-				#FDR[i,] <- pnorm(delta[i],abs(eff[i,]),sqrt(varEff[i,]))
-				FDRUp <- pnorm(delta[i],eff[i,],sqrt(varEff[i,]))
-				FDRDown <- 1-pnorm(-delta[i],eff[i,],sqrt(varEff[i,]))
-				FDR[i,] <- pmin(FDRUp,FDRDown)
-			}
-			if (two.sided[i]==0)
-			{
-				FDR[i,] <- pnorm(delta[i],eff[i,],sqrt(varEff[i,]))
-			}
-			CI[i,1,] <- qnorm(alpha/2,eff[i,],sqrt(varEff[i,]))
-			CI[i,2,] <- qnorm(1-alpha/2,eff[i,],sqrt(varEff[i,]))
-		}
-	} else
-	if (method=="circadian")
-	{
-		## fix me: use of two.sided
-		if (is.null(two.sided))
-		{
-			two.sided <- c(0,rep(1,q))
-		}
-		FDRUp <- pnorm(delta[1],eff[1,],sqrt(varEff[1,]))
-		FDRDown <- 1-pnorm(-delta[1],eff[1,],sqrt(varEff[1,]))
-		FDR[1,] <- pmin(FDRUp,FDRDown)
-		CI[1,1,] <- qnorm(alpha/2,eff[1,],sqrt(varEff[1,]))
-		CI[1,2,] <- qnorm(1-alpha/2,eff[1,],sqrt(varEff[1,]))
-		FDR[2,] <- rep(0,P)
-		nsim <- nsim
-		for (k in 1:nsim)
-		{
-			effSinSampl <- rnorm(P,eff[2,],sqrt(varEff[2,]))
-			effCosSampl <- rnorm(P,eff[3,],sqrt(varEff[3,]))
-			amplSampl <- sqrt(effSinSampl^2 + effCosSampl^2)
-			FDR[2,] <- FDR[2,] + (amplSampl < delta[2])
-			if (k%%100==0) cat(k," ")
-			# calculate CIs: to do
-		}
-		FDR[2,] <- FDR[2,]/nsim
-	} else
-	if (method=="meansByGroupTime" | method=="meansByGroupFactor")
-	{
-		if (is.null(two.sided))
-		{
-			two.sided <- rep(1,q+1)
-		}
-		for (i in 1:(q+1))
-		{
-			FDR[i,] <- pnorm(delta[i],eff[i,],sqrt(varEff[i,]))
-			CI[i,1,] <- qnorm(alpha/2,eff[i,],sqrt(varEff[i,]))
-			CI[i,2,] <- qnorm(1-alpha/2,eff[i,],sqrt(varEff[i,]))
-		}
-	}
-	for (i in 1:(q+1))
-	{
-		sigProbes[[i]] <- (1:P)[FDR[i,]<alpha[i]]
-		regions[[i]] <- cbind(sigProbes[[i]][c(TRUE,(sigProbes[[i]][2:length(sigProbes[[i]])]-sigProbes[[i]][1:(length(sigProbes[[i]])-1)])>1)],sigProbes[[i]][c((sigProbes[[i]][2:length(sigProbes[[i]])]-sigProbes[[i]][1:(length(sigProbes[[i]])-1)])>1,TRUE)])
-		if (length(regions[[i]])==0)
-		{
-			regions[[i]] <- matrix(,0,2)
-		}
-		if (length(regions[[i]])==2)
-		{
-			regions[[i]] <- matrix(regions[[i]],nrow=1)
-		}
-		regions[[i]] <- matrix(regions[[i]][(Gloc[regions[[i]][,2]]-Gloc[regions[[i]][,1]])>minRunPos,],ncol=2)
-		regions[[i]] <- matrix(regions[[i]][regions[[i]][,2]-regions[[i]][,1]>minRunProbe,],ncol=2)
-		GlocRegions[[i]] <- matrix(cbind(Gloc[regions[[i]][,1]],Gloc[regions[[i]][,2]]),ncol=2)
-		regions[[i]] <- IRanges(start=regions[[i]][,1],end=regions[[i]][,2])
-		GlocRegions[[i]] <- IRanges(start=GlocRegions[[i]][,1],end=GlocRegions[[i]][,2])
-	}
+
+## voorlopig laten staan
 	if (save.obs=="plot")
 	{
 		fit$beta_MAP <- matrix()
 		fit$varbeta_MAP <- matrix()
 		fit$phi <- matrix()
 	}
+
 	genomeLoc <- new("genomeInfo",chromosome=chromosome,strand=strand,minPos=min(Gloc),maxPos=max(Gloc))
-	fitObject <- new("Wfm",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design=X,phenoData=pData(object),method=method,genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,alpha=alpha,delta=delta,two.sided=two.sided,rescale=rescale,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,F=F,varF=varF,eff=eff,varEff=varEff,FDR=FDR,CI=CI)
+        replics <- getReplics(object)
+
+        if (design=="time") {
+	  fitObject <- new("WfmFitTime",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	}
+	else if (design=="circadian") {
+	  fitObject <- new("WfmFitCircadian",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	}
+	else if (design %in% c("group","factorial")) {
+	  fitObject <- new("WfmFitFactor",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	}
+	else if (design=="custom") {
+	  fitObject <- new("WfmFitCustom",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	}
+
+	return (fitObject);
 })
+

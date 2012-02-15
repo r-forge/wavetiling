@@ -32,18 +32,22 @@ setGeneric("selectProbesFromFilterOverlap",function(object, chromosome, strand=c
 )
 
 #fit method
-setGeneric("makeDesign",function(object, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","twoFactors","meansByGroupTime","meansByGroupFactor","effectsTime"), factor.levels=NULL)
-{
-	standardGeneric("makeDesign")
-}
-)
+# setGeneric("makeDesign",function(object, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","twoFactors","meansByGroupTime","meansByGroupFactor","effectsTime"), factor.levels=NULL)
+# {
+# 	standardGeneric("makeDesign")
+# }
+# )
 
-setGeneric("wfm.analysis",function(object, filter.overlap=NULL, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","meansByGroupTime","meansByGroupFactor","effectsTime","twoFactors"), n.levels, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), eqsmooth=TRUE, max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"), alpha=0.05, nsim=1000, delta=NULL, rescale=NULL, two.sided=NULL, minRunPos=90, minRunProbe=1, factor.levels=NULL)
+setGeneric("wfm.analysis",function(object, filter.overlap=NULL, design=c("time","circadian","group","factorial","custom"), n.levels, factor.levels=NULL, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), eqsmooth=TRUE, max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"))
 {
 	standardGeneric("wfm.analysis")
 }
 )
 
+setGeneric("wfm.inference",function(object,contrast.matrix=NULL, contrasts=c("compare","means","effects","overallMean"), delta=NULL, two.sided=NULL, minRunPos=90, minRunProbe=1, alpha=0.05, nsim=1000, rescale=NULL) {
+	standardGeneric("wfm.inference")
+}
+)
 
 #accessors mapFilterProbe
 setGeneric("getFilteredIndices",function(object)
@@ -161,6 +165,11 @@ setGeneric("getDesign",function(object)
 	standardGeneric("getDesign")
 }
 )
+setGeneric("getWfmDesign",function(object)
+{
+	standardGeneric("getWfmDesign")
+}
+)
 setGeneric("getPhenoInfo",function(object)
 {
 	standardGeneric("getPhenoInfo")
@@ -256,19 +265,45 @@ setGeneric("getVarEff",function(object)
 	standardGeneric("getVarEff")
 }
 )
+setGeneric("getDesignMatrix",function(object)
+{
+	standardGeneric("getDesignMatrix")
+}
+)
 
+setGeneric("getP",function(object)
+{
+	standardGeneric("getP")
+}
+)
+
+setGeneric("getZ",function(object)
+{
+	standardGeneric("getZ")
+}
+)
 setGeneric("plotWfm",function(object, annoFile, minPos, maxPos, trackFeature="exon", overlayFeature=c("gene","transposable_element_gene"), two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
 {
 	standardGeneric("plotWfm")
 }
 )
-setGeneric("getNonAnnotatedRegions",function(object, annoFile)
-{
-	standardGeneric("getNonAnnotatedRegions")
-}
-)
-setGeneric("getSigGenes",function(object, annoFile)
+
+setGeneric("getSigGenes",function(fit, inf, annoFile)
 {
 	standardGeneric("getSigGenes")
 }
 )
+
+setGeneric("getNonAnnotatedRegions",function(fit, inf, annoFile)
+{
+	standardGeneric("getNonAnnotatedRegions")
+}
+)
+
+if (!isGeneric("plot")) {
+  setGeneric("plot",function(fit,inf,...){
+	standardGeneric("plot")
+  }
+) 
+}
+
