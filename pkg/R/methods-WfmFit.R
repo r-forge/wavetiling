@@ -120,17 +120,17 @@ setMethod("wfm.inference",signature("WfmFit"),function(object,contrast.matrix=NU
 	GlocRegions <- list()
 	givenDelta <- delta
 	noGroups <- object@noGroups
-	replics<- object@replics
-	F<-object@F
-	varF<-object@varF
+	replics <- object@replics
+	F <- object@F
+	varF <- object@varF
 
-	P<-ncol(F) ## so P does not need to be stored!
+	P <- ncol(F) ## so P does not need to be stored!
 
 	Xsel <- cumsum(replics)-replics+1
 	X <- object@design.matrix
 	Xdes <- X[Xsel,]
 
-	Z<-object@Z
+	Z <- object@Z
 
 	if (!is.null(contrast.matrix)) {
 	      ## Given contrast matrix (CustomFit)
@@ -138,10 +138,10 @@ setMethod("wfm.inference",signature("WfmFit"),function(object,contrast.matrix=NU
 	      warning("Custom Inference Procedure Not Implemented yet!")
 	}
 	else if (contrasts=="compare") {
-		if (inherits(object,"WfmFitFactor") | inherits(object,"WfmFitTime") | inherits(object,"WfmFitCircadian" | inherits(object,"WfmFitCustom"))) {
+		if (inherits(object,"WfmFitFactor") | inherits(object,"WfmFitTime") | inherits(object,"WfmFitCircadian") | inherits(object,"WfmFitCustom")) {
 			#q <- noGroups*(noGroups-1)/2
 			q <- noGroups*(noGroups-1)/2
-			contr <- makeContrasts(contrasts=contrasts,nlevels=noGroups);  
+			contr <- makeContrasts(contrasts=contrasts,nlevels=noGroups);
 			noBetas <- noGroups
 			if (is.null(rescale))
 			{

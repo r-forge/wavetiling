@@ -126,10 +126,12 @@ MapMar <- function(D,X,vareps,J=0,eqsmooth=TRUE)
 	phi <- B
 	if (eqsmooth)
 	{
-		out <- .C("MAPMARGEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		#out <- .C("MAPMARGEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		out <- .C("MAPMARGEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
 	} else
 	{
-		out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		#out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
 	}
 	names(out) <- c("beta_MAP","varbeta_MAP","phi")
 	dim(out[[1]]) <- c(K,q)
@@ -158,10 +160,12 @@ MapMarImp <- function(D,X,vareps,J=0,eqsmooth=TRUE)
 	phi <- B
 	if (eqsmooth)
 	{
-		out <- .C("MAPMARGIMPEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		#out <- .C("MAPMARGIMPEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		out <- .C("MAPMARGIMPEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
 	} else
 	{
-		out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		#out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
+		out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
 	}
 	names(out) <- c("beta_MAP","varbeta_MAP","phi")
 	dim(out[[1]]) <- c(K,q)

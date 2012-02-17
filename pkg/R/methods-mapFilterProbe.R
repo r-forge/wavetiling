@@ -36,7 +36,7 @@ setMethod("selectProbesFromFilterOverlap",signature("mapFilterProbe"),function(o
 	{
 		stop("minPos is greater than maxPos")
 	}
-	selChrom <- (1:length(getFilteredIndices(object)))[getChromosome(object)==paste("chr",as.character(chromosome),sep="")]
+	selChrom <- (1:length(getFilteredIndices(object)))[getChromosome(object)==paste("chr",as.character(chromosome),sep="") | getChromosome(object)==paste("Chr",as.character(chromosome),sep="")]
 	selStrand <- (1:length(getFilteredIndices(object)))[getStrand(object)==strand]
 	selHlp <- intersect(selChrom,selStrand)
 	selPos <- (1:length(getFilteredIndices(object)))[(getPosition(object)>=minPos)&(getPosition(object)<=maxPos)]

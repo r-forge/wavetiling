@@ -155,3 +155,4 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 
 setMethod("plot",signature=c(fit="WfmFit",inf="WfmInf"),plotWfm) 
 
+

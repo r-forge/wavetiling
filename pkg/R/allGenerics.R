@@ -282,11 +282,12 @@ setGeneric("getZ",function(object)
 	standardGeneric("getZ")
 }
 )
-setGeneric("plotWfm",function(object, annoFile, minPos, maxPos, trackFeature="exon", overlayFeature=c("gene","transposable_element_gene"), two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
-{
-	standardGeneric("plotWfm")
-}
-)
+
+# setGeneric("plotWfm",function(object, annoFile, minPos, maxPos, trackFeature="exon", overlayFeature=c("gene","transposable_element_gene"), two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
+# {
+# 	standardGeneric("plotWfm")
+# }
+# )
 
 setGeneric("getSigGenes",function(fit, inf, annoFile)
 {

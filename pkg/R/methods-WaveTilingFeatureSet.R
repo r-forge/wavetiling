@@ -77,7 +77,7 @@ setMethod("getReplics",signature("WaveTilingFeatureSet"),function(object)
 }
 )
 
-setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,remap=TRUE,fastaFile,chrId,strand=c("forward","reverse","both"),MM=FALSE)
+setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,remap=TRUE,BSgenomeObject,chrId,strand=c("forward","reverse","both"),MM=FALSE)
 {
 	if (!inherits(object,"WaveTilingFeatureSet")) #class(object)!="WaveTilingFeatureSet")
 	{
@@ -99,16 +99,13 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 			cat("begin remapping forward strand...\n")
 			cat("extract probe sequences\n")
 			pmSeqDict <- PDict(dataPMSeq,tb.start=1,tb.end=trBand)
-			chrSeqAll <- read.DNAStringSet(fastaFile,format="fasta")
-			chrSeq <- chrSeqAll[chrId]
-			names(chrSeq) <- paste("chr",chrId,sep="")
 			cat("match probe sequences to DNA sequence\n")
 			chrSeqList <- list()
-			for (i in 1:length(chrSeq))
+			for (i in chrId)
 			{
-				chrSeqList[[i]] <- chrSeq[[i]]
+				chrSeqList[[i]] <- BSgenomeObject[[i]]
 			}
-			names(chrSeqList) <- names(chrSeq)
+			names(chrSeqList) <- seqnames(BSgenomeObject)[chrId]
 			startPM <- lapply(chrSeqList,function(x) startIndex(matchPDict(pmSeqDict,x)))
 			nposChrPM <- lapply(startPM,function(x) sapply(x,length))
 			pmMatch <- Reduce("+",nposChrPM)==1
@@ -136,15 +133,12 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 			pmSeqDictRevComp <- PDict(dataPMSeqRevComp,tb.start=1,tb.end=trBand)
 			if (strand=="reverse")
 			{
-				chrSeqAll <- read.DNAStringSet(fastaFile,format="fasta")
-				chrSeq <- chrSeqAll[chrId]
-				names(chrSeq) <- paste("chr",chrId,sep="")
 				chrSeqList <- list()
-				for (i in 1:length(chrSeq))
+				for (i in chrId)
 				{
-					chrSeqList[[i]] <- chrSeq[[i]]
+					chrSeqList[[i]] <- BSgenomeObject[[i]]
 				}
-				names(chrSeqList) <- names(chrSeq)
+				names(chrSeqList) <- seqnames(BSgenomeObject)[chrId]
 			}
 			cat("match probe sequences to DNA sequence\n")
 			startPMRevComp <- lapply(chrSeqList,function(x) startIndex(matchPDict(pmSeqDictRevComp,x)))
@@ -169,8 +163,8 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 	{
 		if ((strand=="forward") | (strand=="both"))
 		{
-			pmMatchIndex <- which(pmStrand(object)==1 & pmChr(object) %in% paste("Chr",chrId,sep=""))
-			## Fix me: does not work yet for special chromosomes like Chr C and Chr M in Arabidopsis
+			pmMatchIndex <- which(pmStrand(object)==1 & pmChr(object) %in% seqnames(BSgenomeObject)[chrId])
+			## Fix me: Is it always capital Chr?
 			# sometimes 0/1, sometimes +/- ?
 			chrInit <- pmChr(object)[pmMatchIndex]
 			posInit <- pmPosition(object)[pmMatchIndex]
@@ -179,7 +173,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 		if ((strand=="reverse") | (strand=="both"))
 		{
 			dataPMSeqRevComp <- reverseComplement(pmSequence(object))
-			pmMatchIndexRevComp <- which(pmStrand(object)==0 & pmChr(object) %in% paste("Chr",chrId,sep=""))
+			pmMatchIndexRevComp <- which(pmStrand(object)==0 & pmChr(object) %in% seqnames(BSgenomeObject)[chrId])
 			chrInitRevComp <- pmChr(object)[pmMatchIndexRevComp]
 			posInitRevComp <- pmPosition(object)[pmMatchIndexRevComp]
 			strandInitRevComp <- pmStrand(object)[pmMatchIndexRevComp]

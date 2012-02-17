@@ -1,42 +1,32 @@
-useDynLib("waveTiling")
+## useDynLib("waveTiling")
 
 ## Importing
 importClassesFrom(methods, ANY, character, data.frame, "function", integer, matrix,                     numeric)
 
 ## Classes from oligoClasses
-importClassesFrom(oligoClasses, TilingFeatureSet, FeatureSet)
+## importClassesFrom(oligoClasses, TilingFeatureSet, FeatureSet)
 
 ## Classes from Biobase
-importClassesFrom(Biobase, AnnotatedDataFrame, AssayData, eSet, MIAME,
-                  NChannelSet, Versions, VersionedBiobase, Versioned)
+## importClassesFrom(Biobase, AnnotatedDataFrame, AssayData, eSet, MIAME,                  NChannelSet, Versions, VersionedBiobase, Versioned)
 
 importMethodsFrom(methods, initialize, show)
 importFrom(methods, "@<-", callNextMethod, new, validObject)
 
-
+importFrom(preprocessCore, normalize.quantiles)
+importFrom(affy, bg.adjust)
 
 ## Classes from GenomeGraphs
-importClassesFrom(GenomeGraphs, DisplayPars, GenericArray, MappedRead, BaseTrack,                       Legend, Title, Gene, Transcript, GenomeAxis, ExonArray,  gdObject,                    Overlay, RectangleOverlay, TextOverlay, AnnotationTrack,                              Segmentation, TrackOverlay)
+## importClassesFrom(GenomeGraphs, DisplayPars, GenericArray, MappedRead, BaseTrack,                       Legend, Title, Gene, Transcript, GenomeAxis, ExonArray,  gdObject,                    Overlay, RectangleOverlay, TextOverlay, AnnotationTrack,                              Segmentation, TrackOverlay)
 
 ## Methods from Biobase
-importMethodsFrom(Biobase, annotatedDataFrameFrom, annotation,
-                  "annotation<-", assayData, "assayData<-", combine,
-                  experimentData, "experimentData<-", exprs,
-                  "exprs<-", featureData, "featureData<-",
-                  featureNames, fvarLabels, geneNames, pData,
-                  "pData<-", phenoData, "phenoData<-", sampleNames,
-                  se.exprs, "se.exprs<-", storageMode,
-                  "storageMode<-")
+## importMethodsFrom(Biobase, annotatedDataFrameFrom, annotation,                  "annotation<-", assayData, "assayData<-", combine,                  experimentData, "experimentData<-", exprs,                  "exprs<-", featureData, "featureData<-",                  featureNames, fvarLabels, geneNames, pData,                  "pData<-", phenoData, "phenoData<-", sampleNames,                  se.exprs, "se.exprs<-", storageMode,                  "storageMode<-")
 
-
-## Methods from GenomeGraphs
-## importMethodsFrom(GenomeGraphs, gdPlot, DisplayPars, geneRegionBiomart, geneBiomart,     makeLegend,makeGene, makeGeneRegion, makeTranscript, makeExonArray, makeGeneModel, makeBaseTrack, makeRectangleOverlay, makeTextOverlay, makeSegmentation, makeSmoothing, makeTitle, makeGenericArray, makeIdeogram, makeGenomeAxis, makeAnnotationTrack)
 
 ## Methods from Biostrings
-importMethodsFrom(Biostrings, complement)
+## importMethodsFrom(Biostrings, complement)
 
 ## Methods from IRanges
-importMethodsFrom(IRanges, subseq)
+## importMethodsFrom(IRanges, subseq)
 
 ## Methods from waveslim
 ## importFrom(waveslim, wave.filter)
@@ -59,13 +49,13 @@ exportMethods(show)
 exportMethods(plot)
 
 ## waveTilingFeatureSet methods
-exportMethods( addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet, bgCorrQn, makeDesign, wfm.analysis)
+exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet,bgCorrQn,wfm.analysis)
 
 ## mapFilterProbe methods
-exportMethods(getFilteredIndices, getChromosome, getPosition, getStrand,                            selectProbesFromFilterOverlap)
+exportMethods(getFilteredIndices, getPosition,                    selectProbesFromFilterOverlap)
 
 ## WfmFit methods
-exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,                       getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,                  getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,                         getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions)
+exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions)
 
 ## Other
 export(cel2TilingFeatureSet, makeContrasts, makeDesign)

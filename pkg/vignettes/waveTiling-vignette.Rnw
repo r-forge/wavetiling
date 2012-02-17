@@ -33,7 +33,6 @@
 \begin{document}
 
 \maketitle
-\tableofcontents
 
 <<options,echo=FALSE>>=
 options(width=72)
@@ -41,11 +40,6 @@ options(width=72)
 
 \section{Introduction}
 
-In this \waveTiling{} package vignette the package's main functionalities to conduct a tiling array trancriptome analysis are illustrated. The package contains an implementation of the basic wavelet-based functional model introduced in [REF] Clement et al. (2012), and its extensions towards more complex designs described in [REF] De Beuf et al. (2012). The leaf development data set [REF] (Andriankaja et al., 2012) contains genome-wide expression data measured for six developmental time points (day 8 to day 13) on the plant species \textit{Arabidopsis thaliana}. The experiment was conducted with AGRONOMICS1 tiling arrays [REF] and contains three biological replicates per time point.
-
-\section{Read in and prepare data for analysis}
-
-First we have to load the \waveTiling{} package and the \Rpackage{waveTilingData} package...
-
+In this \waveTiling{} package vignette the package's main functionalities to conduct a tiling array trancriptome analysis are illustrated. The implemented method is based on a wavelet-based functional model introduced in [REF] Clement et al. (2012).
 
 \end{document}
