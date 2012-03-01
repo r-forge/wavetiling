@@ -1,10 +1,10 @@
 # temporary(?) pmStrand
-
-setGeneric("pmStrand",function(object)
-{
-	standardGeneric("pmStrand")
-}
-)
+# 
+# setGeneric("pmStrand",function(object)
+# {
+# 	standardGeneric("pmStrand")
+# }
+# )
 
 # method data extraction
 

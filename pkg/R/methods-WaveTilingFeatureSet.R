@@ -1,14 +1,14 @@
 # temporary (?)
 # I can only use this after inserting strand information to the database when parsing the bpmap and Cel file in the (updated) package PDInfoBuilder
-setMethod("pmStrand","WaveTilingFeatureSet",function(object)
-{
-	conn <- db(object)
-	sql <- paste("SELECT fid, strand", "FROM pmfeature", "INNER JOIN chrom_dict", "USING(chrom)")
-	tmp <- dbGetQuery(conn, sql)
-	tmp <- tmp[order(tmp[["fid"]]),]
-        return(tmp[["strand"]])
-}
-)
+# setMethod("pmStrand","WaveTilingFeatureSet",function(object)
+# {
+# 	conn <- db(object)
+# 	sql <- paste("SELECT fid, strand", "FROM pmfeature", "INNER JOIN chrom_dict", "USING(chrom)")
+# 	tmp <- dbGetQuery(conn, sql)
+# 	tmp <- tmp[order(tmp[["fid"]]),]
+#         return(tmp[["strand"]])
+# }
+# )
 
 
 setMethod("addPheno",signature("WaveTilingFeatureSet"),function(object,noGroups,groupNames,replics,...)
