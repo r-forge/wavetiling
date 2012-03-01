@@ -1,32 +1,32 @@
-setMethod("getFilteredIndices",signature("mapFilterProbe"),function(object)
+setMethod("getFilteredIndices",signature("MapFilterProbe"),function(object)
 {
 	return(object@filteredIndices)
 }
 )
 
-setMethod("getChromosome",signature("mapFilterProbe"),function(object)
+setMethod("getChromosome",signature("MapFilterProbe"),function(object)
 {
 	return(object@chromosome)
 }
 )
 
-setMethod("getPosition",signature("mapFilterProbe"),function(object)
+setMethod("getPosition",signature("MapFilterProbe"),function(object)
 {
 	return(object@position)
 }
 )
 
-setMethod("getStrand",signature("mapFilterProbe"),function(object)
+setMethod("getStrand",signature("MapFilterProbe"),function(object)
 {
 	return(object@strand)
 }
 )
 
-setMethod("selectProbesFromFilterOverlap",signature("mapFilterProbe"),function(object,chromosome,strand=c("forward","reverse"),minPos=min(getPosition(object)),maxPos=max(getPosition(object)))
+setMethod("selectProbesFromFilterOverlap",signature("MapFilterProbe"),function(object,chromosome,strand=c("forward","reverse"),minPos=min(getPosition(object)),maxPos=max(getPosition(object)))
 {
-	if (class(object)!="mapFilterProbe")
+	if (class(object)!="MapFilterProbe")
 		{
-			stop("class of object is not mapFilterProbe. Use 'filterOverlap()' to create such an object.")
+			stop("class of object is not MapFilterProbe. Use 'filterOverlap()' to create such an object.")
 		}
 	if ((length(grep("chr",chromosome))>0) | (length(grep("Chr",chromosome))>0))
 	{
@@ -42,7 +42,7 @@ setMethod("selectProbesFromFilterOverlap",signature("mapFilterProbe"),function(o
 	selPos <- (1:length(getFilteredIndices(object)))[(getPosition(object)>=minPos)&(getPosition(object)<=maxPos)]
 	selectionInit <- intersect(selHlp,selPos)
 	selection <- getFilteredIndices(object)[selectionInit]
-	return(list(selection=selection,selectionFiltered=selectionInit))
+	return(list(selection=selection,selectionInit=selectionInit))
 }
 )
 

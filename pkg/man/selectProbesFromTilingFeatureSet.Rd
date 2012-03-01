@@ -1,65 +1,32 @@
 \name{selectProbesFromTilingFeatureSet}
 \alias{selectProbesFromTilingFeatureSet}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-select probes (from WaveTilingFeatureSet)
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{select probes from \code{WaveTilingFeatureSet} object}
 
-\usage{
-selectProbesFromTilingFeatureSet(object, chromosome, strand=c("forward","reverse"), minPos, maxPos)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the probe indices from a \code{WaveTilingFeatureSet} object that map to a region between two specified genomic positions}
+
+\usage{selectProbesFromTilingFeatureSet(object, chromosome, strand=c("forward","reverse"), minPos, maxPos)}
+
 \arguments{
-  \item{object}{
-object of class WaveTilingFeatureSet
-}
-  \item{chromosome}{
-chromosome
-}
-  \item{strand}{
-strand
-}
-  \item{minPos}{
-minimum position
-}
-  \item{maxPos}{
-maximum position
-}
+  \item{object}{object of class \code{WaveTilingFeatureSet}}
+  \item{chromosome}{chromosome}
+  \item{strand}{strand}
+  \item{minPos}{minimum genomic position}
+  \item{maxPos}{maximum genomic position}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{vector of integers indicating the probe indices}
 
-\value{
-numeric vector
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  data(leafdev)
+  leafdev <- as(leafdev,"WaveTilingFeatureSet")
+  tt <- selectProbesFromTilingFeatureSet(leafdev,chromosome=1,strand="forward",minPos=22000,maxPos=26000)
+  length(tt)
+  head(tt)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

@@ -241,13 +241,21 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 	filteredPosition <- filteredPosition[order(filteredIndices)]
 	filteredStrand <- filteredStrand[order(filteredIndices)]
 	filteredIndices <- filteredIndices[order(filteredIndices)]
-	out <- new("mapFilterProbe",filteredIndices=filteredIndices,chromosome=filteredChromosome,position=filteredPosition,strand=filteredStrand)
+	out <- new("MapFilterProbe",filteredIndices=filteredIndices,chromosome=filteredChromosome,position=filteredPosition,strand=filteredStrand)
 	return(out)
 }
 )
 
 setMethod("selectProbesFromTilingFeatureSet",signature("WaveTilingFeatureSet"),function(object,chromosome,strand=c("forward","reverse"),minPos,maxPos)
 {
+	if (strand=="forward")
+	{
+		strand <- 1
+	}
+	if (strand=="reverse")
+	{
+		strand <- 0
+	}
 	if (!inherits(object,"TilingFeatureSet")) #class(object)!="TilingFeatureSet")
 		{
 			stop("class of object is not TilingFeatureSet.")
@@ -268,7 +276,7 @@ setMethod("selectProbesFromTilingFeatureSet",signature("WaveTilingFeatureSet"),f
 	{
 		maxPos <- max(pmPosition(object))
 	}
-	if (maxPos < max(pmPosition(object)))
+	if (maxPos > max(pmPosition(object)))
 	{
 		maxPos <- max(pmPosition(object))
 	}
@@ -303,7 +311,7 @@ setMethod("bgCorrQn",signature("WaveTilingFeatureSet"),function(object,useMapFil
 
 
 
-setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filter.overlap=NULL,design=c("time","circadian","group","factorial","custom"),n.levels,factor.levels=NULL,chromosome,strand,minPos,maxPos,design.matrix=NULL,var.eps=c("margLik","mad"),prior=c("normal","improper"),eqsmooth=FALSE,max.it=20,wave.filt="haar",skiplevels=NULL,trace=FALSE,save.obs=c("plot","regions","all"))
+setMethod("wfm.fit",signature("WaveTilingFeatureSet"),function(object,filter.overlap=NULL,design=c("time","circadian","group","factorial","custom"),n.levels,factor.levels=NULL,chromosome,strand,minPos,maxPos,design.matrix=NULL,var.eps=c("margLik","mad"),prior=c("normal","improper"),eqsmooth=FALSE,max.it=20,wave.filt="haar",skiplevels=NULL,trace=FALSE,save.obs=c("plot","regions","all"))
 {
 # construct filtered data set
 	if ((names(pData(object))[1]!="group")|((names(pData(object))[2]!="replicate")))
@@ -312,9 +320,9 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
 	}
 	if (!is.null(filter.overlap))
 	{
-		if (!inherits(filter.overlap,"mapFilterProbe"))
+		if (!inherits(filter.overlap,"MapFilterProbe"))
 		{
-			stop("class of filter.overlap is not mapFilterProbe. Use 'filterOverlap()' to create such an object.")
+			stop("class of filter.overlap is not MapFilterProbe. Use 'filterOverlap()' to create such an object.")
 		}
 		if (missing(minPos))
 		{
@@ -325,7 +333,7 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
 			maxPos <- max(getPosition(filter.overlap))
 		}
 		probeId <- selectProbesFromFilterOverlap(filter.overlap,chromosome,strand,minPos=minPos,maxPos=maxPos)
-		dataInit <- data.frame(cbind(exprs(object)[probeId$selectionFiltered,],getPosition(filter.overlap)[probeId$selectionFiltered]))
+		dataInit <- data.frame(cbind(exprs(object)[probeId$selectionInit,],getPosition(filter.overlap)[probeId$selectionInit]))
 		#attention probeId$selection or probeId$selectionFiltered
 		
 	} else
@@ -368,7 +376,7 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
 		X <- desgn$Xorig
 	} else
 	{
-		if(mode(design.matrix) != "numeric") stop("design.matrix must be a numeric matrix")
+		if (mode(design.matrix) != "numeric") stop("design.matrix must be a numeric matrix")
 		## must matrix be full rank?
 		X <- design.matrix
 		Z <- qr.Q(qr(X))
@@ -416,20 +424,20 @@ setMethod("wfm.analysis",signature("WaveTilingFeatureSet"),function(object,filte
 		fit$phi <- matrix()
 	}
 
-	genomeLoc <- new("genomeInfo",chromosome=chromosome,strand=strand,minPos=min(Gloc),maxPos=max(Gloc))
+	genomeLoc <- new("GenomeInfo",chromosome=chromosome,strand=strand,minPos=min(Gloc),maxPos=max(Gloc))
         replics <- getReplics(object)
 
         if (design=="time") {
-	  fitObject <- new("WfmFitTime",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	  fitObject <- new("WfmFitTime",betaWav=fit$beta_MAP,varbetaWav=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
 	}
 	else if (design=="circadian") {
-	  fitObject <- new("WfmFitCircadian",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	  fitObject <- new("WfmFitCircadian",betaWav=fit$beta_MAP,varbetaWav=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
 	}
 	else if (design %in% c("group","factorial")) {
-	  fitObject <- new("WfmFitFactor",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	  fitObject <- new("WfmFitFactor",betaWav=fit$beta_MAP,varbetaWav=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
 	}
 	else if (design=="custom") {
-	  fitObject <- new("WfmFitCustom",betaMAP=fit$beta_MAP,varbetaMAP=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
+	  fitObject <- new("WfmFitCustom",betaWav=fit$beta_MAP,varbetaWav=fit$varbeta_MAP,smoothPar=fit$phi,varEps=fit$varEps,dataOrigSpace=Y,dataWaveletSpace=D,design.matrix=X,phenoData=pData(object),genome.info=genomeLoc,n.levels=n.levels,probePosition=Gloc,wave.filt=wave.filt,Kj=fit$Kj,prior=prior,F=F,varF=varF,P=P,Z=Z,noGroups=noGroups,replics=replics)
 	}
 
 	return (fitObject);

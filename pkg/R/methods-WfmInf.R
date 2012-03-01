@@ -46,7 +46,7 @@
  
  setMethod("getVarEff",signature("WfmInf"),function(object)
  {
- 	return(object@vareff)
+ 	return(object@varEff)
  })
 
 
@@ -153,6 +153,6 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 	return(out)
 })
 
-setMethod("plot",signature=c(fit="WfmFit",inf="WfmInf"),plotWfm) 
+setMethod("plot",signature=c(fit="WfmFit",inf="WfmInf"),plotWfm)
 
 

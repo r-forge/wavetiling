@@ -10,7 +10,7 @@ Imports: methods, affy, preprocessCore
 Suggests:
 Description: This package is designed to conduct transcriptome analysis for tiling arrays based on fast wavelet-based functional models.
 Collate: allClasses.R allGenerics.R helperFunctions.R
-        initialize-methods.R methods-mapFilterProbe.R
+        initialize-methods.R methods-MapFilterProbe.R
         methods-WaveTilingFeatureSet.R methods-WfmFit.R methods-WfmInf.R show-methods.R
 URL: https://r-forge.r-project.org/projects/wavetiling/
 LazyLoad: yes

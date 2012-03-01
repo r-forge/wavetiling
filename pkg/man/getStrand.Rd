@@ -1,53 +1,30 @@
 \name{getStrand}
 \alias{getStrand}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-get chromosome strand
-}
+\title{get chromosome strand information}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\description{Extract the strand orientation info for the filtered probes of a \code{MapFilterProbe}-object or from a \code{WfmFit}-object.}
 
-\usage{
-getStrand(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\usage{getStrand(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm (genomeInfo?)
-}
+  \item{object}{object of class \code{MapFilterProbe} or of class \code{WfmFit}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{If applied on a \code{MapFilterProbe} object, a vector of characters is returned, providing the chromosome strand orientation of each filtered element. If applied on a \code{WfmFit} object, a character is returned providing the chromsome strand orientation for which the model for transcriptome analysis was fitted.}
 
-\value{
-character
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevMapAndFilterTAIR9)
+  tt <- getStrand(leafdevMapAndFilterTAIR9)
+  head(tt)
+  
+  data(leafdevFit)
+  getStrand(leafdevFit)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

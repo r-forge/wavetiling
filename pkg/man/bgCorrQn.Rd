@@ -1,51 +1,28 @@
 \name{bgCorrQn}
 \alias{bgCorrQn}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Background correction and quantile normalization
-}
-\description{
-Function to perform background correction and quantile normalization of tiling arryays
-}
-\usage{
-bgCorrQn(object, useMapFilter=NULL)
-}
-%- maybe also 'usage' for other objects documented here.
+
+\title{Background correction and quantile normalization}
+
+\description{Function to perform background correction and quantile normalization of tiling arrays}
+
+\usage{bgCorrQn(object, useMapFilter=NULL)}
+
 \arguments{
-  \item{object}{
-object of class WaveTilingFeatureSet
-}
-  \item{useMapFilter}{
-NULL or object of class mapFilterProbe indicating the probes to use for background correction and quantile normalization
-}
-  \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
-}
-}
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-object of class TilingFeatureSet containing the background-corrected and quantile-normalized intensity signals
-}
-\references{
-## %% ~put references to the literature/web site here ~
-}
-\author{
-## %%  ~~who you are~~
-}
-\note{
-## %%  ~~further notes~~
-}
+  \item{object}{object of class \code{WaveTilingFeatureSet}}
+  \item{useMapFilter}{NULL or object of class \code{mapFilterProbe} indicating the probes to use for background correction and quantile normalization}
+  }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+\value{object of class \code{WaveTilingFeatureSet} containing the background-corrected and quantile-normalized intensity signals}
 
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
+
 \examples{
-##
+\dontrun{
+  data(leafdev)
+  leafdev <- as(leafdev,"WaveTilingFeatureSet")
+  data(leafdevMapAndFilterTAIR9)
+  leafdevBQ <- bgCorrQn(leafdev,useMapFilter=leafdevMapAndFilterTAIR9)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

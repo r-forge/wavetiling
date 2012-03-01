@@ -1,53 +1,26 @@
 \name{getTwoSided}
 \alias{getTwoSided}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-One- or two-sided inference
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{One- or two-sided inference}
 
-\usage{
-getTwoSided(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the direction of inference conducted in the wavelet-based transcriptome analysis.}
+
+\usage{getTwoSided(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmInf}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{numeric vector indicating for each type of test whether a two-sided analysis was used (1) or not (0)}
 
-\value{
-logical
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevInfCompare)
+  getTwoSided(leafdevInfCompare)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

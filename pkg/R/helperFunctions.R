@@ -126,12 +126,10 @@ MapMar <- function(D,X,vareps,J=0,eqsmooth=TRUE)
 	phi <- B
 	if (eqsmooth)
 	{
-		#out <- .C("MAPMARGEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
-		out <- .C("MAPMARGEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
+		out <- .C("MAPMARGEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
 	} else
 	{
-		#out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
-		out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
+		out <- .C("MAPMARG",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
 	}
 	names(out) <- c("beta_MAP","varbeta_MAP","phi")
 	dim(out[[1]]) <- c(K,q)
@@ -160,12 +158,10 @@ MapMarImp <- function(D,X,vareps,J=0,eqsmooth=TRUE)
 	phi <- B
 	if (eqsmooth)
 	{
-		#out <- .C("MAPMARGIMPEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
-		out <- .C("MAPMARGIMPEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
+		out <- .C("MAPMARGIMPEQSMOOTH",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
 	} else
 	{
-		#out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
-		out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends))[4:6]
+		out <- .C("MAPMARGIMP",as.double(D),as.integer(K),as.double(vareps),as.double(B),as.double(varB),as.double(phi),as.double(X),as.double(diag(t(X)%*%X)),as.integer(q),as.integer(N),as.integer(ends), PACKAGE = "waveTiling")[4:6]
 	}
 	names(out) <- c("beta_MAP","varbeta_MAP","phi")
 	dim(out[[1]]) <- c(K,q)
@@ -322,7 +318,7 @@ makeDesign<-function(design=c("time","circadian","group","factorial"),replics, n
 		Xorig[,1] <- 1
 		Xorig[,2:noGroups] <- apply(desHelmert[,1:(noGroups-1)],2,rep,replics)
 	}
-	else if (method=="factorial")
+	else if (design=="factorial")
 	{
 		if (is.null(factor.levels))
 		{
@@ -362,7 +358,7 @@ makeDesign<-function(design=c("time","circadian","group","factorial"),replics, n
 
 #### makeContrasts
 makeContrasts <- function(contrasts, nlevels) {
-	if (contrasts=="compare") {  
+	if (contrasts=="compare") {
 		q <- nlevels*(nlevels-1)/2
 		contr <- matrix(0,nrow=q,ncol=nlevels)
 		hlp1 <- rep(2:nlevels,1:(nlevels-1))
@@ -379,7 +375,7 @@ makeContrasts <- function(contrasts, nlevels) {
 
 
 ##### plot
-plotWfm<-function(fit,inf,annoFile,minPos,maxPos,trackFeature="exon",overlayFeature=c("gene","transposable_element_gene"),two.strand=TRUE,plotData=TRUE,plotMean=TRUE,tracks=0)
+plotWfm <- function(fit,inf,annoFile,minPos,maxPos,trackFeature="exon",overlayFeature=c("gene","transposable_element_gene"),two.strand=TRUE,plotData=TRUE,plotMean=TRUE,tracks=0)
 {
 	if (missing(annoFile)) {stop("Annotation File is missing!!")}
 	Gloc <- getProbePosition(fit)
@@ -426,7 +422,7 @@ plotWfm<-function(fit,inf,annoFile,minPos,maxPos,trackFeature="exon",overlayFeat
 		{
 			names(trackInfo)[trackCount] <- "R"
 		}
-		overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand=strand,region=c(trackcount,trackCount),feature=overlayFeature,y=0.5)
+		overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand=strand,region=c(trackCount,trackCount),feature=overlayFeature,y=0.5)
 		trackCount <- trackCount + 1
 		gAxis <- makeGenomeAxis(add53 = TRUE,add35 = TRUE)
 		trackCount <- trackCount + 1

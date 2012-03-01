@@ -1,65 +1,36 @@
 \name{selectProbesFromFilterOverlap}
 \alias{selectProbesFromFilterOverlap}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-select probes (from FilterOverlap)
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{select probes from \code{MapFilterProbe} object}
 
-\usage{
-selectProbesFromFilterOverlap(object, chromosome, strand=c("forward","reverse"), minPos=min(getPosition(object)), maxPos=max(getPosition(object)))
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the probe indices from a \code{MapFilterProbe} object that map to a region between two specified genomic positions}
+
+\usage{selectProbesFromFilterOverlap(object, chromosome, strand=c("forward","reverse"), minPos=min(getPosition(object)), maxPos=max(getPosition(object)))}
+
 \arguments{
-  \item{object}{
-object of class FilterOverlap
-}
-  \item{chromosome}{
-chromosome
-}
-  \item{strand}{
-strand
-}
-  \item{minPos}{
-minimum position
-}
-  \item{maxPos}{
-maximum Position
-}
+  \item{object}{object of class \code{MapFilterProbe}}
+  \item{chromosome}{chromosome}
+  \item{strand}{strand}
+  \item{minPos}{minimum genomic position}
+  \item{maxPos}{maximum genomic position}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{A list of 2 elements is returned. The first element "selection" gives the probe indices in the filtered \code{MapFilterProbe} object; the second element "selectionInit" gives the probe indices in the original \code{WaveTilingFeatureSet} object.}
 
-\value{
-list
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevMapAndFilterTAIR9)
+  tt <- selectProbesFromFilterOverlap(leafdevMapAndFilterTAIR9,chromosome=1,strand="forward",minPos=10000,maxPos=15000)
+  sel <- tt$selection
+  length(sel)
+  head(sel)
+  selfil <- tt$selectionFiltered
+  length(selfil)
+  head(selfil)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

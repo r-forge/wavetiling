@@ -1,4 +1,4 @@
-## useDynLib("waveTiling")
+useDynLib("waveTiling")
 
 ## Importing
 importClassesFrom(methods, ANY, character, data.frame, "function", integer, matrix,                     numeric)
@@ -40,7 +40,7 @@ importFrom(graphics, plot)
 ## Exporting
 
 ## Classes
-exportClasses(WaveTilingFeatureSet, mapFilterProbe, genomeInfo, WfmFit, WfmInf, WfmFitTime, WfmFitFactor, WfmFitCircadian, WfmFitCustom, WfmInfCompare, WfmInfEffects )
+exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf, WfmFitTime, WfmFitFactor, WfmFitCircadian, WfmFitCustom, WfmInfCompare, WfmInfEffects )
 
 ## exportMethods(show)
 exportMethods(show)
@@ -49,14 +49,14 @@ exportMethods(show)
 exportMethods(plot)
 
 ## waveTilingFeatureSet methods
-exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet,bgCorrQn,wfm.analysis)
+exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap,                      selectProbesFromTilingFeatureSet,bgCorrQn,wfm.fit)
 
-## mapFilterProbe methods
+## MapFilterProbe methods
 exportMethods(getFilteredIndices, getPosition,                    selectProbesFromFilterOverlap)
 
 ## WfmFit methods
-exportMethods(getProbePosition, getNoProbes, getBetaMAP, getVarBetaMAP, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getWfmMethod, getDesign, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,getPrior, getAlpha, getDelta, getTwoSided, getRescale, getSigProbes,getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions)
+exportMethods(getProbePosition, getNoProbes, getBetaWav, getVarBetaWav, getSmoothPar,               getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos,                        getMaxPos, getNoLevels, getDesignMatrix, getPhenoInfo,                        getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,getPrior, getAlpha, getDelta, getTwoSided, getSigProbes,getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions)
 
 ## Other
-export(cel2TilingFeatureSet, makeContrasts, makeDesign)
+export(cel2TilingFeatureSet, makeContrasts, makeDesign, plotWfm)
 

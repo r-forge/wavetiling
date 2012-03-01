@@ -8,14 +8,14 @@ setMethod("getNoProbes",signature("WfmFit"),function(object)
 	return(length(object@probePosition))
 })
 
-setMethod("getBetaMAP",signature("WfmFit"),function(object)
+setMethod("getBetaWav",signature("WfmFit"),function(object)
 {
-	return(object@betaMAP)
+	return(object@betaWav)
 })
 
-setMethod("getVarBetaMAP",signature("WfmFit"),function(object)
+setMethod("getVarBetaWav",signature("WfmFit"),function(object)
 {
-	return(object@varbetaMAP)
+	return(object@varbetaWav)
 })
 
 setMethod("getSmoothPar",signature("WfmFit"),function(object)
@@ -101,16 +101,10 @@ setMethod("getF",signature("WfmFit"),function(object)
 	return(object@F)
 })
 
-setMethod("getP",signature("WfmFit"),function(object)
+setMethod("getVarF",signature("WfmFit"),function(object)
 {
-	return(object@P)
+	return(object@varF)
 })
-
-setMethod("getZ",signature("WfmFit"),function(object)
-{
-	return(object@Z)
-})
-
 
 setMethod("wfm.inference",signature("WfmFit"),function(object,contrast.matrix=NULL,contrasts=c("compare","means","effects","overallMean"),delta=NULL,two.sided=NULL,minRunPos=90,minRunProbe=1,alpha=0.05,nsim=1000,rescale=NULL)
 {
@@ -133,15 +127,73 @@ setMethod("wfm.inference",signature("WfmFit"),function(object,contrast.matrix=NU
 	Z <- object@Z
 
 	if (!is.null(contrast.matrix)) {
-	      ## Given contrast matrix (CustomFit)
-	      # Further implementation needed
-	      warning("Custom Inference Procedure Not Implemented yet!")
+		## Given contrast matrix (CustomFit)
+		if (ncol(contrast.matrix) != nrow(Xdes))
+		{
+			stop("Wrong number of columns in contrast matrix.")
+		}
+		q <- nrow(contrast.matrix)
+		if (is.null(rescale))
+		{
+			rescale <- contrast.matrix%*%Xdes
+			rescale <- rbind(c(mean(Xdes[,1]),rep(0,noGroups-1)),rescale)
+		}
+		eff <- rescale%*%solve(t(Z)%*%X)%*%F
+		varEff <- (rescale%*%solve(t(Z)%*%X))^2%*%varF
+		
+		if (length(alpha)==1)
+		{
+			alpha <- rep(alpha,q+1)
+		}
+		FDR <- matrix(0,nrow=q+1,ncol=P)
+		CI <- rep(0,P*(q+1)*2)
+		dim(CI) <- c(q+1,2,P)
+		if (is.null(givenDelta))
+		{
+			delta <- c(median(getDataOrigSpace(object)),rep(log(1.1,2),q))
+		} else if (length(givenDelta)==1)
+		{
+			delta <- rep(delta,q+1)
+		} else if ((length(givenDelta)==2) & givenDelta[1]=="median")
+		{
+			delta <- rep(0,q+1)
+			delta[1] <- median(getDataOrigSpace(object))
+			delta[2:(q+1)] <- rep(as.numeric(givenDelta[2]),q)
+		} else if ((length(givenDelta)==q+1) & givenDelta[1]=="median")
+		{
+			delta <- rep(0,q+1)
+			delta[1] <- median(getDataOrigSpace(object))
+			delta[2:(q+1)] <- as.numeric(givenDelta[2:(q+1)])
+		}
+		if (is.null(two.sided))
+		{
+			two.sided <- c(0,rep(1,q))
+		}
+		for (i in 1:(q+1))
+		{
+			if (two.sided[i]==1)
+			{
+				#FDR[i,] <- pnorm(delta[i],abs(eff[i,]),sqrt(varEff[i,]))
+				FDRUp <- pnorm(delta[i],eff[i,],sqrt(varEff[i,]))
+				FDRDown <- 1-pnorm(-delta[i],eff[i,],sqrt(varEff[i,]))
+				FDR[i,] <- pmin(FDRUp,FDRDown)
+			}
+			if (two.sided[i]==0)
+			{
+				FDR[i,] <- pnorm(delta[i],eff[i,],sqrt(varEff[i,]))
+			}
+			CI[i,1,] <- qnorm(alpha/2,eff[i,],sqrt(varEff[i,]))
+			CI[i,2,] <- qnorm(1-alpha/2,eff[i,],sqrt(varEff[i,]))
+		}
+		
+		# Further implementation needed
+		# warning("Custom Inference Procedure Not Implemented yet!")
 	}
 	else if (contrasts=="compare") {
 		if (inherits(object,"WfmFitFactor") | inherits(object,"WfmFitTime") | inherits(object,"WfmFitCircadian") | inherits(object,"WfmFitCustom")) {
 			#q <- noGroups*(noGroups-1)/2
 			q <- noGroups*(noGroups-1)/2
-			contr <- makeContrasts(contrasts=contrasts,nlevels=noGroups);
+			contr <- makeContrasts(contrasts=contrasts,nlevels=noGroups)
 			noBetas <- noGroups
 			if (is.null(rescale))
 			{
@@ -378,7 +430,7 @@ setMethod("wfm.inference",signature("WfmFit"),function(object,contrast.matrix=NU
 	      warning("Contrast 'overall mean' not yet implemented!")
 	}
 	else {
-	      stop ("No contrast matrix of contrast statement specified!")
+	      stop ("No contrast matrix or contrast statement specified!")
 	}
 	Gloc <- object@probePosition
 

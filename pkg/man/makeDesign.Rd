@@ -1,59 +1,25 @@
 \name{makeDesign}
 \alias{makeDesign}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Construct design matrix
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Construct design matrix}
 
-\usage{
-makeDesign(object, method=c("twoGroup","compareGroupsTime","compareGroupsFactor","circadian","twoFactors","meansByGroupTime","meansByGroupFactor","effectsTime"), factor.levels=NULL)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Helper function to construct a design matrix to be used in the wavelet-based transcriptome analysis.}
+
+\usage{makeDesign(design=c("time","circadian","group","factorial"), replics, noGroups, factor.levels=NULL)}
+
 \arguments{
-  \item{object}{
-object of class WaveTilingFeatureSet
-}
-  \item{method}{
-Wfm method to use
-}
-  \item{factor.levels}{
-Factor levels to use if applying two-factor design
-}
+  \item{design}{character indicating the design of the tiling array experiment. Currently, the following designs are implemented: \code{time} for a time-course design based on polynomial contrasts; \code{circadian} for circadian rhythm analysis; \code{group} for unordered one-factor designs; \code{factorial} for two-factor designs}
+  \item{replics}{Numeric vector containing the number of replicates for each group. The vector length should be equal to the indicated number of groups.}
+  \item{noGroups}{Number of groups in the tiling array experiment}
+  \item{factor.levels}{Factor levels to use if applying two-factor design}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{numeric matrix}
 
-\value{
-matrix
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-##%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+  makeDesign(design="time",replics=rep(3,6),noGroups=6)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+
 \keyword{manip}

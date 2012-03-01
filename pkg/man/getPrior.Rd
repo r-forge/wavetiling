@@ -1,53 +1,26 @@
 \name{getPrior}
 \alias{getPrior}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-get prior type
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{get prior type or distribution}
 
-\usage{
-getPrior(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the the type or distribution of the prior imposed on the functional effects in the wavelet space.}
+
+\usage{getPrior(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm %%     ~~Describe \code{object} here~~
-}
+  \item{object}{object of class \code{WfmFit}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{character}
 
-\value{
-character
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevFit)
+  getPrior(leafdevFit)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

@@ -1,54 +1,28 @@
 \name{getFilteredIndices}
 \alias{getFilteredIndices}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-get filtered indices
-}
+\title{get filtered indices}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\description{Extract the filtered probe indices from a \code{MapFilterProbe}-object.}
 
-\usage{
-getFilteredIndices(object)
-}
+\usage{getFilteredIndices(object)}
 
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{
-object of class mapFilterProbe
-}
+  \item{object}{object of class \code{MapFilterProbe}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{numeric vector containing the filtered probe indices}
 
-\value{
-numeric vector
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevMapAndFilterTAIR9)
+  tt <- getFilteredIndices(leafdevMapAndFilterTAIR9)
+  length(tt)
+  head(tt)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

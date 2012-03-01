@@ -1,11 +1,11 @@
-setMethod("show",signature("mapFilterProbe"),function(object)
+setMethod("show",signature("MapFilterProbe"),function(object)
 {
 	cat("Remapped and filtered probe information\n")
 	cat("No. of filtered probes:",length(object@filteredIndices),"\n")
 }
 )
 
-setMethod("show",signature("genomeInfo"),function(object)
+setMethod("show",signature("GenomeInfo"),function(object)
 {
 	cat("Genome Info :\n")
 	cat("\tChromosome:",object@chromosome,"\n")

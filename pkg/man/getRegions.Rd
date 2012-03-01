@@ -1,53 +1,29 @@
 \name{getRegions}
 \alias{getRegions}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get regions
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Get singificant regions}
 
-\usage{
-getRegions(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the significant regions from the wavelet-based transcriptome analysis. Regions are given in terms of the probe ids they map onto.}
+
+\usage{getRegions(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmInf}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{list of IRanges containing start and end positions of the significant regions for the corresponding analysis.}
 
-\value{
-List of matrices containing start and end positions of regions
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-##%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevInfCompare)
+  tt <- getRegions(leafdevInfCompare)
+  class(tt)
+  class(tt[[2]])
+  tt[[2]]
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

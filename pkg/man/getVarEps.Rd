@@ -1,54 +1,26 @@
 \name{getVarEps}
 \alias{getVarEps}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get residual variance
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Get residual variance in wavelet space}
 
-\usage{
-getVarEps(object)
-}
+\description{Extract the estimated residual variance in the wavelet space. One variance parameter is estimated per wavelet level.}
 
-%- maybe also 'usage' for other objects documented here.
+\usage{getVarEps(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmFit}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{numeric vector}
 
-\value{
-numeric
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevFit)
+  getVarEps(leafdevFit)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

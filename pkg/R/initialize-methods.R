@@ -1,5 +1,5 @@
-#mapFilterProbe
-setMethod("initialize","mapFilterProbe",function(.Object,filteredIndices,chromosome,position,strand)
+#MapFilterProbe
+setMethod("initialize","MapFilterProbe",function(.Object,filteredIndices,chromosome,position,strand)
 {
 	.Object@filteredIndices <- filteredIndices
 	.Object@chromosome <- chromosome
@@ -8,11 +8,29 @@ setMethod("initialize","mapFilterProbe",function(.Object,filteredIndices,chromos
 	return(.Object)
 })
 
-#WfmFit
-setMethod("initialize","WfmFit",function(.Object,betaMAP,varbetaMAP,smoothPar,varEps,dataOrigSpace,dataWaveletSpace,design.matrix,phenoData,genome.info,n.levels,probePosition,wave.filt,Kj,prior,F,varF,P,Z,noGroups,replics)
+#WaveTilingFeatureSet
+setMethod("initialize","WaveTilingFeatureSet",function (.Object)
 {
-	.Object@betaMAP <- betaMAP
-	.Object@varbetaMAP <- varbetaMAP
+	callNextMethod(.Object);
+}
+)
+
+
+#GenomeInfo
+setMethod("initialize","GenomeInfo",function(.Object,chromosome,strand,minPos,maxPos)
+{
+	.Object@chromosome <- chromosome
+	.Object@strand <- strand
+	.Object@minPos <- minPos
+	.Object@maxPos <- maxPos
+	return(.Object)	
+})
+
+#WfmFit
+setMethod("initialize","WfmFit",function(.Object,betaWav,varbetaWav,smoothPar,varEps,dataOrigSpace,dataWaveletSpace,design.matrix,phenoData,genome.info,n.levels,probePosition,wave.filt,Kj,prior,F,varF,P,Z,noGroups,replics)
+{
+	.Object@betaWav <- betaWav
+	.Object@varbetaWav <- varbetaWav
 	.Object@smoothPar <- smoothPar
 	.Object@varEps <- varEps
 	.Object@dataOrigSpace <- dataOrigSpace
@@ -53,22 +71,6 @@ setMethod("initialize","WfmInf",function(.Object, alpha, delta, two.sided, sigPr
 	return(.Object)
 })
 
-#genomeInfo
-setMethod("initialize","genomeInfo",function(.Object,chromosome,strand,minPos,maxPos)
-{
-	.Object@chromosome <- chromosome
-	.Object@strand <- strand
-	.Object@minPos <- minPos
-	.Object@maxPos <- maxPos
-	return(.Object)	
-})
-
-#waveTilingFeatureSet
-setMethod("initialize","WaveTilingFeatureSet",function (.Object)
-{
-	callNextMethod(.Object);
-}
-)
 
 ## Subclasses
 setMethod("initialize","WfmFitTime",function (.Object, ...)

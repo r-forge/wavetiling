@@ -1,52 +1,29 @@
 \name{getGenomicRegions}
 \alias{getGenomicRegions}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get genomic regions
-}
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
 
-\usage{
-getGenomicRegions(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\title{Get significantg genomic regions}
+
+\description{Extract the significant genomic regions from the wavelet-based transcriptome analysis.}
+
+\usage{getGenomicRegions(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmInf}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{list of IRanges containing genomic start and end positions of the significant regions for the corresponding analysis.}
 
-\value{
-list of matrices with start and end positions of genomic regions
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-##%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevInfCompare)
+  tt <- getGenomicRegions(leafdevInfCompare)
+  class(tt)
+  class(tt[[2]])
+  tt[[2]]
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

@@ -1,3 +1,11 @@
+# temporary(?) pmStrand
+
+setGeneric("pmStrand",function(object)
+{
+	standardGeneric("pmStrand")
+}
+)
+
 # method data extraction
 
 setGeneric("addPheno",function(object, noGroups, groupNames, replics, ...)
@@ -7,7 +15,7 @@ setGeneric("addPheno",function(object, noGroups, groupNames, replics, ...)
 )
 
 
-setGeneric("filterOverlap",function(object, remap=TRUE, fastaFile, chrId,  strand=c("forward","reverse","both"), MM=FALSE, ...)
+setGeneric("filterOverlap",function(object, remap=TRUE, BSgenomeObject, chrId,  strand=c("forward","reverse","both"), MM=FALSE, ...)
 {
 	standardGeneric("filterOverlap")
 }
@@ -38,9 +46,9 @@ setGeneric("selectProbesFromFilterOverlap",function(object, chromosome, strand=c
 # }
 # )
 
-setGeneric("wfm.analysis",function(object, filter.overlap=NULL, design=c("time","circadian","group","factorial","custom"), n.levels, factor.levels=NULL, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), eqsmooth=TRUE, max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"))
+setGeneric("wfm.fit",function(object, filter.overlap=NULL, design=c("time","circadian","group","factorial","custom"), n.levels, factor.levels=NULL, chromosome, strand, minPos, maxPos, design.matrix=NULL, var.eps=c("margLik","mad"), prior=c("normal","improper"), eqsmooth=FALSE, max.it=20, wave.filt="haar", skiplevels=NULL, trace=FALSE, save.obs=c("plot","regions","all"))
 {
-	standardGeneric("wfm.analysis")
+	standardGeneric("wfm.fit")
 }
 )
 
@@ -107,15 +115,15 @@ setGeneric("getNoProbes",function(object)
 }
 )
 
-setGeneric("getBetaMAP",function(object)
+setGeneric("getBetaWav",function(object)
 {
-	standardGeneric("getBetaMAP")
+	standardGeneric("getBetaWav")
 }
 )
 
-setGeneric("getVarBetaMAP",function(object)
+setGeneric("getVarBetaWav",function(object)
 {
-	standardGeneric("getVarBetaMAP")
+	standardGeneric("getVarBetaWav")
 }
 )
 
@@ -160,11 +168,12 @@ setGeneric("getWfmMethod",function(object)
 	standardGeneric("getWfmMethod")
 }
 )
-setGeneric("getDesign",function(object)
+setGeneric("getDesignMatrix",function(object)
 {
-	standardGeneric("getDesign")
+	standardGeneric("getDesignMatrix")
 }
 )
+
 setGeneric("getWfmDesign",function(object)
 {
 	standardGeneric("getWfmDesign")
@@ -175,6 +184,7 @@ setGeneric("getPhenoInfo",function(object)
 	standardGeneric("getPhenoInfo")
 }
 )
+
 setGeneric("getDataOrigSpace",function(object)
 {
 	standardGeneric("getDataOrigSpace")
@@ -185,6 +195,7 @@ setGeneric("getDataWaveletSpace",function(object)
 	standardGeneric("getDataWaveletSpace")
 }
 )
+
 setGeneric("getWaveletFilter",function(object)
 {
 	standardGeneric("getWaveletFilter")
@@ -195,91 +206,88 @@ setGeneric("getKj",function(object)
 	standardGeneric("getKj")
 }
 )
+
 setGeneric("getPrior",function(object)
 {
 	standardGeneric("getPrior")
 }
 )
+
 setGeneric("getAlpha",function(object)
 {
 	standardGeneric("getAlpha")
 }
 )
+
 setGeneric("getDelta",function(object)
 {
 	standardGeneric("getDelta")
 }
 )
+
 setGeneric("getTwoSided",function(object)
 {
 	standardGeneric("getTwoSided")
 }
 )
-setGeneric("getRescale",function(object)
-{
-	standardGeneric("getRescale")
-}
-)
+
 setGeneric("getSigProbes",function(object)
 {
 	standardGeneric("getSigProbes")
 }
 )
+
 setGeneric("getRegions",function(object)
 {
 	standardGeneric("getRegions")
 }
 )
+
 setGeneric("getGenomicRegions",function(object)
 {
 	standardGeneric("getGenomicRegions")
 }
 )
+
 setGeneric("getFDR",function(object)
 {
 	standardGeneric("getFDR")
 }
 )
+
 setGeneric("getCI",function(object)
 {
 	standardGeneric("getCI")
 }
 )
+
 setGeneric("getF",function(object)
 {
 	standardGeneric("getF")
 }
 )
+
 setGeneric("getVarF",function(object)
 {
 	standardGeneric("getVarF")
 }
 )
+
 setGeneric("getEff",function(object)
 {
 	standardGeneric("getEff")
 }
 )
+
 setGeneric("getVarEff",function(object)
 {
 	standardGeneric("getVarEff")
 }
 )
+
 setGeneric("getDesignMatrix",function(object)
 {
 	standardGeneric("getDesignMatrix")
-}
-)
-
-setGeneric("getP",function(object)
-{
-	standardGeneric("getP")
-}
-)
-
-setGeneric("getZ",function(object)
-{
-	standardGeneric("getZ")
 }
 )
 
@@ -305,6 +313,6 @@ if (!isGeneric("plot")) {
   setGeneric("plot",function(fit,inf,...){
 	standardGeneric("plot")
   }
-) 
+)
 }
 

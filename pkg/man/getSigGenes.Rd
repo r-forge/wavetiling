@@ -1,55 +1,31 @@
 \name{getSigGenes}
 \alias{getSigGenes}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get significant genes
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Get significant genes}
 
-\usage{
-getSigGenes(object,annoFile)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the annotated regions (often genes) that overlap with the significant regions found in the wavelet-based transcriptome analysis.}
+
+\usage{getSigGenes(fit,inf,annoFile)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
-  \item{annoFile}{
-annotation file
-}
+  \item{fit}{object of class \code{WfmFit}}
+  \item{inf}{object of class \code{WfmInf}}
+  \item{annoFile}{annotation file. This annotation file should be a data.frame with (at least) the following information: \code{chromosome} giving the chromosme of the annotated region; \code{strand} providing the strand orientation of the annotated region; \code{start} and \code{end} containing the start and end position of the annotated region; \code{feature} giving the type of the annotated region (gene, pseudogene, exon,...); \code{ID} containing the annotation ID of the annotated region.}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-GRangesList object
-}
+\value{GRangesList object. In the elementMetadata of the GRanges elements \code{percOverGene} gives the percentage of basepair overlap of the annotated regions by the detected significant region in the analysis; \code{percOverReg} gives the percentage of basepair overlap of the detected singificant region in the analysis with the annotated region; \code{totPercOverGene} gives per annotated region the total percentage of basepair overlap by all detected significant regions in the analysis that map to that annotated region.}
 
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(tair9gff)
+  data(leafdevFit)
+  data(leafdevInfCompare)
+  sigGenesCompare <- getSigGenes(fit=leafdevFit,inf=leafdevInfCompare,annoFile=tair9gff)
+  head(sigGenesCompare[[2]])
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

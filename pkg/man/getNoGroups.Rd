@@ -1,49 +1,27 @@
 \name{getNoGroups}
 \alias{getNoGroups}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get the number of groups or samples
-}
 
-\description{
-Accessor for the number of groups or samples in the tiling array experiment
-}
-\usage{
-getNoGroups(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\title{Extract the number of groups or samples}
+
+\description{Accessor for the number of groups or samples in the tiling array experiment from a \code{WaveTilingFeatureSet} object}
+
+\usage{getNoGroups(object)}
+
 \arguments{
-  \item{object}{
-object of class WaveTilingFeatureSet
+  \item{object}{object of class \code{WaveTilingFeatureSet}}
 }
 
-}
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-numeric with the number of groups or samples in the tiling array experiment
-}
+\value{numeric indicating the number of groups or samples in the tiling array experiment}
 
-\references{
-## %% ~put references to the literature/web site here ~
-}
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
-##
+\dontrun{
+  data(leafdev)
+  leafdev <- as(leafdev,"WaveTilingFeatureSet")
+  leafdev <- addPheno(leafdev,noGroups=6,groupNames=c("day8","day9","day10","day11","day12","day13"),replics=rep(3,6))
+  getNoGroups(leafdev)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

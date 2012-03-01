@@ -1,53 +1,29 @@
 \name{getProbePosition}
 \alias{getProbePosition}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-get probe position
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{get probe position}
 
-\usage{
-getProbePosition(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract probe position from \code{WfmFit}-class object.}
+
+\usage{getProbePosition(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmFit}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{vector of integers containing the genomic probe positions}
 
-\value{
-numeric
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevFit)
+  tt <- getProbePosition(leafdevFit)
+  length(tt)
+  head(tt)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

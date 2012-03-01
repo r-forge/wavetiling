@@ -1,52 +1,28 @@
 \name{getVarF}
 \alias{getVarF}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get variance of fit
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Get variance of model fit}
 
-\usage{
-getVarF(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the variance of the fitted functional effects in the original data space.}
+
+\usage{getVarF(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmFit}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
-\value{
-matrix
-}
+\value{numeric matrix}
 
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevFit)
+  tt <- getVarF(leafdevFit)
+  dim(tt)
+  tt[,10:15]
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

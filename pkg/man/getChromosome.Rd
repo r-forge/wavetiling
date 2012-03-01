@@ -1,53 +1,31 @@
 \name{getChromosome}
 \alias{getChromosome}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-get chromosome
-}
+\title{get chromosome identifiers}
 
-\description{
-##
-}
+\description{Extract the chromosome identifiers from a \code{MapFilterProbe}- or a \code{WfmFit}-object.}
 
-\usage{
-getChromosome(object)
-}
+\usage{getChromosome(object)}
 
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{MapFilterProbe} or of class \code{WfmFit}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{If applied on a \code{MapFilterProbe} object, a vector of characters is returned, providing the chromosome identification of each filtered element. If applied on a \code{WfmFit} object, a numeric is returned providing the chromsome number for which the model for transcriptome analysis was fitted.}
 
-\value{
-numeric (check)
-}
-
-\references{
-##%% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevMapAndFilterTAIR9)
+  tt <- getChromosome(leafdevMapAndFilterTAIR9)
+  head(tt)
+  
+  data(leafdevFit)
+  getChromosome(leafdevFit)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

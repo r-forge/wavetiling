@@ -1,52 +1,26 @@
 \name{getGenomeInfo}
 \alias{getGenomeInfo}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get genomic information
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Get genomic information}
 
-\usage{
-getGenomeInfo(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the genomic information from a \code{WfmFit}-class object.}
+
+\usage{getGenomeInfo(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
-}
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
+  \item{object}{object of class \code{WfmFit}}
 }
 
-\value{
-## right now: object of class genomeInfo with slots: chromosome, strand, minPos and maxPos
-}
+\value{object of class genomeInfo which contains the chromosome number, the strand orientation and the minimum and the maximum genomic probe position.}
 
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevFit)
+  getGenomeInfo(leafdevFit)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

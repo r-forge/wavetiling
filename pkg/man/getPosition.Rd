@@ -1,53 +1,28 @@
 \name{getPosition}
 \alias{getPosition}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-get probe position
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{get probe positions}
 
-\usage{
-getPosition(object)
-}
-%- maybe also 'usage' for other objects documented here.
+\description{Extract the genomic position of the filtered probes from a\code{MapFilterProbe}-object.}
+
+\usage{getPosition(object)}
+
 \arguments{
-  \item{object}{
-object of class mapFilterProbe %%     ~~Describe \code{object} here~~
-}
+  \item{object}{object of class \code{MapFilterProbe}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{numeric vector containing the genomic positions of the filtered probes}
 
-\value{
-numeric
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>%%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevMapAndFilterTAIR9)
+  tt <- getPosition(leafdevMapAndFilterTAIR9)
+  length(tt)
+  head(tt)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

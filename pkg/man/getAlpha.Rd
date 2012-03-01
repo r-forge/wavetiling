@@ -1,53 +1,26 @@
 \name{getAlpha}
 \alias{getAlpha}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get alpha
-}
-\description{
-Accessor function to call the alpha level of significance used on the Wfm analysis
-}
 
-\usage{
-getAlpha(object)
-}
+\title{Get significance level alpha}
 
-%- maybe also 'usage' for other objects documented here.
+\description{Accessor function to call the alpha level of significance used in the wavelet-based analysis.}
+
+\usage{getAlpha(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmInf}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{numeric vector with significance levels used for each type of test}
 
-\value{
-numeric
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevInfCompare)
+  getAlpha(leafdevInfCompare)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

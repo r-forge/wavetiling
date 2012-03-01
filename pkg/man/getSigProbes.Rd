@@ -1,54 +1,29 @@
 \name{getSigProbes}
 \alias{getSigProbes}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Get significant probes
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Get significant probes}
 
-\usage{
-getSigProbes(object)
-}
+\description{Extract the significant probe ids for the wavelet-based transcriptome analysis.}
 
-%- maybe also 'usage' for other objects documented here.
+\usage{getSigProbes(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmInf}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{list of numeric vectors. Each element in the list contains a vector with the probe ids of the significant probes for the corresponding analysis.}
 
-\value{
-matrix (check)
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be>
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevInfCompare)
+  tt <- getSigProbes(leafdevInfCompare)
+  class(tt)
+  head(tt[[2]])
+  length(tt[[2]])
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+}
+
 \keyword{manip}

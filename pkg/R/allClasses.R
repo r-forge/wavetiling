@@ -1,15 +1,15 @@
-#mapFilterProbe
-setClass("mapFilterProbe",representation(filteredIndices="vector",chromosome="vector",position="vector",strand="vector"))
+#MapFilterProbe
+setClass("MapFilterProbe",representation(filteredIndices="vector",chromosome="vector",position="vector",strand="vector"))
 
-#genomeInfo
-setClass("genomeInfo",representation(chromosome="vector",strand="character",minPos="numeric",maxPos="numeric"))
+#GenomeInfo
+setClass("GenomeInfo",representation(chromosome="vector",strand="character",minPos="numeric",maxPos="numeric"))
 
 #WaveTilingFeatureSet
 setClass("WaveTilingFeatureSet",contains="TilingFeatureSet")
 
 #WfmFit
 setClass(Class="WfmFit",
-	representation = representation	(betaMAP="matrix",varbetaMAP="matrix",smoothPar="matrix",varEps="numeric",dataOrigSpace="matrix",dataWaveletSpace="matrix",design.matrix="matrix",phenoData="data.frame",genome.info="genomeInfo",n.levels="numeric",probePosition="vector",wave.filt="character",Kj="numeric",prior="character",F="matrix",varF="matrix",P="numeric",Z="matrix",noGroups="numeric",replics="numeric")
+	representation = representation	(betaWav="matrix",varbetaWav="matrix",smoothPar="matrix",varEps="numeric",dataOrigSpace="matrix",dataWaveletSpace="matrix",design.matrix="matrix",phenoData="data.frame",genome.info="GenomeInfo",n.levels="numeric",probePosition="vector",wave.filt="character",Kj="numeric",prior="character",F="matrix",varF="matrix",P="numeric",Z="matrix",noGroups="numeric",replics="numeric")
 )
 
 ### Factor

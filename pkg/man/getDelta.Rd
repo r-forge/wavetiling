@@ -1,53 +1,26 @@
 \name{getDelta}
 \alias{getDelta}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-get delta
-}
 
-\description{
-## %%  ~~ A concise (1-5 lines) description of what the function does. ~~
-}
+\title{Get threshold values delta}
 
-\usage{
-getDelta(object)
-}
+\description{Extract the threshold values used in the wavelet-based transcriptome analysis.}
 
-%- maybe also 'usage' for other objects documented here.
+\usage{getDelta(object)}
+
 \arguments{
-  \item{object}{
-object of class Wfm
-}
+  \item{object}{object of class \code{WfmFit}}
 }
 
-\details{
-## %%  ~~ If necessary, more details than the description above ~~
-}
+\value{numeric vector with the threshold values used for each type of test}
 
-\value{
-numeric
-}
-
-\references{
-## %% ~put references to the literature/web site here ~
-}
-
-\author{
-Kristof De Beuf <kristof.debeuf@ugent.be> %%  ~~who you are~~
-}
-
-\note{
-## %%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-## %% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+\author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-##
+\dontrun{
+  library(waveTilingData)
+  data(leafdevInfCompare)
+  getDelta(leafdevInfCompare)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
