@@ -1,0 +1,12 @@
+
+1) plot function: create argument contrasts to plot specific contrasts
+2) wfm.inference: check calculation of confidence intervals
+3) plot: introduce option to give groupnames to put on Y-axis of plot
+4) getNonAnnotatedRegions: make function more generic wrt how the strands and features in the annotation file are defined
+5) getNonAnnotatedRegions: include option to give max./mean expression / FC per region
+6) getNonAnnotatedRegions: add option to set threshold for minimum density of probes within the regions
+7) getSigGenes: add option to include thresholds (density, outliers,...)
+8) getSigGenes: add option to also detect regions that don't overlap but are in the neighbourhood of annotated regions
+9) getSigGenes: add option to include mean / max expression / FC for each gene
+
+
