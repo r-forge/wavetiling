@@ -43,14 +43,12 @@ importFrom(IRanges, IRanges)
 
 importFrom(methods, "@<-", callNextMethod, new)
 
-importFrom(oligo, read.celfiles)
-
-importFrom(preprocessCore, normalize.quantiles)
+importFrom(waveslim, wave.filter, dwt, idwt)
 
 importFrom(stats, contr.helmert, contr.treatment, lm, pnorm, qnorm,
            rnorm)
 
-importFrom(waveslim, wave.filter)
+## importFrom(waveslim, wave.filter)
 
 ## Plot
 importFrom(graphics, plot)

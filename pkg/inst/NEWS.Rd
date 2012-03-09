@@ -3,8 +3,8 @@
 
 \section{Changes in version x.y}{
   \subsection{NEW FEATURES}{
-    \begin{itemize}
+    \itemize{
       \item ...;
-    \end{itemize}
+    }
   }
 }
