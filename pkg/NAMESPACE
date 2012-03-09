@@ -43,15 +43,12 @@ importFrom(IRanges, IRanges)
 
 importFrom(methods, "@<-", callNextMethod, new)
 
-importFrom(waveslim, wave.filter, dwt, idwt)
+importFrom(oligo, read.celfiles)
 
 importFrom(stats, contr.helmert, contr.treatment, lm, pnorm, qnorm,
            rnorm)
 
-## importFrom(waveslim, wave.filter)
-
-## Plot
-importFrom(graphics, plot)
+importFrom(waveslim, wave.filter)
 
 ## Export Classes
 exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf, WfmFitTime, WfmFitFactor, WfmFitCircadian, WfmFitCustom, WfmInfCompare, WfmInfEffects )
@@ -59,7 +56,6 @@ exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf, 
 ## Export Methods
 exportMethods(show)
 
-exportMethods(plot)
 
 ## WaveTilingFeatureSet 
 exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap, selectProbesFromTilingFeatureSet,bgCorrQn,wfm.fit)
@@ -68,8 +64,8 @@ exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap, s
 exportMethods(getFilteredIndices, getPosition, selectProbesFromFilterOverlap)
 
 ## WfmFit and WfmInf
-exportMethods(getProbePosition, getNoProbes, getBetaWav, getVarBetaWav, getSmoothPar, getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos, getMaxPos, getNoLevels, getDesignMatrix, getPhenoInfo, getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,getPrior, getAlpha, getDelta, getTwoSided, getSigProbes,getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions)
+exportMethods(getProbePosition, getNoProbes, getBetaWav, getVarBetaWav, getSmoothPar, getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos, getMaxPos, getNoLevels, getDesignMatrix, getPhenoInfo, getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,getPrior, getAlpha, getDelta, getTwoSided, getSigProbes,getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions, plotWfm)
 
 ## Other
-export(cel2TilingFeatureSet, makeContrasts, makeDesign, plotWfm)
+export(cel2TilingFeatureSet, makeContrasts, makeDesign)
 
