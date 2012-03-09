@@ -258,7 +258,7 @@ makeNewAnnotationTrack <- function(annoFile,chromosome,strand,minBase,maxBase,fe
 	{
 		dp <- DisplayPars(exon="lightblue")
 	}
-	return(makeAnnotationTrack(region=annoFile[(annoFile$chromosome==chromosome)&(annoFile$strand==strand)&(annoFile$start<maxBase)&(annoFile$end>minBase)&(annoFile$feature==feature),c("start","end","feature","group","ID")],dp=dp))
+	return(makeAnnotationTrack(regions=annoFile[(annoFile$chromosome==chromosome)&(annoFile$strand==strand)&(annoFile$start<maxBase)&(annoFile$end>minBase)&(annoFile$feature==feature),c("start","end","feature","group","ID")],dp=dp))
 }
 
 
@@ -269,7 +269,7 @@ makeNewAnnotationTextOverlay <- function(annoFile,chromosome,strand,minBase,maxB
 		dp=DisplayPars(cex=1)
 	}
 	annohlp <- annoFile[(annoFile$chromosome==chromosome)&(annoFile$strand==strand)&(annoFile$start<maxBase)&(annoFile$end>minBase)&(is.element(annoFile$feature,feature)),c("ID","start","end")]
-	return(makeTextOverlay(annohlp$ID,x=(annohlp$start+annohlp$end)/2,y=y,region=region,dp=dp))
+	return(makeTextOverlay(annohlp$ID,xpos=(annohlp$start+annohlp$end)/2,ypos=y,region=region,dp=dp))
 }
 
 makeNewTranscriptRectangleOverlay <- function(sigRegions,locations,start,end,region=NULL,dp=NULL)
