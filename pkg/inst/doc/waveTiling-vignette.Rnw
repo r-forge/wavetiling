@@ -1,4 +1,4 @@
-%\VignetteIndexEntry{waveTiling}
+%\VignetteIndexEntry{The waveTiling package}
 %\VignetteDepends{waveTiling}
 %\VignettePackage{waveTiling}
 
@@ -9,7 +9,8 @@
 % of the source package. See the 'Makefile' in this directory, which will 
 % copy the PDF from ../scripts to here.
 
-\documentclass[11pt]{article}
+\documentclass[10pt]{article}
 \begin{document}
+nonlinear
 \end{document}
 

@@ -1,6 +1,5 @@
 %\VignetteIndexEntry{The waveTiling package}
-%\VignetteDepends{}
-%\VignetteKeywords{}
+%\VignetteDepends{waveTiling}
 %\VignettePackage{waveTiling}
 \documentclass[10pt]{article}
 
