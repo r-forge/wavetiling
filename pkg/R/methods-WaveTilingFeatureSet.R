@@ -96,10 +96,10 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 		trBand <- max(setTrustBand,minTrustBand)
 		if ((strand=="forward") | (strand=="both"))
 		{
-			cat("begin remapping forward strand...\n")
-			cat("extract probe sequences\n")
+			message("begin remapping forward strand...\n")
+			message("extract probe sequences\n")
 			pmSeqDict <- PDict(dataPMSeq,tb.start=1,tb.end=trBand)
-			cat("match probe sequences to DNA sequence\n")
+			message("match probe sequences to DNA sequence\n")
 			chrSeqList <- list()
 			for (i in chrId)
 			{
@@ -121,11 +121,11 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 			posInit <- c()
 			posInit[mp[,1]] <- unlist(lapply(startPM,function(x) unlist(x[pmMatch])))
 			strandInit <- rep("forward",length(pmMatchIndex))
-			cat("remapping forward strand done\n")
+			message("remapping forward strand done\n")
 		}
 		if ((strand=="reverse") | (strand=="both"))
 		{
-			cat("begin remapping reverse strand...\n")
+			message("begin remapping reverse strand...\n")
 			## Fix me: sometimes reverseComplement/sometimes not?
 			dataPMSeqRevComp <- reverseComplement(pmSequence(object))
 			#dataPMSeqRevComp <- pmSequence(object)
@@ -140,7 +140,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 				}
 				names(chrSeqList) <- seqnames(BSgenomeObject)[chrId]
 			}
-			cat("match probe sequences to DNA sequence\n")
+			message("match probe sequences to DNA sequence\n")
 			startPMRevComp <- lapply(chrSeqList,function(x) startIndex(matchPDict(pmSeqDictRevComp,x)))
 			nposChrPMRevComp <- lapply(startPMRevComp,function(x) sapply(x,length))
 			pmMatchRevComp <- Reduce("+",nposChrPMRevComp)==1
@@ -156,7 +156,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 			posInitRevComp <- c()
 			posInitRevComp[mp[,1]] <- unlist(lapply(startPMRevComp,function(x) unlist(x[pmMatchRevComp])))
 			strandInitRevComp <- rep("reverse",length(pmMatchIndexRevComp))
-			cat("remapping reverse strand done\n")
+			message("remapping reverse strand done\n")
 		}
 	}
 	else
@@ -184,7 +184,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 	pmMmOverlap <- NULL
 	if (strand=="both")
 	{
-		cat("filter overlaps forward-reverse strand\n")
+		message("filter overlaps forward-reverse strand\n")
 		## should be done more efficiently with something in Biostrings... ("%in%" does not work)
 		dataPMSeqChar <- as.character(dataPMSeq)
 		dataPMSeqRevCompChar <- as.character(dataPMSeqRevComp)
@@ -193,7 +193,7 @@ setMethod("filterOverlap",signature("WaveTilingFeatureSet"),function(object,rema
 	}
 	if (MM)
 	{
-		cat("filter overlaps PM-MM\n")
+		message("filter overlaps PM-MM\n")
 		if (strand=="forward")
 		{
 			dataMMSeq <- pm2mm(dataPMSeq)

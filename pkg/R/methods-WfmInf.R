@@ -75,7 +75,7 @@ setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,an
 	annoChrGeneGR <- annoChrGR[geneId]
 	#annoChrGeneStrandGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandAlt]
 	#annoChrGeneStrandOppGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandOpp]
-	cat("find overlaps with detected regions...\n")
+	message("find overlaps with detected regions...\n")
 	nList <- length(regions)
 	annoOver <- GRangesList()
 	for (j in 1:nList)
@@ -115,13 +115,13 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 		strandAlt <- "-"
 		strandOpp <- "+"
 	}
-	cat("get annotated regions...\n")
+	message("get annotated regions...\n")
 	annoExons <- annoFile[(annoFile$strand==strandAlt)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
 	annoExonsOpp <- annoFile[(annoFile$strand==strandOpp)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
 	regGlocNoAnnoSense <- list()
 	regGlocNoAnnoBoth <- list()
 	nList <- length(regions)
-	cat("find overlaps with detected regions...\n")
+	message("find overlaps with detected regions...\n")
 	for (j in 1:nList)
 	{
 		regGlocIR <- regions[[j]]

@@ -363,7 +363,7 @@ setMethod("wfm.inference",signature("WfmFit"),function(object,contrast.matrix=NU
 				effCosSampl <- rnorm(P,eff[3,],sqrt(varEff[3,]))
 				amplSampl <- sqrt(effSinSampl^2 + effCosSampl^2)
 				FDR[2,] <- FDR[2,] + (amplSampl < delta[2])
-				if (k%%100==0) cat(k," ")
+				if (k%%100==0) message(k," ")
 				# calculate CIs: to do
 			}
 			FDR[2,] <- FDR[2,]/nsim

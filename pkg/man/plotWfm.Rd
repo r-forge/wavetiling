@@ -26,6 +26,12 @@
 
 \value{nothing returned}
 
+\references{
+[1] Durinck S, Bullard J, Spellman PT, Dudoit S: GenomeGraphs: integrated genomic data visualization with R.
+BMC Bioinformatics 2009, 10:Article 2.
+}
+
+
 \author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
