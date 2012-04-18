@@ -15,5 +15,5 @@ Collate: allClasses.R allGenerics.R helperFunctions.R
 URL: https://r-forge.r-project.org/projects/wavetiling/
 LazyLoad: yes
 LazyData:
-biocViews:
+biocViews: MicroArray, DifferentialExpression, TimeCourse, GeneExpression
 Packaged: 2011-12-05 20:18:51 UTC; kdebeuf
