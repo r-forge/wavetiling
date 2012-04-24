@@ -75,7 +75,7 @@ setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,an
 	annoChrGeneGR <- annoChrGR[geneId]
 	#annoChrGeneStrandGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandAlt]
 	#annoChrGeneStrandOppGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandOpp]
-	message("find overlaps with detected regions...\n")
+	message("find overlaps with detected regions...")
 	nList <- length(regions)
 	annoOver <- GRangesList()
 	for (j in 1:nList)
@@ -115,13 +115,13 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 		strandAlt <- "-"
 		strandOpp <- "+"
 	}
-	message("get annotated regions...\n")
+	message("get annotated regions...")
 	annoExons <- annoFile[(annoFile$strand==strandAlt)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
 	annoExonsOpp <- annoFile[(annoFile$strand==strandOpp)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
 	regGlocNoAnnoSense <- list()
 	regGlocNoAnnoBoth <- list()
 	nList <- length(regions)
-	message("find overlaps with detected regions...\n")
+	message("find overlaps with detected regions...")
 	for (j in 1:nList)
 	{
 		regGlocIR <- regions[[j]]
@@ -129,8 +129,8 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 		annoExonsOppIR <- IRanges(start=annoExonsOpp$start,end=annoExonsOpp$end)
 		overSense <- findOverlaps(regGlocIR,annoExonsIR)
 		overOpp <- findOverlaps(regGlocIR,annoExonsOppIR)
-		noAnnoSenseId <- which(!(1:length(regGlocIR) %in% matchMatrix(overSense)[,1]))
-		noAnnoOppId <- which(!(1:length(regGlocIR) %in% matchMatrix(overOpp)[,1]))
+		noAnnoSenseId <- which(!(1:length(regGlocIR) %in% as.matrix(overSense)[,1]))
+		noAnnoOppId <- which(!(1:length(regGlocIR) %in% as.matrix(overOpp)[,1]))
 		noAnnoBothId <- which((1:length(regGlocIR) %in% noAnnoSenseId) & (1:length(regGlocIR) %in% noAnnoOppId))
 		regGlocNoAnnoSense[[j]] <- regGlocIR[noAnnoSenseId]
 		regGlocNoAnnoBoth[[j]] <- regGlocIR[noAnnoBothId]

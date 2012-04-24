@@ -225,14 +225,14 @@ WaveMarEstVarJ <- function(Y,X,n.levels,wave.filt,prior=c("normal","improper"),e
 				varEps[i] <- sum(D[,starts[i]:ends[i]]*VinvD)/(ends[i]-starts[i]+1)/N
 			}
 			crit1 <- -1/2*sum(log(t(X)%*%X%*%WaveFit$phi+rep(1,ncol(X))))-1/2*(log(varEps)%*%Kj)-N*K*log(2*pi)/2-N*K/2
-			if (trace==TRUE) message("\n iteration", j,"of",max.it)
+			if (trace==TRUE) message("iteration ", j," of ",max.it)
 			if ((abs((crit0-crit1)/crit0))<tol)
 			{
-				if (trace==TRUE) message("\n Gauss Seidel algorithm converged \n")
+				if (trace==TRUE) message("Gauss Seidel algorithm converged")
 				break
 			}
 		}
-		if ((abs(crit0-crit1)/crit0)>tol) message("\n Warning: The maximum number of iterations reached without convergence\n")
+		if ((abs(crit0-crit1)/crit0)>tol) message("Warning: The maximum number of iterations reached without convergence")
 	}
 	if (!saveall)
 	{
