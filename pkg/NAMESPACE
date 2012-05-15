@@ -19,10 +19,10 @@ importMethodsFrom(Biostrings, complement, matchPDict, PDict,
 
 importMethodsFrom(GenomicRanges, seqnames)
 
-importMethodsFrom(IRanges, as.matrix, cbind, findOverlaps, ifelse, intersect, lapply, mad, Map, matchMatrix, mean,
-                  median, ncol, nrow, order, paste, pintersect, pmin,
-                  queryHits, rbind, reduce, Reduce, Rle, rownames,
-                  "rownames<-", sapply, stack, start, subjectHits,
+importMethodsFrom(IRanges, as.matrix, cbind, findOverlaps, ifelse, intersect,
+                  lapply, mad, Map, mean, median, ncol, nrow, order, paste,
+                  pintersect, pmin,queryHits, rbind, reduce, Reduce, Rle, 
+                  rownames,"rownames<-", sapply, stack, start, subjectHits,
                   subseq, t, table, tapply, unique, unlist, values,
                   "values<-", which, width)
 
@@ -33,9 +33,11 @@ importMethodsFrom(oligo, pmChr, pmPosition, pmSequence, pmStrand)
 ## Import
 importFrom(affy, bg.adjust, list.celfiles)
 
-importFrom(GenomeGraphs, DisplayPars, gdPlot, makeAnnotationTrack,
-           makeGenericArray, makeGenomeAxis, makeRectangleOverlay,
-           makeTextOverlay)
+importFrom(preprocessCore, normalize.quantiles)
+
+#importFrom(GenomeGraphs, DisplayPars, gdPlot, makeAnnotationTrack,
+#           makeGenericArray, makeGenomeAxis, makeRectangleOverlay,
+#           makeTextOverlay)
 
 importFrom(GenomicRanges, GRanges, GRangesList)
 

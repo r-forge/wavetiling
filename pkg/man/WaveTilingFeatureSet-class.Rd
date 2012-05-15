@@ -2,14 +2,18 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WaveTilingFeatureSet-class}
+\alias{WaveTilingFeatureSet}
 \alias{initialize,WaveTilingFeatureSet-method}
 \alias{show,WaveTilingFeatureSet-method}
 %\alias{pmStrand,WaveTilingFeatureSet-method}
 \alias{addPheno,WaveTilingFeatureSet-method}
 \alias{bgCorrQn,WaveTilingFeatureSet-method}
 \alias{filterOverlap,WaveTilingFeatureSet-method}
+\alias{getGroupNames}
 \alias{getGroupNames,WaveTilingFeatureSet-method}
+\alias{getNoGroups}
 \alias{getNoGroups,WaveTilingFeatureSet-method}
+\alias{getReplics}
 \alias{getReplics,WaveTilingFeatureSet-method}
 \alias{selectProbesFromTilingFeatureSet,WaveTilingFeatureSet-method}
 \alias{wfm.fit,WaveTilingFeatureSet-method}
@@ -17,6 +21,19 @@
 \title{Class "WaveTilingFeatureSet"}
 
 \description{Class to store expression and phenotypic data from a tiling array experiment, used as input for the wavelet-based transcriptome analysis.}
+
+\usage{
+
+## Accessors
+
+getGroupNames(object)
+getNoGroups(object)
+getReplics(object)
+}
+
+\arguments{
+  \item{object}{An instance of \code{WaveTilingFeatureSet}-class.}
+}
 
 \section{Objects from the Class}{Objects can be created by calls of the form \code{new("WaveTilingFeatureSet")}.}
 
@@ -56,10 +73,34 @@ Class \code{"\linkS4class{Versioned}"}, by class "TilingFeatureSet", distance 6.
 	 }
 }
 
+\section{Accessors}{
+  In the following code snippets, \code{x} is a WaveTilingFeatureSet object.
+  \describe{
+    \item{}{
+      \code{getGroupNames(x): Extract the group or sample names in the tiling array experiment.}
+    }
+    \item{}{
+      \code{getNoGroups(x): Extract the number of groups or samples in the tiling array experiment.}
+    }
+    \item{}{
+      \code{getReplics(x): Extract the number of replicates in the tiling array experiment.}
+    }
+  }
+}
+
 \author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-showClass("WaveTilingFeatureSet")
+  showClass("WaveTilingFeatureSet")
+  \dontrun{
+    data(leafdev)
+    leafdev <- as(leafdev,"WaveTilingFeatureSet")
+    leafdev <- addPheno(leafdev,noGroups=6,groupNames=c("day8","day9","day10","day11","day12","day13"),replics=rep(3,6))
+    tt1 <- getGroupNames(leafdev)
+    tt2 <- getNoGroups(leafdev)
+    tt3 <- getReplics(leafdev)
+  }
+
 }
 
 \keyword{classes}

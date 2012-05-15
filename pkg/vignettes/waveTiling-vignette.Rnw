@@ -1,5 +1,6 @@
 %\VignetteIndexEntry{The waveTiling package}
-%\VignetteDepends{waveTiling}
+%\VignetteDepends{}
+%\VignetteKeywords{}
 %\VignettePackage{waveTiling}
 \documentclass[10pt]{article}
 
@@ -45,7 +46,7 @@ In this \waveTiling{} package vignette the package's main functionalities to con
 
 \section{Read in and prepare data for analysis}
 
-First we have to load the \waveTiling{} package and the \Rpackage{waveTilingData} package. The latter contains an \Rclass{TilingFeatureSet} (\textsf{leafdev}) from the \Rpackage{oligoClasses} package with the expression values for the leaf development experiment, and the TAIR 9 \textit{Arabidopsis thaliana} gene identifier data \textsf{tair9gff}. Make sure to also load the \Rpackage{pd.atdschip.tiling} wich contains the tiling array info to map the probe locations on the array to the exact genomic positions. The \Rpackage{pd.atdschip.tiling} package was created by using the \Rpackage{pdInfoBuilder} package, which should also be used to build similar packages for other array designs.
+First we have to load the \waveTiling{} package and the \Rpackage{waveTilingData} package. The latter contains an \Rclass{TilingFeatureSet} (\textsf{leafdev}) from the \Rpackage{oligoClasses} package \cite{carvalho} with the expression values for the leaf development experiment, and the TAIR 9 \textit{Arabidopsis thaliana} gene identifier data \textsf{tair9gff}. Make sure to also load the \Rpackage{pd.atdschip.tiling} package which contains the tiling array info to map the probe locations on the array to the exact genomic positions. The \Rpackage{pd.atdschip.tiling} package was created by using the \Rpackage{pdInfoBuilder} package \cite{falcon}, which should also be used to build similar packages for other array designs.
 
 <<>>=
 library(waveTiling)
@@ -65,24 +66,17 @@ leafdev <- addPheno(leafdev,noGroups=6,
 leafdev
 @
 
-Before starting the transcriptome analysis, the probes that map to several genomic locations (either PM or MM, or forward and reverse strand) are filtered using \Rfunction{filterOverlap}. This function can also be used if the probes have to be remapped to another version of the genome sequence as the version used for the array design. For instance, the probes on the AGRONOMICS1 array are build based on the TAIR 8 genome, and remapped onto the TAIR 9 sequence. The function needs an argument \Rfunarg{BSgenomeObject} available from loading the appropriated \Rpackage{BSgenome} package. The output is an object of class \Rclass{mapFilterProbe}. After filtering and/or remapping, the expression data are background-corrected and quantile-normalized (\Rfunction{bgCorrQn}). The \Rclass{mapFilterProbe} \Robject{leafdevMapAndFilterTAIR9} is used to make sure only the filtered probes are used in the background correction and normalization step.
+Before starting the transcriptome analysis, the probes that map to several genomic locations (either PM or MM, or forward and reverse strand) are filtered using \Rfunction{filterOverlap}. This function can also be used if the probes have to be remapped to another version of the genome sequence as the version used for the array design. For instance, the probes on the AGRONOMICS1 array are build based on the TAIR 8 genome, and remapped onto the TAIR 9 sequence. The function needs an argument \Rfunarg{BSgenomeObject} available from loading the appropriate \Rpackage{BSgenome} package \cite{pagesBSgenome}. The output is an object of class \Rclass{mapFilterProbe}. After filtering and/or remapping, the expression data are background-corrected and quantile-normalized (\Rfunction{bgCorrQn}). The \Rclass{mapFilterProbe} \Robject{leafdevMapAndFilterTAIR9} is used to make sure only the filtered probes are used in the background correction and normalization step.
 
 <<>>=
 library(BSgenome.Athaliana.TAIR.TAIR9)
 
-### temporary during development
 # leafdevMapAndFilterTAIR9 <- filterOverlap(leafdev,remap=TRUE,
 #	BSgenomeObject=Athaliana,chrId=1:7,
 #	strand="both",MM=FALSE)
-load("/home/kdebeuf/research/tiling/leafdevMapAndFilterTAIR9.rda")
-###
-leafdevMapAndFilterTAIR9
+data(leafdevMapAndFilterTAIR9)
 
-### temporary during development
-# leafdevBQ <- bgCorrQn(leafdev,useMapFilter=leafdevMapAndFilterTAIR9)
-load("/home/kdebeuf/research/tiling/leafdevBQ.rda")
-###
-leafdevBQ
+leafdevBQ <- bgCorrQn(leafdev,useMapFilter=leafdevMapAndFilterTAIR9)
 @
 
 \section{Wavelet-based transcriptome analysis}
@@ -103,7 +97,7 @@ leafdevFit
 
 If the redundant probes have been filtered using \Rfunction{filterOverlap} the resulting \Rclass{mapFilterProbe} class object should be given as an argument \Rfunarg{filter.overlap}, to ensure that the expression values are properly linked to the genomic information such as chromosome and strand. In this analysis we use a time-course design (\Rfunarg{design}). The number of levels in the wavelet decomposition is 10 (\Rfunarg{n.levels}). We use marginal maximum likelihood to estimate the residual variances (\Rfunarg{var.eps}) and put an improper prior (\Rfunarg{prior}) on the effect functions (see \cite{clement2012}).
 
-Next, the \Rclass{WfmFit}-class object \Robject{leafdevFit} is used as input for the inference function \Rfunction{wfm.inference}. This function outputs the \Rclass{WfmInf}-class object \Robject{leafdevInf} from which transcriptionally active regions of interests, given a chosen threshold value, can be extracted.
+Next, the \Rclass{WfmFit}-class object \Robject{leafdevFit} is used as input for the inference function \Rfunction{wfm.inference}. This function outputs the \Rclass{WfmInf}-class object \Robject{leafdevInf} from which transcriptionally active regions of interest, given a chosen threshold value, can be extracted.
 
 <<>>=
 delta <- log(1.2,2)
@@ -122,9 +116,9 @@ sigGenomeRegionsCompare[[2]]
 length(sigGenomeRegionsCompare)
 @
 
-The \Rfunction{getGenomicRegions} accessor outputs a \Rcode{list} of \Rcode{IRanges} objects denoting the start and end position of each significant region. The first element in the \Rcode{list} always gives the significant regions for the mean expression over all arrays (transcript discovery). Elements 2 to 16 in \Robject{sigGenomeRegions} give the differentially expressed regions between any pair of contrasts between different time points. The order is always 2-1, 3-1, 3-2, 4-1,... Hence, \Rcode{sigGenomeRegions[[2]]} gives the differentially expressed regions between time point 2 and time point 1.
+The \Rfunction{getGenomicRegions} accessor outputs a \Rcode{list} of \Rcode{IRanges} objects \cite{pagesIRanges} denoting the start and end position of each significant region. The first element in the \Rcode{list} always gives the significant regions for the mean expression over all arrays (transcript discovery). Elements 2 to 16 in \Robject{sigGenomeRegions} give the differentially expressed regions between any pair of contrasts between different time points. The order is always 2-1, 3-1, 3-2, 4-1,... Hence, \Rcode{sigGenomeRegions[[2]]} gives the differentially expressed regions between time point 2 and time point 1.
 
-If an annotation file containing gene identifiers is available, we can extract both significantly affected genes with \Rfunction{getSigGenes}, and the non-annotated regions with \Rfunction{getNonAnnotatedRegions}. Both functions output a \Rclass{list} of \Rclass{GRanges} objects.
+If an annotation file containing gene identifiers is available, we can extract both significantly affected genes with \Rfunction{getSigGenes}, and the non-annotated regions with \Rfunction{getNonAnnotatedRegions}. Both functions output a \Rclass{list} of \Rclass{GRanges} objects \cite{aboyoun}.
 
 <<>>=
 sigGenesCompare <- getSigGenes(fit=leafdevFit,inf=leafdevInfCompare,annoFile=tair9gff)
@@ -134,7 +128,7 @@ nonAnnoCompare <- getNonAnnotatedRegions(fit=leafdevFit,inf=leafdevInfCompare,
 head(nonAnnoCompare[[2]])
 @
 
-Using the same \Rclass{WfmFit}-object \Robject{leafdevFit}, we can run the analysis to analyze transcriptional time effects (\Robject{leafDevInfTimeEffect}) and have look at time-wise trancriptionally active regions (\Robject{leafdevInfMeans}).
+Using the same \Rclass{WfmFit}-object \Robject{leafdevFit}, we can run the analysis to analyze transcriptional time effects (\Robject{leafDevInfTimeEffect}) and have a look at time-wise trancriptionally active regions (\Robject{leafdevInfMeans}).
 
 <<>>=
 leafdevInfTimeEffect <- wfm.inference(leafdevFit,contrasts="effects",
@@ -177,13 +171,13 @@ leafdevInfCustom <- wfm.inference(leafdevFitCustom,contrast.matrix=myContrastMat
 
 \subsection{Plot function}
 
-Plots can be made very easily using the \Rfunction{plot} function which needs both the \Rclass{WfmFit}- and \Rclass{WfmInf}-class objects as input. It also needs an appropriate annotation file.
+Plots can be made very easily using the \Rfunction{plotWfm} function which needs both the \Rclass{WfmFit}- and \Rclass{WfmInf}-class objects as input. It also needs an appropriate annotation file. The plot function makes use of the implementations in the \textit{GenomeGraphs}-package \cite{durinck}.
 
 <<fig=TRUE>>=
 gene1 <- tair9gff[tair9gff$ID %in% "AT1G04350",]
 start <- gene1$start-2500
 end <- gene1$end+2500
-plot(fit=leafdevFit,inf=leafdevInfCompare,
+plotWfm(fit=leafdevFit,inf=leafdevInfCompare,
 	annoFile=gene1,minPos=start,maxPos=end,
 	two.strand=TRUE,plotData=TRUE,
 	plotMean=FALSE,tracks=c(1,2,6,10,11))
@@ -193,14 +187,14 @@ plot(fit=leafdevFit,inf=leafdevInfCompare,
 gene2 <- tair9gff[tair9gff$ID %in% "AT1G62500",]
 start <- gene2$start-4000
 end <- gene2$end+4000
-plot(fit=leafdevFit,inf=leafdevInfTimeEffect,
+plotWfm(fit=leafdevFit,inf=leafdevInfTimeEffect,
 	annoFile=gene2,minPos=start,maxPos=end,
 	two.strand=TRUE,plotData=TRUE,
 	plotMean=FALSE,tracks=1)
 @
 
 <<fig=TRUE>>=
-plot(fit=leafdevFit,inf=leafdevInfMeans,
+plotWfm(fit=leafdevFit,inf=leafdevInfMeans,
 	annoFile=gene2,minPos=start,maxPos=end,
 	two.strand=TRUE,plotData=TRUE,
 	plotMean=FALSE,tracks=1:6)
@@ -247,14 +241,41 @@ Exit from proliferation during leaf development in arabidopsis thaliana: A not-s
 \textit{Developmental Cell}, \textbf{22}, 64--78.
 
 \bibitem{debeuf2012}
-De Beuf K, Andriankaja M, Thas O., Inze D, Crainiceanu CM, and Clement L (2012).
-Model-based Analysis of Tiling Array Expression Studies with Flexible Designs.
+De Beuf K, Pipelers, P, Andriankaja M, Thas O., Inze D, Crainiceanu CM, and Clement L (2012).
+Model-based Analysis of Tiling Array Expression Studies with Flexible Designs (waveTiling).
 \textit{Technical document}.
 
 \bibitem{rehrauer2010}
 Rehrauer H, Aquino C, Gruissem W, Henz S, Hilson P, Laubinger S, Naouar N, Patrignani A, Rombauts S, Shu H, et al. (2010)
 AGRONOMICS1: a new resource for Arabidopsis transcriptome profiling.
 \textit{Plant Physiology}, \textbf{152}, 487--499.
+
+\bibitem{carvalho}
+Carvalho B and Scharpf R
+oligoClasses: Classes for high-throughput arrays supported by oligo and crlmm. [R package version 1.18.0]
+
+\bibitem{falcon}
+Falcon S and Carvalho B with contributions by Vince Carey and Matt Settles and Kristof de Beuf
+pdInfoBuilder: Platform Design Information Package Builder. [R package version 1.20.0]
+
+\bibitem{pagesBSgenome}
+Pages H
+BSgenome: Infrastructure for Biostrings-based genome data packages. [R package version 1.24.0]
+
+\bibitem{pagesIRanges}
+Pages H, Aboyoun P, and Lawrence M
+IRanges: Infrastructure for manipulating intervals on sequences. [R package version 1.14.2]
+
+\bibitem{aboyoun}
+Aboyoun P, Pages H, and Lawrence M
+GenomicRanges: Representation and manipulation of genomic intervals. [R package version 1.8.3]
+
+\bibitem{durinck}
+Durinck S and Bullard J
+GenomeGraphs: Plotting genomic information from Ensembl. [R package version 1.16.0]
+
+
+
 
 \end{thebibliography}
 

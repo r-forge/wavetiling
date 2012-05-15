@@ -1,13 +1,13 @@
 Package: waveTiling
-Version: 0.1.37
-Date: 2012-02-16
+Version: 0.99.0
+Date: 2012-05-14
 License: GPL (>=2)
 Title: Wavelet-Based Models for Tiling Array Transcriptome Analysis
 Author: Kristof De Beuf <kristof.debeuf@UGent.be>, Peter Pipelers <peter.pipelers@ugent.be> and Lieven Clement <lieven.clement@gmail.com>
 Maintainer: Kristof De Beuf <kristof.debeuf@UGent.be>
-Depends: oligo, oligoClasses, Biobase, Biostrings
-Imports: methods, affy, preprocessCore, GenomicRanges, waveslim, GenomeGraphs, IRanges
-Suggests: BSgenome, BSgenome.Athaliana.TAIR.TAIR9
+Depends: oligo, oligoClasses, Biobase, Biostrings, GenomeGraphs
+Imports: methods, affy, preprocessCore, GenomicRanges, waveslim, IRanges
+Suggests: BSgenome, BSgenome.Athaliana.TAIR.TAIR9, waveTilingData, pd.atdschip.tiling
 Description: This package is designed to conduct transcriptome analysis for tiling arrays based on fast wavelet-based functional models.
 Collate: allClasses.R allGenerics.R helperFunctions.R
         initialize-methods.R methods-MapFilterProbe.R

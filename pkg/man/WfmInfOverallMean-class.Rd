@@ -1,7 +1,8 @@
-\name{WfmInfOverall-class}
+\name{WfmInfOverallMean-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{WfmInfOverall-class}
+\alias{WfmInfOverallMean-class}
+\alias{WfmInfOverallMean}
 \alias{initialize,WfmInfOverallMean-method}
 
 \title{Class "WfmInfOverallMean"}

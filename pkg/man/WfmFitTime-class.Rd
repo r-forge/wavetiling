@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmFitTime-class}
+\alias{WfmFitTime}
 \alias{show,WfmFitTime-method}
 \alias{initialize,WfmFitTime-method}
 

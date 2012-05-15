@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmInfMeans-class}
+\alias{WfmInfMeans}
 \alias{initialize,WfmInfMeans-method}
 
 \title{Class "WfmInfMeans"}

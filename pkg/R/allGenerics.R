@@ -291,7 +291,7 @@ setGeneric("getDesignMatrix",function(object)
 }
 )
 
-setGeneric("plotWfm",function(object, annoFile, minPos, maxPos, trackFeature="exon", overlayFeature=c("gene","transposable_element_gene"), two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
+setGeneric("plotWfm",function(fit, inf, annoFile, minPos, maxPos, trackFeature="exon", overlayFeature=c("gene","transposable_element_gene"), two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
 {
  	standardGeneric("plotWfm")
 }

@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmFitCustom-class}
+\alias{WfmFitCustom}
 \alias{show,WfmFitCustom-method}
 \alias{initialize,WfmFitCustom-method}
 

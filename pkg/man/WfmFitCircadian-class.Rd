@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmFitCircadian-class}
+\alias{WfmFitCircadian}
 \alias{show,WfmFitCircadian-method}
 \alias{initialize,WfmFitCircadian-method}
 

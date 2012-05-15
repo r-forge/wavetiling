@@ -2,16 +2,26 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmInf-class}
+\alias{WfmInf}
+\alias{getAlpha}
 \alias{getAlpha,WfmInf-method}
+\alias{getDelta}
 \alias{getDelta,WfmInf-method}
+\alias{getEff}
 \alias{getEff,WfmInf-method}
+\alias{getFDR}
 \alias{getFDR,WfmInf-method}
+\alias{getGenomicRegions}
 \alias{getGenomicRegions,WfmInf-method}
+\alias{getRegions}
 \alias{getRegions,WfmInf-method}
+\alias{getSigProbes}
 \alias{getSigProbes,WfmInf-method}
+\alias{getTwoSided}
 \alias{getTwoSided,WfmInf-method}
 \alias{getSigGenes,WfmFit,WfmInf-method}
 \alias{getNonAnnotatedRegions,WfmFit,WfmInf-method}
+\alias{getVarEff}
 \alias{getVarEff,WfmInf-method}
 \alias{initialize,WfmInf-method}
 \alias{plotWfm,WfmFit,WfmInf-method}
@@ -20,6 +30,25 @@
 \title{Class "WfmInf"}
 
 \description{class to store outputs from the inference in the wavelet-based transcriptome analysis.}
+
+\usage{
+
+## Accessors
+
+getAlpha(object)
+getDelta(object)
+getTwoSided(object)
+getSigProbes(object)
+getRegions(object)
+getGenomicRegions(object)
+getFDR(object)
+getEff(object)
+getVarEff(object)
+}
+
+\arguments{
+  \item{object}{An instance of \code{WfmInf}-class.}
+}
 
 \section{Objects from the Class}{Objects can be created by calls of the form \code{new("WfmInf",  alpha, delta, two.sided, sigProbes, regions, GlocRegions, FDR, CI, eff, varEff)}.}
 
@@ -56,10 +85,56 @@
 	 }
 }
 
+\section{Accessors}{
+  In the following code snippets, \code{x} is a WfmInf object.
+  \describe{
+    \item{}{
+      \code{getAlpha(x): Extract the alpha level of significance used in the wavelet-based analysis.}
+    }
+    \item{}{
+      \code{getDelta(x): Extract the threshold values used in the wavelet-based transcriptome analysis.}
+    }
+    \item{}{
+      \code{getTwoSided(x): Extract the direction of inference conducted in the wavelet-based transcriptome analysis.}
+    }
+    \item{}{
+      \code{getSigProbes(x): Extract the significant probe ids for the wavelet-based transcriptome analysis.}
+    }
+    \item{}{
+      \code{getRegions(x): Extract the significant regions from the wavelet-based transcriptome analysis. Regions are given in terms of the probe ids they map onto.}
+    }
+    \item{}{
+      \code{getGenomicRegions(x): Extract the significant genomic regions from the wavelet-based transcriptome analysis.}
+    }
+    \item{}{
+      \code{getFDR(x): Extract the FDR for each test in the wavelet-based transcriptome analysis.}
+    }
+    \item{}{
+      \code{getEff(x): Extract the estimated effects or contrasts of the wavelet-based transcriptome analysis.}
+    }
+    \item{}{
+      \code{getVarEff(x): Extract the estimated variances of the effects or contrasts in the wavelet-based transcriptome analysis.}
+    }
+  }
+}
+
 \author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-showClass("WfmInf")
+  showClass("WfmInf")
+  \dontrun{
+    library(waveTilingData)
+    data(leafdevInfCompare)
+    tt1 <- getAlpha(leafdevInfCompare)
+    tt2 <- getDelta(leafdevInfCompare)
+    tt3 <- getTwoSided(leafdevInfCompare)
+    tt4 <- getSigProbes(leafdevInfCompare)
+    tt5 <- getRegions(leafdevInfCompare)
+    tt6 <- getGenomicRegions(leafdevInfCompare)
+    tt7 <- getFDR(leafdevInfCompare)
+    tt8 <- getEff(leafdevInfCompare)
+    tt9 <- getVarEff(leafdevInfCompare)
+  }
 }
 
 \keyword{classes}

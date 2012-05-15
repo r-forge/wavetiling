@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmFitFactor-class}
+\alias{WfmFitFactor}
 \alias{show,WfmFitFactor-method}
 \alias{initialize,WfmFitFactor-method}
 

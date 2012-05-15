@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmInfCustom-class}
+\alias{WfmInfCustom}
 \alias{initialize,WfmInfCustom-method}
 
 \title{Class "WfmInfCustom"}

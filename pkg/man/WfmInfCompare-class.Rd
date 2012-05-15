@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmInfCompare-class}
+\alias{WfmInfCompare}
 \alias{initialize,WfmInfCompare-method}
 
 \title{Class "WfmInfCompare"}

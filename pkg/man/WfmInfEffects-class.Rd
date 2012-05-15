@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{WfmInfEffects-class}
+\alias{WfmInfEffects}
 \alias{initialize,WfmInfEffects-method}
 
 \title{Class "WfmInfEffects"}

@@ -2,6 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{GenomeInfo-class}
+\alias{GenomeInfo}
 \alias{initialize,GenomeInfo-method}
 \alias{show,GenomeInfo-method}
 
