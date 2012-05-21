@@ -1,0 +1,74 @@
+useDynLib("waveTiling")
+
+## Import Classes
+importClassesFrom(Biobase, AnnotatedDataFrame, AssayData, MIAxE,
+                  Versions)
+
+importClassesFrom(methods, array, character, data.frame, list, matrix,
+                  numeric, vector)
+
+importClassesFrom(oligoClasses, TilingFeatureSet)
+
+## Import Methods
+importMethodsFrom(affy, pm, pmindex)
+
+importMethodsFrom(Biobase, exprs, "exprs<-", pData, "phenoData<-")
+
+importMethodsFrom(Biostrings, complement, matchPDict, PDict,
+                  reverseComplement, startIndex)
+
+importMethodsFrom(GenomicRanges, seqnames)
+
+importMethodsFrom(IRanges, as.matrix, cbind, findOverlaps, ifelse, intersect,
+                  lapply, mad, Map, mean, median, ncol, nrow, order, paste,
+                  pintersect, pmin,queryHits, rbind, reduce, Reduce, Rle, 
+                  rownames,"rownames<-", sapply, stack, start, subjectHits,
+                  subseq, t, table, tapply, unique, unlist, values,
+                  "values<-", which, width)
+
+importMethodsFrom(methods, initialize, show)
+
+importMethodsFrom(oligo, pmChr, pmPosition, pmSequence, pmStrand)
+
+## Import
+importFrom(affy, bg.adjust, list.celfiles)
+
+importFrom(preprocessCore, normalize.quantiles)
+
+#importFrom(GenomeGraphs, DisplayPars, gdPlot, makeAnnotationTrack,
+#           makeGenericArray, makeGenomeAxis, makeRectangleOverlay,
+#           makeTextOverlay)
+
+importFrom(GenomicRanges, GRanges, GRangesList)
+
+importFrom(IRanges, IRanges)
+
+importFrom(methods, "@<-", callNextMethod, new)
+
+importFrom(oligo, read.celfiles)
+
+importFrom(stats, contr.helmert, contr.treatment, lm, pnorm, qnorm,
+           rnorm)
+
+importFrom(waveslim, wave.filter)
+
+## Export Classes
+#exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf, WfmFitTime, WfmFitFactor, WfmFitCircadian, WfmFitCustom, WfmInfCompare, WfmInfEffects )
+exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf)
+
+## Export Methods
+exportMethods(show)
+
+
+## WaveTilingFeatureSet 
+exportMethods(addPheno, getNoGroups, getGroupNames, getReplics, filterOverlap, selectProbesFromTilingFeatureSet,bgCorrQn,wfm.fit)
+
+## MapFilterProbe
+exportMethods(getFilteredIndices, getPosition, selectProbesFromFilterOverlap)
+
+## WfmFit and WfmInf
+exportMethods(getProbePosition, getNoProbes, getBetaWav, getVarBetaWav, getSmoothPar, getVarEps, getGenomeInfo, getChromosome, getStrand, getMinPos, getMaxPos, getNoLevels, getDesignMatrix, getPhenoInfo, getDataOrigSpace, getDataWaveletSpace, getWaveletFilter, getKj,getPrior, getAlpha, getDelta, getTwoSided, getSigProbes,getRegions, getGenomicRegions, getFDR, getF, getVarF, getEff,getVarEff, wfm.inference, getSigGenes, getNonAnnotatedRegions, plotWfm)
+
+## Other
+export(cel2TilingFeatureSet, makeContrasts, makeDesign)
+
