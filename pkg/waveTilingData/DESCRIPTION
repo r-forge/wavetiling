@@ -1,0 +1,11 @@
+Package: waveTilingData
+Title: waveTiling Example Data
+Version: 0.1.1
+Created: 2012-02-16
+Author: Kristof De Beuf <kristof.debeuf@ugent.be>
+Description: Experiment and Annotation Data files used by the examples / vignette in the waveTiling package
+Maintainer: Kristof De Beuf <kristof.debeuf@ugent.be>
+Depends: R (>= 2.14.0)
+License: GPL (>= 2)
+biocViews: Microarray, AnnotationData, ExperimentData
+Packaged: 

@@ -1,0 +1,7 @@
+import(DBI)
+import(RSQLite)
+export(
+       'pd.atdschip.tiling'
+       )
+importFrom("Biostrings", "DNAStringSet")
+importFrom("IRanges", "DataFrame")
