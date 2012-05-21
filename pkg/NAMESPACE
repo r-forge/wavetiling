@@ -53,7 +53,8 @@ importFrom(stats, contr.helmert, contr.treatment, lm, pnorm, qnorm,
 importFrom(waveslim, wave.filter)
 
 ## Export Classes
-exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf, WfmFitTime, WfmFitFactor, WfmFitCircadian, WfmFitCustom, WfmInfCompare, WfmInfEffects )
+#exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf, WfmFitTime, WfmFitFactor, WfmFitCircadian, WfmFitCustom, WfmInfCompare, WfmInfEffects )
+exportClasses(WaveTilingFeatureSet, MapFilterProbe, GenomeInfo, WfmFit, WfmInf)
 
 ## Export Methods
 exportMethods(show)
