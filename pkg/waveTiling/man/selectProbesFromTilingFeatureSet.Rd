@@ -20,13 +20,12 @@
 \author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-\dontrun{
-  data(leafdev)
-  leafdev <- as(leafdev,"WaveTilingFeatureSet")
-  tt <- selectProbesFromTilingFeatureSet(leafdev,chromosome=1,strand="forward",minPos=22000,maxPos=26000)
-  length(tt)
-  head(tt)
-}
+  \dontrun{
+    data(leafdevBQ)
+    tt <- selectProbesFromTilingFeatureSet(leafdevBQ,chromosome=1,strand="forward",minPos=22000,maxPos=26000)
+    length(tt)
+    head(tt)
+  }
 }
 
 \keyword{manip}

@@ -23,6 +23,7 @@
 \alias{getNonAnnotatedRegions,WfmFit,WfmInf-method}
 \alias{getVarEff}
 \alias{getVarEff,WfmInf-method}
+\alias{getGenomeInfo,WfmInf-method}
 \alias{initialize,WfmInf-method}
 \alias{plotWfm,WfmFit,WfmInf-method}
 \alias{show,WfmInf-method}
@@ -64,6 +65,7 @@ getVarEff(object)
     \item{\code{CI}:}{Object of class \code{"array"} ~~ }
     \item{\code{eff}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{varEff}:}{Object of class \code{"matrix"} ~~ }
+    \item{\code{genome.info}:}{Object of class \code{"genomeInfo"} ~~ }
   }
 }
 \section{Methods}{
@@ -77,6 +79,7 @@ getVarEff(object)
     \item{getFDR}{\code{signature(object = "WfmInf")}: ... }
     \item{getEff}{\code{signature(object = "WfmInf")}: ... }
     \item{getVarEff}{\code{signature(object = "WfmInf")}: ... }
+    \item{getGenomeInfo}{\code{signature(object = "WfmFit")}: ... }
     \item{initialize}{\code{signature(.Object = "WfmInf")}: ... }
     \item{show}{\code{signature(object = "WfmInf")}: ... }
     \item{plotWfm}{\code{signature(fit = "WfmFit", inf = "WfmInf")}: ... }
@@ -115,6 +118,9 @@ getVarEff(object)
     \item{}{
       \code{getVarEff(x): Extract the estimated variances of the effects or contrasts in the wavelet-based transcriptome analysis.}
     }
+    \item{}{
+      \code{getGenomeInfo(x): Extract the genomic information.}
+    }
   }
 }
 
@@ -122,19 +128,19 @@ getVarEff(object)
 
 \examples{
   showClass("WfmInf")
-  \dontrun{
-    library(waveTilingData)
-    data(leafdevInfCompare)
-    tt1 <- getAlpha(leafdevInfCompare)
-    tt2 <- getDelta(leafdevInfCompare)
-    tt3 <- getTwoSided(leafdevInfCompare)
-    tt4 <- getSigProbes(leafdevInfCompare)
-    tt5 <- getRegions(leafdevInfCompare)
-    tt6 <- getGenomicRegions(leafdevInfCompare)
-    tt7 <- getFDR(leafdevInfCompare)
-    tt8 <- getEff(leafdevInfCompare)
-    tt9 <- getVarEff(leafdevInfCompare)
-  }
+  
+  library(waveTilingData)
+  data(leafdevInfCompare)
+  tt1 <- getAlpha(leafdevInfCompare)
+  tt2 <- getDelta(leafdevInfCompare)
+  tt3 <- getTwoSided(leafdevInfCompare)
+  tt4 <- getSigProbes(leafdevInfCompare)
+  tt5 <- getRegions(leafdevInfCompare)
+  tt6 <- getGenomicRegions(leafdevInfCompare)
+  tt7 <- getFDR(leafdevInfCompare)
+  tt8 <- getEff(leafdevInfCompare)
+  tt9 <- getVarEff(leafdevInfCompare)
+  tt10 <- getGenomeInfo(leafdevInfCompare)
 }
 
 \keyword{classes}

@@ -40,15 +40,10 @@
 \author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-\dontrun{
   library(waveTilingData)
-  data(leafdev)
+  data(leafdevBQ)
   data(leafdevMapAndFilterTAIR9)
-  leafdev <- as(leafdev,"WaveTilingFeatureSet")
-  ## background-correction and normalization
-  leafdevBQ <- bgCorrQn(leafdev,useMapFilter=leafdevMapAndFilterTAIR9)
-  leafdevFit <- wfm.fit(leafdevBQ,filter.overlap=leafdevMapAndFilterTAIR9,design="time",n.levels=10,chromosome=1,strand="forward",var.eps="marg",prior="improper",skiplevels=1,save.obs="plot",trace=TRUE)
-}
+  leafdevFit <- wfm.fit(leafdevBQ,filter.overlap=leafdevMapAndFilterTAIR9,design="time",n.levels=10,chromosome=1,strand="forward",minPos=22000000,maxPos=24000000,var.eps="marg",prior="improper",skiplevels=1,save.obs="plot",trace=TRUE)
 }
 
 \keyword{manip}

@@ -56,7 +56,7 @@ setMethod("initialize","WfmFit",function(.Object,betaWav,varbetaWav,smoothPar,va
 
 
 # WfmInf
-setMethod("initialize","WfmInf",function(.Object, alpha, delta, two.sided, sigProbes, regions, GlocRegions, FDR, CI, eff, varEff)
+setMethod("initialize","WfmInf",function(.Object, alpha, delta, two.sided, sigProbes, regions, GlocRegions, FDR, CI, eff, varEff, genome.info)
 {
 	.Object@alpha <- alpha
 	.Object@delta <- delta
@@ -68,6 +68,7 @@ setMethod("initialize","WfmInf",function(.Object, alpha, delta, two.sided, sigPr
 	.Object@CI <- CI
  	.Object@eff <- eff
  	.Object@varEff <- varEff
+ 	.Object@genome.info <- genome.info
 	return(.Object)
 })
 

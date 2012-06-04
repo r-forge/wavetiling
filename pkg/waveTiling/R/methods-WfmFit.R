@@ -455,19 +455,19 @@ setMethod("wfm.inference",signature("WfmFit"),function(object,contrast.matrix=NU
 	#genomeLoc <- new("genomeInfo",chromosome=chromosome,strand=strand,minPos=min(Gloc),maxPos=max(Gloc))
 	#infObject <- new("Wfm",method=method,alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI)
 	if (!is.null(contrast.matrix))	{
-		infObject <- new("WfmInfCustom",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff)
+		infObject <- new("WfmInfCustom",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff,genome.info=getGenomeInfo(object))
 	}
 	else if (contrasts=="compare" ) {
-		infObject <- new("WfmInfCompare",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff)
+		infObject <- new("WfmInfCompare",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff,genome.info=getGenomeInfo(object))
 	}
 	else if (contrasts=="effects" ) {
-		infObject <- new("WfmInfEffects",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff)
+		infObject <- new("WfmInfEffects",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff,genome.info=getGenomeInfo(object))
 	}
 	else if (contrasts=="means" ) {
-		infObject <- new("WfmInfMeans",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff)
+		infObject <- new("WfmInfMeans",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff,genome.info=getGenomeInfo(object))
 	}
 	else if (contrasts=="overallMean" ) {
-		infObject <- new("WfmInfOverallMean",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff)
+		infObject <- new("WfmInfOverallMean",alpha=alpha,delta=delta,two.sided=two.sided,sigProbes=sigProbes,regions=regions,GlocRegions=GlocRegions,FDR=FDR,CI=CI,eff=eff,varEff=varEff,genome.info=getGenomeInfo(object))
 	}
 	return (infObject);
 })

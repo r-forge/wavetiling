@@ -26,7 +26,7 @@ setClass(Class="WfmFitCustom", contains="WfmFit")
 
 #WfmInf
 setClass(Class="WfmInf",
-	representation = representation	(alpha="numeric",delta="numeric",two.sided="numeric",sigProbes="list",regions="list",GlocRegions="list",FDR="matrix",CI="array",eff="matrix",varEff="matrix")
+	representation = representation	(alpha="numeric",delta="numeric",two.sided="numeric",sigProbes="list",regions="list",GlocRegions="list",FDR="matrix",CI="array",eff="matrix",varEff="matrix",genome.info="GenomeInfo")
 )
 
 ## Compare

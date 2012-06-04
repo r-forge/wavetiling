@@ -3,6 +3,7 @@
 \docType{class}
 \alias{WfmInfEffects-class}
 \alias{WfmInfEffects}
+\alias{show,WfmInfEffects-method}
 \alias{initialize,WfmInfEffects-method}
 
 \title{Class "WfmInfEffects"}

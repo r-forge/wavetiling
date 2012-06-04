@@ -291,19 +291,19 @@ setGeneric("getDesignMatrix",function(object)
 }
 )
 
-setGeneric("plotWfm",function(fit, inf, annoFile, minPos, maxPos, trackFeature="exon", overlayFeature=c("gene","transposable_element_gene"), two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
+setGeneric("plotWfm",function(fit, inf, biomartObj, minPos, maxPos, trackFeature="exon", two.strand=TRUE, plotData=TRUE, plotMean=TRUE, tracks=0)
 {
  	standardGeneric("plotWfm")
 }
 )
 
-setGeneric("getSigGenes",function(fit, inf, annoFile)
+setGeneric("getSigGenes",function(fit, inf, biomartObj)
 {
 	standardGeneric("getSigGenes")
 }
 )
 
-setGeneric("getNonAnnotatedRegions",function(fit, inf, annoFile)
+setGeneric("getNonAnnotatedRegions",function(fit, inf, biomartObj)
 {
 	standardGeneric("getNonAnnotatedRegions")
 }

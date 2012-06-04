@@ -20,7 +20,6 @@
 \author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-\dontrun{
   library(waveTilingData)
   data(leafdevMapAndFilterTAIR9)
   tt <- selectProbesFromFilterOverlap(leafdevMapAndFilterTAIR9,chromosome=1,strand="forward",minPos=10000,maxPos=15000)
@@ -30,7 +29,6 @@
   selfil <- tt$selectionFiltered
   length(selfil)
   head(selfil)
-}
 }
 
 \keyword{manip}

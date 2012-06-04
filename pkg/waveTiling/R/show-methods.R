@@ -10,8 +10,8 @@ setMethod("show",signature("GenomeInfo"),function(object)
 	cat("Genome Info :\n")
 	cat("\tChromosome:",object@chromosome,"\n")
 	cat("\tStrand:",object@strand,"\n")
-	cat("\tMinimum probe position:",object@minPos,"\n")
-	cat("\tMaximum probe position:",object@maxPos,"\n")
+	cat("\tMinimum probe position:",format(object@minPos,scientific=FALSE),"\n")
+	cat("\tMaximum probe position:",format(object@maxPos,scientific=FALSE),"\n")
 	cat("\n")
 }
 )
@@ -54,10 +54,40 @@ setMethod("show",signature("WfmFitCustom"),function(object)
 }
 )
 
-# Needs further implementation :: what to show?
 setMethod("show",signature("WfmInf"),function(object)
 {
-	cat("object of class 'WfmInf'\n")
-	cat("\n")
+	show(object@genome.info);
 }
 )
+
+setMethod("show",signature("WfmInfCompare"),function(object)
+{
+	cat("Inference object from wavelet based functional model - Pairwise Comparison\n")
+	callNextMethod();
+})
+
+setMethod("show",signature("WfmInfCustom"),function(object)
+{
+	cat("Inference object from wavelet based functional model - Custom Design\n")
+	callNextMethod();
+})
+
+setMethod("show",signature("WfmInfEffects"),function(object)
+{
+	cat("Inference object from wavelet based functional model - Effects\n")
+	cat("Time Effect if Time Design, Circadian Effect if Circadian Design\n")
+	callNextMethod();
+})
+
+setMethod("show",signature("WfmInfMeans"),function(object)
+{
+	cat("Inference object from wavelet based functional model - Groupwise Means\n")
+	callNextMethod();
+})
+
+setMethod("show",signature("WfmInfOverallMean"),function(object)
+{
+	cat("Inference object from wavelet based functional model - Overall Mean\n")
+	callNextMethod();
+})
+

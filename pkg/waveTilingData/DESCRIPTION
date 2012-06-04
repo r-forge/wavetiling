@@ -1,7 +1,7 @@
 Package: waveTilingData
 Title: waveTiling Example Data
-Version: 0.1.1
-Created: 2012-02-16
+Version: 0.99.0
+Created: 2012-05-30
 Author: Kristof De Beuf <kristof.debeuf@ugent.be>
 Description: Experiment and Annotation Data files used by the examples / vignette in the waveTiling package
 Maintainer: Kristof De Beuf <kristof.debeuf@ugent.be>

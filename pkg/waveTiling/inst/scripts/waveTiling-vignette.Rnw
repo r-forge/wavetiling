@@ -46,14 +46,13 @@ In this \waveTiling{} package vignette the package's main functionalities to con
 
 \section{Read in and prepare data for analysis}
 
-First we have to load the \waveTiling{} package and the \Rpackage{waveTilingData} package. The latter contains an \Rclass{TilingFeatureSet} (\textsf{leafdev}) from the \Rpackage{oligoClasses} package \cite{carvalho} with the expression values for the leaf development experiment, and the TAIR 9 \textit{Arabidopsis thaliana} gene identifier data \textsf{tair9gff}. Make sure to also load the \Rpackage{pd.atdschip.tiling} package which contains the tiling array info to map the probe locations on the array to the exact genomic positions. The \Rpackage{pd.atdschip.tiling} package was created by using the \Rpackage{pdInfoBuilder} package \cite{falcon}, which should also be used to build similar packages for other array designs.
+First we have to load the \waveTiling{} package and the \Rpackage{waveTilingData} package. The latter contains an \Rclass{TilingFeatureSet} (\textsf{leafdev}) from the \Rpackage{oligoClasses} package \cite{carvalho} with the expression values for the leaf development experiment. Make sure to also load the \Rpackage{pd.atdschip.tiling} package which contains the tiling array info to map the probe locations on the array to the exact genomic positions. The \Rpackage{pd.atdschip.tiling} package was created by using the \Rpackage{pdInfoBuilder} package \cite{falcon}, which should also be used to build similar packages for other array designs.
 
 <<>>=
 library(waveTiling)
 library(waveTilingData)
 library(pd.atdschip.tiling)
 data(leafdev)
-data(tair9gff)
 @
 
 We first change the class to \Rclass{WaveTilingFeatureSet}, which is used as input for the wavelet-based transcriptome analysis, and add the phenotypic data for this experiment.
@@ -66,6 +65,11 @@ leafdev <- addPheno(leafdev,noGroups=6,
 leafdev
 @
 
+<<echo=FALSE>>=
+rm(leafdev)
+gc()
+@
+
 Before starting the transcriptome analysis, the probes that map to several genomic locations (either PM or MM, or forward and reverse strand) are filtered using \Rfunction{filterOverlap}. This function can also be used if the probes have to be remapped to another version of the genome sequence as the version used for the array design. For instance, the probes on the AGRONOMICS1 array are build based on the TAIR 8 genome, and remapped onto the TAIR 9 sequence. The function needs an argument \Rfunarg{BSgenomeObject} available from loading the appropriate \Rpackage{BSgenome} package \cite{pagesBSgenome}. The output is an object of class \Rclass{mapFilterProbe}. After filtering and/or remapping, the expression data are background-corrected and quantile-normalized (\Rfunction{bgCorrQn}). The \Rclass{mapFilterProbe} \Robject{leafdevMapAndFilterTAIR9} is used to make sure only the filtered probes are used in the background correction and normalization step.
 
 <<>>=
@@ -76,7 +80,7 @@ library(BSgenome.Athaliana.TAIR.TAIR9)
 #	strand="both",MM=FALSE)
 data(leafdevMapAndFilterTAIR9)
 
-leafdevBQ <- bgCorrQn(leafdev,useMapFilter=leafdevMapAndFilterTAIR9)
+# leafdevBQ <- bgCorrQn(leafdev,useMapFilter=leafdevMapAndFilterTAIR9)
 @
 
 \section{Wavelet-based transcriptome analysis}
@@ -85,13 +89,14 @@ leafdevBQ <- bgCorrQn(leafdev,useMapFilter=leafdevMapAndFilterTAIR9)
 The analysis has to be conducted in a chromosome- and strand-wise manner. First, the wavelet-based model is fitted to the expression data, leading to a \Rclass{WfmFit}-class object \textsf{leafdevFit}.
 
 <<>>=
+data(leafdevBQ)
 chromosome <- 1
 strand <- "forward"
 leafdevFit <- wfm.fit(leafdevBQ,filter.overlap=leafdevMapAndFilterTAIR9,
 	design="time",n.levels=10,
-	chromosome=chromosome,strand=strand,
-	var.eps="marg",prior="improper",skiplevels=1,
-	save.obs="plot",trace=TRUE)
+	chromosome=chromosome,strand=strand,minPos=22000000,
+	maxPos=24000000,var.eps="marg",prior="improper",
+	skiplevels=1,save.obs="plot",trace=TRUE)
 leafdevFit
 @
 
@@ -118,13 +123,15 @@ length(sigGenomeRegionsCompare)
 
 The \Rfunction{getGenomicRegions} accessor outputs a \Rcode{list} of \Rcode{IRanges} objects \cite{pagesIRanges} denoting the start and end position of each significant region. The first element in the \Rcode{list} always gives the significant regions for the mean expression over all arrays (transcript discovery). Elements 2 to 16 in \Robject{sigGenomeRegions} give the differentially expressed regions between any pair of contrasts between different time points. The order is always 2-1, 3-1, 3-2, 4-1,... Hence, \Rcode{sigGenomeRegions[[2]]} gives the differentially expressed regions between time point 2 and time point 1.
 
-If an annotation file containing gene identifiers is available, we can extract both significantly affected genes with \Rfunction{getSigGenes}, and the non-annotated regions with \Rfunction{getNonAnnotatedRegions}. Both functions output a \Rclass{list} of \Rclass{GRanges} objects \cite{aboyoun}.
+If information on the annotation of the studied organism is available, we can extract both significantly affected genes with \Rfunction{getSigGenes}, and the non-annotated regions with \Rfunction{getNonAnnotatedRegions}. Both functions output a \Rclass{list} of \Rclass{GRanges} objects \cite{aboyoun}. The annotation info can be obtained from ab appropriate object of class TranscriptDb representing an annotation database generated from BioMart. For the current data we make use of the \Rpackage{TxDb.Athaliana.BioMart.plantsmart12} package \cite{carlson}.
 
 <<>>=
-sigGenesCompare <- getSigGenes(fit=leafdevFit,inf=leafdevInfCompare,annoFile=tair9gff)
+library(TxDb.Athaliana.BioMart.plantsmart12)
+sigGenesCompare <- getSigGenes(fit=leafdevFit,inf=leafdevInfCompare,
+	biomartObj=TxDb.Athaliana.BioMart.plantsmart12)
 head(sigGenesCompare[[2]])
 nonAnnoCompare <- getNonAnnotatedRegions(fit=leafdevFit,inf=leafdevInfCompare,
-	annoFile=tair9gff)
+	biomartObj=TxDb.Athaliana.BioMart.plantsmart12)
 head(nonAnnoCompare[[2]])
 @
 
@@ -150,8 +157,9 @@ custDes
 
 leafdevFitCustom <- wfm.fit(leafdevBQ,filter.overlap=leafdevMapAndFilterTAIR9,
 	design="custom",design.matrix=custDes,n.levels=10,
-	chromosome=chromosome,strand=strand,var.eps="marg",
-	prior="improper",skiplevels=1,save.obs="plot",trace=TRUE)
+	chromosome=chromosome,strand=strand,minPos=22000000,
+	maxPos=24000000,var.eps="marg",prior="improper",
+	skiplevels=1,save.obs="plot",trace=TRUE)
 
 noGroups <- getNoGroups(leafdevBQ)
 myContrastMat <- matrix(0,nrow=noGroups*(noGroups-1)/2,ncol=noGroups)
@@ -174,30 +182,30 @@ leafdevInfCustom <- wfm.inference(leafdevFitCustom,contrast.matrix=myContrastMat
 Plots can be made very easily using the \Rfunction{plotWfm} function which needs both the \Rclass{WfmFit}- and \Rclass{WfmInf}-class objects as input. It also needs an appropriate annotation file. The plot function makes use of the implementations in the \textit{GenomeGraphs}-package \cite{durinck}.
 
 <<fig=TRUE>>=
-gene1 <- tair9gff[tair9gff$ID %in% "AT1G04350",]
-start <- gene1$start-2500
-end <- gene1$end+2500
+trs <- transcripts(TxDb.Athaliana.BioMart.plantsmart12)
+sel <- trs[elementMetadata(trs)$tx_name %in% "AT1G62500.1",]
+start <- start(ranges(sel))-2000
+end <- end(ranges(sel))+2000
 plotWfm(fit=leafdevFit,inf=leafdevInfCompare,
-	annoFile=gene1,minPos=start,maxPos=end,
-	two.strand=TRUE,plotData=TRUE,
-	plotMean=FALSE,tracks=c(1,2,6,10,11))
+	biomartObj=TxDb.Athaliana.BioMart.plantsmart12,
+	minPos=start,maxPos=end,two.strand=TRUE,
+	plotData=TRUE,plotMean=FALSE,tracks=c(1,2,6,10,11))
 @
 
 <<fig=TRUE>>=
-gene2 <- tair9gff[tair9gff$ID %in% "AT1G62500",]
-start <- gene2$start-4000
-end <- gene2$end+4000
+start <- start(ranges(sel))-4000
+end <- end(ranges(sel))+4000
 plotWfm(fit=leafdevFit,inf=leafdevInfTimeEffect,
-	annoFile=gene2,minPos=start,maxPos=end,
-	two.strand=TRUE,plotData=TRUE,
-	plotMean=FALSE,tracks=1)
+	biomartObj=TxDb.Athaliana.BioMart.plantsmart12,
+	minPos=start,maxPos=end,two.strand=TRUE,
+	plotData=TRUE,plotMean=FALSE,tracks=1)
 @
 
 <<fig=TRUE>>=
 plotWfm(fit=leafdevFit,inf=leafdevInfMeans,
-	annoFile=gene2,minPos=start,maxPos=end,
-	two.strand=TRUE,plotData=TRUE,
-	plotMean=FALSE,tracks=1:6)
+	biomartObj=TxDb.Athaliana.BioMart.plantsmart12,
+	minPos=start,maxPos=end,two.strand=TRUE,
+	plotData=TRUE,plotMean=FALSE,tracks=1:6)
 @
 
 
@@ -231,12 +239,12 @@ fdrs[1:8,1:8]
 \begin{thebibliography}{}
 
 \bibitem{clement2012}
-Clement L, De Beuf K, Thas O, Vuylsteke M, Irizarry RA, and Crainiceanu CM (2012)
+Clement L, De Beuf K, Thas O, Vuylsteke M, Irizarry RA, and Crainiceanu CM (2012).
 Fast wavelet based functional models for transcriptome analysis with tiling arrays.
 \textit{Statistical Applications in Genetics and Molecular Biology}, \textbf{11}, Iss. 1, Article 4.
 
 \bibitem{andriankaja2012}
-Andriankaja M, Dhondt S, De Bodt S, Vanhaeren H, Coppens F, et al. (2012)
+Andriankaja M, Dhondt S, De Bodt S, Vanhaeren H, Coppens F, et al. (2012).
 Exit from proliferation during leaf development in arabidopsis thaliana: A not-so-gradual process.
 \textit{Developmental Cell}, \textbf{22}, 64--78.
 
@@ -246,32 +254,36 @@ Model-based Analysis of Tiling Array Expression Studies with Flexible Designs (w
 \textit{Technical document}.
 
 \bibitem{rehrauer2010}
-Rehrauer H, Aquino C, Gruissem W, Henz S, Hilson P, Laubinger S, Naouar N, Patrignani A, Rombauts S, Shu H, et al. (2010)
+Rehrauer H, Aquino C, Gruissem W, Henz S, Hilson P, Laubinger S, Naouar N, Patrignani A, Rombauts S, Shu H, et al. (2010).
 AGRONOMICS1: a new resource for Arabidopsis transcriptome profiling.
 \textit{Plant Physiology}, \textbf{152}, 487--499.
 
 \bibitem{carvalho}
-Carvalho B and Scharpf R
+Carvalho B and Scharpf R.
 oligoClasses: Classes for high-throughput arrays supported by oligo and crlmm. [R package version 1.18.0]
 
 \bibitem{falcon}
-Falcon S and Carvalho B with contributions by Vince Carey and Matt Settles and Kristof de Beuf
+Falcon S and Carvalho B with contributions by Vince Carey and Matt Settles and Kristof de Beuf.
 pdInfoBuilder: Platform Design Information Package Builder. [R package version 1.20.0]
 
 \bibitem{pagesBSgenome}
-Pages H
+Pages H.
 BSgenome: Infrastructure for Biostrings-based genome data packages. [R package version 1.24.0]
 
 \bibitem{pagesIRanges}
-Pages H, Aboyoun P, and Lawrence M
+Pages H, Aboyoun P, and Lawrence M.
 IRanges: Infrastructure for manipulating intervals on sequences. [R package version 1.14.2]
 
 \bibitem{aboyoun}
-Aboyoun P, Pages H, and Lawrence M
+Aboyoun P, Pages H, and Lawrence M.
 GenomicRanges: Representation and manipulation of genomic intervals. [R package version 1.8.3]
 
+\bibitem{carlson}
+Carlson M.
+TxDb.Athaliana.BioMart.plantsmart12: Annotation package for TranscriptDb object(s). [R package version 2.7.1]
+
 \bibitem{durinck}
-Durinck S and Bullard J
+Durinck S and Bullard J.
 GenomeGraphs: Plotting genomic information from Ensembl. [R package version 1.16.0]
 
 

@@ -3,6 +3,7 @@
 \docType{class}
 \alias{WfmInfOverallMean-class}
 \alias{WfmInfOverallMean}
+\alias{show,WfmInfOverallMean-method}
 \alias{initialize,WfmInfOverallMean-method}
 
 \title{Class "WfmInfOverallMean"}

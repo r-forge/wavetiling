@@ -3,6 +3,7 @@
 \docType{class}
 \alias{WfmInfCompare-class}
 \alias{WfmInfCompare}
+\alias{show,WfmInfCompare-method}
 \alias{initialize,WfmInfCompare-method}
 
 \title{Class "WfmInfCompare"}

@@ -31,12 +31,10 @@
 \author{Kristof De Beuf <kristof.debeuf@ugent.be>}
 
 \examples{
-\dontrun{
   library(waveTilingData)
   data(leafdevFit)
   delta <-  log(1.2,2)
   leafdevInfCompare <- wfm.inference(leafdevFit,contrasts="compare",delta=c("median",delta))
-}
 }
 
 \keyword{manip}

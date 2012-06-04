@@ -74,7 +74,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "TilingFeatureSet", distance 6.
 }
 
 \section{Accessors}{
-  In the following code snippets, \code{x} is a WaveTilingFeatureSet object.
+  In the following code snippets, \code{x} is a WaveTilingFeatureSet object. The described accessors are specific for \code{WaveTilingFeatureSet}-class objects. Other inherited accessors work as expected on this class.
   \describe{
     \item{}{
       \code{getGroupNames(x): Extract the group or sample names in the tiling array experiment.}
@@ -92,15 +92,13 @@ Class \code{"\linkS4class{Versioned}"}, by class "TilingFeatureSet", distance 6.
 
 \examples{
   showClass("WaveTilingFeatureSet")
-  \dontrun{
-    data(leafdev)
-    leafdev <- as(leafdev,"WaveTilingFeatureSet")
-    leafdev <- addPheno(leafdev,noGroups=6,groupNames=c("day8","day9","day10","day11","day12","day13"),replics=rep(3,6))
-    tt1 <- getGroupNames(leafdev)
-    tt2 <- getNoGroups(leafdev)
-    tt3 <- getReplics(leafdev)
-  }
-
+  library(waveTilingData)
+  data(leafdev)
+  leafdev <- as(leafdev,"WaveTilingFeatureSet")
+  leafdev <- addPheno(leafdev,noGroups=6,groupNames=c("day8","day9","day10","day11","day12","day13"),replics=rep(3,6))
+  tt1 <- getGroupNames(leafdev)
+  tt2 <- getNoGroups(leafdev)
+  tt3 <- getReplics(leafdev)
 }
 
 \keyword{classes}

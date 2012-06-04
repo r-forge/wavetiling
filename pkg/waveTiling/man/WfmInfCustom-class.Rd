@@ -3,6 +3,7 @@
 \docType{class}
 \alias{WfmInfCustom-class}
 \alias{WfmInfCustom}
+\alias{show,WfmInfCustom-method}
 \alias{initialize,WfmInfCustom-method}
 
 \title{Class "WfmInfCustom"}

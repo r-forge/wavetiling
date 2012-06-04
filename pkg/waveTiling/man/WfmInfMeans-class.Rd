@@ -3,6 +3,7 @@
 \docType{class}
 \alias{WfmInfMeans-class}
 \alias{WfmInfMeans}
+\alias{show,WfmInfMeans-method}
 \alias{initialize,WfmInfMeans-method}
 
 \title{Class "WfmInfMeans"}

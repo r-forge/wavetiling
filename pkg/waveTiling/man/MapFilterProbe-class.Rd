@@ -80,14 +80,13 @@ Objects can be created by calls of the form \code{new("mapFilterProbe", filtered
 
 \examples{
   showClass("MapFilterProbe")
-  \dontrun{
-    library(waveTilingData)
-    data(leafdevMapAndFilterTAIR9)
-    tt1 <- getChromsome(leafdevMapAndFilterTAIR9)
-    tt2 <- getFilteredIndices(leafdevMapAndFilterTAIR9)
-    tt3 <- getPosition(leafdevMapAndFilterTAIR9)
-    tt4 <- getStrand(leafdevMapAndFilterTAIR9)
-  }
+  
+  library(waveTilingData)
+  data(leafdevMapAndFilterTAIR9)
+  tt1 <- getChromosome(leafdevMapAndFilterTAIR9)
+  tt2 <- getFilteredIndices(leafdevMapAndFilterTAIR9)
+  tt3 <- getPosition(leafdevMapAndFilterTAIR9)
+  tt4 <- getStrand(leafdevMapAndFilterTAIR9)
 }
 
 \keyword{classes}

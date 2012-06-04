@@ -48,19 +48,69 @@
  {
  	return(object@varEff)
  })
+ 
+ setMethod("getGenomeInfo",signature("WfmInf"),function(object)
+{
+	return(object@genome.info)
+})
 
 
+# setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,annoFile)
+# {
+# 	#Gloc <- getProbePosition(object)
+# 	strand <- getStrand(fit)
+# 	chromosome <- getChromosome(fit)
+# 	regions <- getGenomicRegions(inf)
+# 	annoFile$strand[annoFile$strand=="forward"] <- "+"
+# 	annoFile$strand[annoFile$strand=="reverse"] <- "-"
+# 	annoFile$strand[!(annoFile$strand %in% c("+","-"))] <- "*"
+# 	annoFileGR <- GRanges(seqnames=Rle(annoFile$chromosome),ranges=IRanges(start=annoFile$start,end=annoFile$end),strand=Rle(annoFile$strand),feature=annoFile$feature,id=annoFile$ID)
+# 	if (strand=="forward")
+# 	{
+# 		strandAlt <- "+"
+# 		strandOpp <- "-"
+# 	} else
+# 	{
+# 		strandAlt <- "-"
+# 		strandOpp <- "+"
+# 	}
+# 	annoChrGR <- annoFileGR[seqnames(annoFileGR)==chromosome]
+# 	geneId <- which(values(annoChrGR)$feature=="gene" | values(annoChrGR)$feature=="transposable_element_gene")
+# 	annoChrGeneGR <- annoChrGR[geneId]
+# 	#annoChrGeneStrandGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandAlt]
+# 	#annoChrGeneStrandOppGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandOpp]
+# 	message("find overlaps with detected regions...")
+# 	nList <- length(regions)
+# 	annoOver <- GRangesList()
+# 	for (j in 1:nList)
+# 	{
+# 		regGlocIR <- regions[[j]]
+# 		regGlocGR <- GRanges(seqnames=rep(chromosome,length(regGlocIR)),ranges=regGlocIR,strand=rep("*",length(regGlocIR)),effectNo=rep(j,length(regGlocIR)))
+# 		overL <- findOverlaps(regGlocGR,annoChrGeneGR)
+# 		regOver <- regGlocGR[queryHits(overL)]
+# 		annoOverj <- annoChrGeneGR[subjectHits(overL)]
+# 		overInt <- pintersect(regOver,annoOverj)
+# 		values(annoOverj)$regNo <- queryHits(overL)
+# 		values(annoOverj)$percOverGene <- width(overInt)/width(annoOverj)*100
+# 		values(annoOverj)$percOverReg <- width(overInt)/width(regOver)*100
+# 		totPercOverGeneHlp <- rep(0,max(subjectHits(overL)))
+# 		totPercOverGeneHlp2 <- tapply(values(annoOverj)$percOverGene,subjectHits(overL),sum)
+# 		totPercOverGeneHlp[as.numeric(names(totPercOverGeneHlp2))] <- totPercOverGeneHlp2
+# 		values(annoOverj)$totPercOverGene <- totPercOverGeneHlp[subjectHits(overL)]
+# 		annoOverj <- GRangesList(annoOverj)
+# 		annoOver <- c(annoOver,annoOverj)
+# 	}
+# 	return(annoOver)
+# })
 
-setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,annoFile)
+
+setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,biomartObj)
 {
 	#Gloc <- getProbePosition(object)
 	strand <- getStrand(fit)
 	chromosome <- getChromosome(fit)
 	regions <- getGenomicRegions(inf)
-	annoFile$strand[annoFile$strand=="forward"] <- "+"
-	annoFile$strand[annoFile$strand=="reverse"] <- "-"
-	annoFile$strand[!(annoFile$strand %in% c("+","-"))] <- "*"
-	annoFileGR <- GRanges(seqnames=Rle(annoFile$chromosome),ranges=IRanges(start=annoFile$start,end=annoFile$end),strand=Rle(annoFile$strand),feature=annoFile$feature,id=annoFile$ID)
+	trs <- transcripts(biomartObj)
 	if (strand=="forward")
 	{
 		strandAlt <- "+"
@@ -70,11 +120,7 @@ setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,an
 		strandAlt <- "-"
 		strandOpp <- "+"
 	}
-	annoChrGR <- annoFileGR[seqnames(annoFileGR)==chromosome]
-	geneId <- which(values(annoChrGR)$feature=="gene" | values(annoChrGR)$feature=="transposable_element_gene")
-	annoChrGeneGR <- annoChrGR[geneId]
-	#annoChrGeneStrandGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandAlt]
-	#annoChrGeneStrandOppGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandOpp]
+	trsChr <- trs[seqnames(trs)==chromosome]
 	message("find overlaps with detected regions...")
 	nList <- length(regions)
 	annoOver <- GRangesList()
@@ -82,9 +128,9 @@ setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,an
 	{
 		regGlocIR <- regions[[j]]
 		regGlocGR <- GRanges(seqnames=rep(chromosome,length(regGlocIR)),ranges=regGlocIR,strand=rep("*",length(regGlocIR)),effectNo=rep(j,length(regGlocIR)))
-		overL <- findOverlaps(regGlocGR,annoChrGeneGR)
+		overL <- findOverlaps(regGlocGR,trsChr)
 		regOver <- regGlocGR[queryHits(overL)]
-		annoOverj <- annoChrGeneGR[subjectHits(overL)]
+		annoOverj <- trsChr[subjectHits(overL)]
 		overInt <- pintersect(regOver,annoOverj)
 		values(annoOverj)$regNo <- queryHits(overL)
 		values(annoOverj)$percOverGene <- width(overInt)/width(annoOverj)*100
@@ -100,9 +146,61 @@ setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,an
 })
 
 
-setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,annoFile)
+# setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,annoFile)
+# {
+# 	#Gloc <- getProbePosition(object)
+# 	strand <- getStrand(fit)
+# 	chromosome <- getChromosome(fit)
+# 	regions <- getGenomicRegions(inf)
+# 	if (strand=="forward")
+# 	{
+# 		strandAlt <- "+"
+# 		strandOpp <- "-"
+# 	} else
+# 	{
+# 		strandAlt <- "-"
+# 		strandOpp <- "+"
+# 	}
+# 	message("get annotated regions...")
+# 	annoExons <- annoFile[(annoFile$strand==strandAlt)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
+# 	annoExonsOpp <- annoFile[(annoFile$strand==strandOpp)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
+# 	regGlocNoAnnoSense <- list()
+# 	regGlocNoAnnoBoth <- list()
+# 	nList <- length(regions)
+# 	message("find overlaps with detected regions...")
+# 	for (j in 1:nList)
+# 	{
+# 		regGlocIR <- regions[[j]]
+# 		annoExonsIR <- IRanges(start=annoExons$start,end=annoExons$end)
+# 		annoExonsOppIR <- IRanges(start=annoExonsOpp$start,end=annoExonsOpp$end)
+# 		overSense <- findOverlaps(regGlocIR,annoExonsIR)
+# 		overOpp <- findOverlaps(regGlocIR,annoExonsOppIR)
+# 		noAnnoSenseId <- which(!(1:length(regGlocIR) %in% as.matrix(overSense)[,1]))
+# 		noAnnoOppId <- which(!(1:length(regGlocIR) %in% as.matrix(overOpp)[,1]))
+# 		noAnnoBothId <- which((1:length(regGlocIR) %in% noAnnoSenseId) & (1:length(regGlocIR) %in% noAnnoOppId))
+# 		regGlocNoAnnoSense[[j]] <- regGlocIR[noAnnoSenseId]
+# 		regGlocNoAnnoBoth[[j]] <- regGlocIR[noAnnoBothId]
+# 	}
+# 	noAnnoSenseIR <- regGlocNoAnnoSense[[1]]
+# 	noAnnoBothIR <- regGlocNoAnnoBoth[[1]]
+# 	for (i in 2:nList)
+# 	{
+# 		noAnnoSenseIRi <- regGlocNoAnnoSense[[i]]
+# 		noAnnoSenseIR <- c(noAnnoSenseIR,noAnnoSenseIRi)
+# 		noAnnoBothIRi <- regGlocNoAnnoBoth[[i]]
+# 		noAnnoBothIR <- c(noAnnoBothIR,noAnnoBothIRi)
+# 	}
+# 	noAnnoSenseIRAll <- reduce(noAnnoSenseIR)
+# 	noAnnoBothIRAll <- reduce(noAnnoBothIR)
+# 	## TO DO:  include option to give maximum expression / FC per region
+# 	out <- NULL
+# 	out$noAnnoBoth <- GRanges(seqnames=Rle(rep(chromosome,length(noAnnoBothIRAll))),strand=Rle(rep(strandAlt,length(noAnnoBothIRAll))),ranges=noAnnoBothIRAll)
+# 	out$noAnnoSense <- GRanges(seqnames=Rle(rep(chromosome,length(noAnnoSenseIRAll))),strand=Rle(rep(strandAlt,length(noAnnoSenseIRAll))),ranges=noAnnoSenseIRAll)
+# 	return(out)
+# })
+
+setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,biomartObj)
 {
-	#Gloc <- getProbePosition(object)
 	strand <- getStrand(fit)
 	chromosome <- getChromosome(fit)
 	regions <- getGenomicRegions(inf)
@@ -116,8 +214,9 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 		strandOpp <- "+"
 	}
 	message("get annotated regions...")
-	annoExons <- annoFile[(annoFile$strand==strandAlt)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
-	annoExonsOpp <- annoFile[(annoFile$strand==strandOpp)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
+	exn <- exons(biomartObj)
+	annoExons <- exn[(strand(exn)==strandAlt)&(seqnames(exn)==chromosome),]
+	annoExonsOpp <- exn[(strand(exn)==strandOpp)&(seqnames(exn)==chromosome),]
 	regGlocNoAnnoSense <- list()
 	regGlocNoAnnoBoth <- list()
 	nList <- length(regions)
@@ -125,8 +224,8 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 	for (j in 1:nList)
 	{
 		regGlocIR <- regions[[j]]
-		annoExonsIR <- IRanges(start=annoExons$start,end=annoExons$end)
-		annoExonsOppIR <- IRanges(start=annoExonsOpp$start,end=annoExonsOpp$end)
+		annoExonsIR <- ranges(annoExons)
+		annoExonsOppIR <- ranges(annoExonsOpp)
 		overSense <- findOverlaps(regGlocIR,annoExonsIR)
 		overOpp <- findOverlaps(regGlocIR,annoExonsOppIR)
 		noAnnoSenseId <- which(!(1:length(regGlocIR) %in% as.matrix(overSense)[,1]))
@@ -153,15 +252,23 @@ setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function
 	return(out)
 })
 
+
 setMethod("plotWfm",signature=c(fit="WfmFit",inf="WfmInf"),
-function(fit,inf,annoFile,minPos,maxPos,trackFeature="exon",overlayFeature=c("gene","transposable_element_gene"),two.strand=TRUE,plotData=TRUE,plotMean=TRUE,tracks=0)
+function(fit,inf,biomartObj,minPos,maxPos,trackFeature="exon",two.strand=TRUE,plotData=TRUE,plotMean=TRUE,tracks=0)
 {
-        if (missing(annoFile)) {stop("Annotation File is missing!!")}
+        if (missing(biomartObj)) {stop("Annotation object from Biomart is missing!")}
         Gloc <- getProbePosition(fit)
         if (missing(minPos)) {minPos<-min(Gloc)}
         if (missing(maxPos)) {maxPos<-max(Gloc)}
         chromosome <- getChromosome(fit)
         strand <- getStrand(fit)
+        if (strand=="forward")
+	{
+		strandAlt <- "+"
+	} else
+	{
+		strandAlt <- "-"
+	}
         selID <- (1:length(Gloc))[Gloc>minPos & Gloc<maxPos]
         sta <- min(selID)
         end <- max(selID)
@@ -180,19 +287,19 @@ function(fit,inf,annoFile,minPos,maxPos,trackFeature="exon",overlayFeature=c("ge
         }
         if (two.strand==TRUE)
         {
-                trackInfo[[trackCount]] <- makeNewAnnotationTrack(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="forward",feature=trackFeature,dp=NULL)
+                trackInfo[[trackCount]] <- makeNewAnnotationTrack(biomartObj=biomartObj,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="+",feature=trackFeature,dp=NULL)
                 names(trackInfo)[trackCount] <- "F"
-                overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="forward",region=c(trackCount,trackCount),feature=overlayFeature,y=0.5)
+                overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(biomartObj=biomartObj,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="+",region=c(trackCount,trackCount),y=0.5)
                 trackCount <- trackCount + 1
                 trackInfo[[trackCount]] <- makeGenomeAxis(add53 = TRUE,add35 = TRUE)
                 trackCount <- trackCount + 1
-                trackInfo[[trackCount]] <- makeNewAnnotationTrack(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="reverse",feature=trackFeature)
+                trackInfo[[trackCount]] <- makeNewAnnotationTrack(biomartObj=biomartObj,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="-",feature=trackFeature)
                 names(trackInfo)[trackCount] <- "R"
-                overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="reverse",region=c(trackCount,trackCount),feature=overlayFeature,y=0.5)
+                overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(biomartObj=biomartObj,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand="-",region=c(trackCount,trackCount),y=0.5)
                 trackCount <- trackCount + 1
         } else
        {
-                trackInfo[[trackCount]] <- makeNewAnnotationTrack(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand=strand,feature=trackFeature)
+                trackInfo[[trackCount]] <- makeNewAnnotationTrack(biomartObj=biomartObj,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand=strandAlt,feature=trackFeature)
                 if (strand=="forward")
                 {
                         names(trackInfo)[trackCount] <- "F"
@@ -201,7 +308,7 @@ function(fit,inf,annoFile,minPos,maxPos,trackFeature="exon",overlayFeature=c("ge
                 {
                         names(trackInfo)[trackCount] <- "R"
                 }
-                overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(annoFile=annoFile,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand=strand,region=c(trackCount,trackCount),feature=overlayFeature,y=0.5)
+                overlayInfo[[trackCount]] <- makeNewAnnotationTextOverlay(biomartObj=biomartObj,chromosome=chromosome,minBase=minBase,maxBase=maxBase,strand=strandAlt,region=c(trackCount,trackCount),y=0.5)
                 trackCount <- trackCount + 1
                 gAxis <- makeGenomeAxis(add53 = TRUE,add35 = TRUE)
                 trackCount <- trackCount + 1
