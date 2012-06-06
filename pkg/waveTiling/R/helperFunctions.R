@@ -251,15 +251,6 @@ WaveMarEstVarJ <- function(Y,X,n.levels,wave.filt,prior=c("normal","improper"),e
 }
 
 ## plot
-# annoFIle needs the following columns: "chromosome", "strand", "feature", "ID", "start", "end"
-# makeNewAnnotationTrack <- function(annoFile,chromosome,strand,minBase,maxBase,feature="exon",dp=NULL)
-# {
-# 	if (is.null(dp))
-# 	{
-# 		dp <- DisplayPars(exon="lightblue")
-# 	}
-# 	return(makeAnnotationTrack(regions=annoFile[(annoFile$chromosome==chromosome)&(annoFile$strand==strand)&(annoFile$start<maxBase)&(annoFile$end>minBase)&(annoFile$feature==feature),c("start","end","feature","group","ID")],dp=dp))
-# }
 
 makeNewAnnotationTrack <- function(biomartObj,chromosome,strand,minBase,maxBase,feature="exon",dp=NULL)
 {
@@ -270,20 +261,10 @@ makeNewAnnotationTrack <- function(biomartObj,chromosome,strand,minBase,maxBase,
 	exn <- exons(biomartObj)
 	exnId <- which((as.character(seqnames(exn))==as.character(chromosome)&(as.character(strand(exn))==strand)&(start(ranges(exn))>minBase)&(end(ranges(exn))<maxBase)))
 	exnSel <- exn[exnId]
-	regionObj <- data.frame(start=start(ranges(exnSel)),end=end(ranges(exnSel)),feature=feature,group=elementMetadata(exnSel)$exon_id,ID=rep(NA,length(exnSel)))
+	regionObj <- data.frame(start=start(ranges(exnSel)),end=end(ranges(exnSel)),feature=rep(feature,length(exnSel)),group=elementMetadata(exnSel)$exon_id,ID=rep(NA,length(exnSel)))
 	return(makeAnnotationTrack(regions=regionObj,dp=dp))
 }
 
-
-# makeNewAnnotationTextOverlay <- function(annoFile,chromosome,strand,minBase,maxBase,region,feature=c("gene","transposable_element_gene"),y=.5,dp=NULL)
-# {
-# 	if (is.null(dp))
-# 	{
-# 		dp=DisplayPars(cex=1)
-# 	}
-# 	annohlp <- annoFile[(annoFile$chromosome==chromosome)&(annoFile$strand==strand)&(annoFile$start<maxBase)&(annoFile$end>minBase)&(is.element(annoFile$feature,feature)),c("ID","start","end")]
-# 	return(makeTextOverlay(annohlp$ID,xpos=(annohlp$start+annohlp$end)/2,ypos=y,region=region,dp=dp))
-# }
 
 makeNewAnnotationTextOverlay <- function(biomartObj,chromosome,strand,minBase,maxBase,region,feature=c("gene","transposable_element_gene"),y=.5,dp=NULL)
 {
