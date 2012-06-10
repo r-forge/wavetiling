@@ -323,7 +323,6 @@ makeDesign<-function(design=c("time","circadian","group","factorial"),replics, n
 		Xorig <- matrix(0,nrow=noGroups*replics,ncol=noGroups)
 		desHelmert <- contr.helmert(noGroups)
 		Xorig[,1] <- 1
-		Xorig[,2:noGroups] <- apply(desHelmert[,1:(noGroups-1)],2,rep,replics)
 		Xorig[,2:noGroups] <- apply(as.matrix(desHelmert[,1:(noGroups-1)]),2,rep,replics)
 	}
 	else if (design=="factorial")
