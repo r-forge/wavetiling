@@ -55,55 +55,6 @@
 })
 
 
-# setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,annoFile)
-# {
-# 	#Gloc <- getProbePosition(object)
-# 	strand <- getStrand(fit)
-# 	chromosome <- getChromosome(fit)
-# 	regions <- getGenomicRegions(inf)
-# 	annoFile$strand[annoFile$strand=="forward"] <- "+"
-# 	annoFile$strand[annoFile$strand=="reverse"] <- "-"
-# 	annoFile$strand[!(annoFile$strand %in% c("+","-"))] <- "*"
-# 	annoFileGR <- GRanges(seqnames=Rle(annoFile$chromosome),ranges=IRanges(start=annoFile$start,end=annoFile$end),strand=Rle(annoFile$strand),feature=annoFile$feature,id=annoFile$ID)
-# 	if (strand=="forward")
-# 	{
-# 		strandAlt <- "+"
-# 		strandOpp <- "-"
-# 	} else
-# 	{
-# 		strandAlt <- "-"
-# 		strandOpp <- "+"
-# 	}
-# 	annoChrGR <- annoFileGR[seqnames(annoFileGR)==chromosome]
-# 	geneId <- which(values(annoChrGR)$feature=="gene" | values(annoChrGR)$feature=="transposable_element_gene")
-# 	annoChrGeneGR <- annoChrGR[geneId]
-# 	#annoChrGeneStrandGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandAlt]
-# 	#annoChrGeneStrandOppGR <- annoChrGeneGR[strand(annoChrGeneGR)==strandOpp]
-# 	message("find overlaps with detected regions...")
-# 	nList <- length(regions)
-# 	annoOver <- GRangesList()
-# 	for (j in 1:nList)
-# 	{
-# 		regGlocIR <- regions[[j]]
-# 		regGlocGR <- GRanges(seqnames=rep(chromosome,length(regGlocIR)),ranges=regGlocIR,strand=rep("*",length(regGlocIR)),effectNo=rep(j,length(regGlocIR)))
-# 		overL <- findOverlaps(regGlocGR,annoChrGeneGR)
-# 		regOver <- regGlocGR[queryHits(overL)]
-# 		annoOverj <- annoChrGeneGR[subjectHits(overL)]
-# 		overInt <- pintersect(regOver,annoOverj)
-# 		values(annoOverj)$regNo <- queryHits(overL)
-# 		values(annoOverj)$percOverGene <- width(overInt)/width(annoOverj)*100
-# 		values(annoOverj)$percOverReg <- width(overInt)/width(regOver)*100
-# 		totPercOverGeneHlp <- rep(0,max(subjectHits(overL)))
-# 		totPercOverGeneHlp2 <- tapply(values(annoOverj)$percOverGene,subjectHits(overL),sum)
-# 		totPercOverGeneHlp[as.numeric(names(totPercOverGeneHlp2))] <- totPercOverGeneHlp2
-# 		values(annoOverj)$totPercOverGene <- totPercOverGeneHlp[subjectHits(overL)]
-# 		annoOverj <- GRangesList(annoOverj)
-# 		annoOver <- c(annoOver,annoOverj)
-# 	}
-# 	return(annoOver)
-# })
-
-
 setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,biomartObj)
 {
 	#Gloc <- getProbePosition(object)
@@ -145,59 +96,6 @@ setMethod("getSigGenes",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,bi
 	return(annoOver)
 })
 
-
-# setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,annoFile)
-# {
-# 	#Gloc <- getProbePosition(object)
-# 	strand <- getStrand(fit)
-# 	chromosome <- getChromosome(fit)
-# 	regions <- getGenomicRegions(inf)
-# 	if (strand=="forward")
-# 	{
-# 		strandAlt <- "+"
-# 		strandOpp <- "-"
-# 	} else
-# 	{
-# 		strandAlt <- "-"
-# 		strandOpp <- "+"
-# 	}
-# 	message("get annotated regions...")
-# 	annoExons <- annoFile[(annoFile$strand==strandAlt)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
-# 	annoExonsOpp <- annoFile[(annoFile$strand==strandOpp)&(annoFile$chromosome==chromosome)&((annoFile$feature=="exon")|(annoFile$feature=="pseudogenic_exon")),c("chromosome","strand","feature","ID","start","end")]
-# 	regGlocNoAnnoSense <- list()
-# 	regGlocNoAnnoBoth <- list()
-# 	nList <- length(regions)
-# 	message("find overlaps with detected regions...")
-# 	for (j in 1:nList)
-# 	{
-# 		regGlocIR <- regions[[j]]
-# 		annoExonsIR <- IRanges(start=annoExons$start,end=annoExons$end)
-# 		annoExonsOppIR <- IRanges(start=annoExonsOpp$start,end=annoExonsOpp$end)
-# 		overSense <- findOverlaps(regGlocIR,annoExonsIR)
-# 		overOpp <- findOverlaps(regGlocIR,annoExonsOppIR)
-# 		noAnnoSenseId <- which(!(1:length(regGlocIR) %in% as.matrix(overSense)[,1]))
-# 		noAnnoOppId <- which(!(1:length(regGlocIR) %in% as.matrix(overOpp)[,1]))
-# 		noAnnoBothId <- which((1:length(regGlocIR) %in% noAnnoSenseId) & (1:length(regGlocIR) %in% noAnnoOppId))
-# 		regGlocNoAnnoSense[[j]] <- regGlocIR[noAnnoSenseId]
-# 		regGlocNoAnnoBoth[[j]] <- regGlocIR[noAnnoBothId]
-# 	}
-# 	noAnnoSenseIR <- regGlocNoAnnoSense[[1]]
-# 	noAnnoBothIR <- regGlocNoAnnoBoth[[1]]
-# 	for (i in 2:nList)
-# 	{
-# 		noAnnoSenseIRi <- regGlocNoAnnoSense[[i]]
-# 		noAnnoSenseIR <- c(noAnnoSenseIR,noAnnoSenseIRi)
-# 		noAnnoBothIRi <- regGlocNoAnnoBoth[[i]]
-# 		noAnnoBothIR <- c(noAnnoBothIR,noAnnoBothIRi)
-# 	}
-# 	noAnnoSenseIRAll <- reduce(noAnnoSenseIR)
-# 	noAnnoBothIRAll <- reduce(noAnnoBothIR)
-# 	## TO DO:  include option to give maximum expression / FC per region
-# 	out <- NULL
-# 	out$noAnnoBoth <- GRanges(seqnames=Rle(rep(chromosome,length(noAnnoBothIRAll))),strand=Rle(rep(strandAlt,length(noAnnoBothIRAll))),ranges=noAnnoBothIRAll)
-# 	out$noAnnoSense <- GRanges(seqnames=Rle(rep(chromosome,length(noAnnoSenseIRAll))),strand=Rle(rep(strandAlt,length(noAnnoSenseIRAll))),ranges=noAnnoSenseIRAll)
-# 	return(out)
-# })
 
 setMethod("getNonAnnotatedRegions",signature(fit="WfmFit",inf="WfmInf"),function(fit,inf,biomartObj)
 {
@@ -410,7 +308,7 @@ function(fit,inf,biomartObj,minPos,maxPos,trackFeature="exon",two.strand=TRUE,pl
                         for (i in tracks)
                         {
                                 #trackInfo[[trackCount]] <- makeGenericArray(intensity=as.matrix(effects[i+1,sta:end]),probeStart=Gloc[sta:end],dp=DisplayPars(color="black",ylim=c(min(-1.3,range(effects[i+1,sta:end])[1]),max(1.3,range(effects[i+1,sta:end])[2]))+c(-0.2,0.2),pointSize=.3,pch=1,lwd=1,type="line"))
-                                trackInfo[[trackCount]] <- makeGenericArray(intensity=as.matrix(effects[i+1,sta:end]),probeStart=Gloc[sta:end],dp=DisplayPars(color="black",ylim=range(effects[,sta:end])+c(-0.2,0.2),pointSize=.3,pch=1,lwd=1,type="line"))
+                                trackInfo[[trackCount]] <- makeGenericArray(intensity=as.matrix(effects[i+1,sta:end]),probeStart=Gloc[sta:end],dp=DisplayPars(color="black",ylim=range(effects[i+1,sta:end])+c(-0.2,0.2),pointSize=.3,pch=1,lwd=1,type="line"))
                                 names(trackInfo)[trackCount] <- effectNames[i]
                                 overlayInfo[[trackCount]] <- makeNewTranscriptRectangleOverlay(sigRegions=as.matrix(data.frame(start(regions[[i+1]]),end(regions[[i+1]]))),location=Gloc,start=sta,end=end,region=c(trackCount,trackCount),dp=DisplayPars(color="darkgrey",alpha=.1))
                                 trackCount <- trackCount + 1

@@ -1,6 +1,6 @@
 Package: waveTiling
-Version: 0.99.1
-Date: 2012-05-14
+Version: 0.99.2
+Date: 2012-06-06
 License: GPL (>=2)
 Title: Wavelet-Based Models for Tiling Array Transcriptome Analysis
 Author: Kristof De Beuf <kristof.debeuf@UGent.be>, Peter Pipelers <peter.pipelers@ugent.be> and Lieven Clement <lieven.clement@gmail.com>

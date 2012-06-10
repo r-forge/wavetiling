@@ -306,7 +306,7 @@ makeDesign<-function(design=c("time","circadian","group","factorial"),replics, n
 		orderedFactor <- factor(1:noGroups,ordered=TRUE)
 		desPoly <- lm(rnorm(noGroups)~orderedFactor,x=TRUE)$x
 		Xorig[,1] <- 1
-		Xorig[,2:noGroups] <- apply(desPoly[,2:noGroups],2,rep,replics)
+		Xorig[,2:noGroups] <- apply(as.matrix(desPoly[,2:noGroups]),2,rep,replics)
 		
 	}
 	else if (design=="circadian") # circadian
@@ -324,6 +324,7 @@ makeDesign<-function(design=c("time","circadian","group","factorial"),replics, n
 		desHelmert <- contr.helmert(noGroups)
 		Xorig[,1] <- 1
 		Xorig[,2:noGroups] <- apply(desHelmert[,1:(noGroups-1)],2,rep,replics)
+		Xorig[,2:noGroups] <- apply(as.matrix(desHelmert[,1:(noGroups-1)]),2,rep,replics)
 	}
 	else if (design=="factorial")
 	{
