@@ -227,7 +227,7 @@ function(fit,inf,biomartObj,minPos,maxPos,trackFeature="exon",two.strand=TRUE,pl
 #       if (getWfmFitMethod(object)=="twoGroup" | getWfmFitMethod(object)=="circadian")
         if ((inherits(fit,"WfmFitFactor") & noGroups==2) | inherits(fit,"WfmFitCircadian"))
         {
-                if (tracks==0)
+                if (tracks==0 | tracks==1)
                 {
                         trackInfo[[trackCount]] <- makeGenericArray(intensity=as.matrix(effects[2,sta:end]),probeStart=Gloc[sta:end],dp=DisplayPars(color="black",ylim=c(min(-1.3,range(effects[2,sta:end])[1]),max(1.3,range(effects[2,sta:end])[2]))+c(-0.2,0.2),pointSize=.3,pch=1,lwd=1,type="line"))
                         #if (getWfmFitMethod(object)=="twoGroup")
