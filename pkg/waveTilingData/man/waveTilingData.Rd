@@ -3,7 +3,7 @@
 \alias{waveTilingData}
 \docType{package}
 \title{
-Example datasets for the waveTiling package
+Example datasets for the waveTiling package.
 }
 \description{
 This package contains the datasets used in the waveTiling package vignette and examples.
