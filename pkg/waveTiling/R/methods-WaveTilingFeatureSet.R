@@ -250,11 +250,11 @@ setMethod("selectProbesFromTilingFeatureSet",signature("WaveTilingFeatureSet"),f
 {
 	if (strand=="forward")
 	{
-		strand <- 1
+		strand <- 0
 	}
 	if (strand=="reverse")
 	{
-		strand <- 0
+		strand <- 1
 	}
 	if (!inherits(object,"TilingFeatureSet")) #class(object)!="TilingFeatureSet")
 		{
@@ -284,7 +284,7 @@ setMethod("selectProbesFromTilingFeatureSet",signature("WaveTilingFeatureSet"),f
 	{
 		stop("minPos is greater than maxPos")
 	}
-	selChrom <- (1:length(pmChr(object)))[pmChr(object)==paste("Chr",as.character(chromosome),sep="")]
+	selChrom <- (1:length(pmChr(object)))[pmChr(object)==paste("chr",as.character(chromosome),sep="")]
 	selStrand <- (1:length(pmStrand(object)))[pmStrand(object)==strand]
 	# check what the outcome is of pmStrand() and adapt function accordingly
 	selHlp <- intersect(selChrom,selStrand)
