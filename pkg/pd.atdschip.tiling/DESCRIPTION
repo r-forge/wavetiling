@@ -1,7 +1,7 @@
 Package: pd.atdschip.tiling
 Title: Platform Design Info for Affymetrix Atdschip_tiling
 Description: Platform Design Info for Affymetrix Atdschip_tiling
-Version: 0.0.2
+Version: 0.0.3
 Author: Kristof De Beuf
 Maintainer: Kristof De Beuf <kristof.debeuf@ugent.be>
 LazyLoad: yes
