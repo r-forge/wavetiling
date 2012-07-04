@@ -31,7 +31,7 @@ closeDb <- function() {
 }
 
 .onLoad <- function(libname, pkgname) {
-    #require(RSQLite, quietly=TRUE)
+    require(RSQLite, quietly=TRUE)
     globals$DB_PATH <- system.file("extdata", "pd.atdschip.tiling.sqlite",
                                    package="pd.atdschip.tiling",
                                    lib.loc=libname)
